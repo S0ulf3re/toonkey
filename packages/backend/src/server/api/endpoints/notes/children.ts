@@ -11,6 +11,7 @@ export const meta = {
 	tags: ['notes'],
 
 	requireCredential: false,
+	requireCredentialPrivateMode: true,
 
 	res: {
 		type: 'array',
@@ -21,7 +22,7 @@ export const meta = {
 			ref: 'Note',
 		},
 	},
-} as const;
+};
 
 export const paramDef = {
 	type: 'object',

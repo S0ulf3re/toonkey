@@ -4,6 +4,7 @@ import { apRequestChart } from '@/services/chart/index.js';
 
 export const meta = {
 	tags: ['charts'],
+	requireCredentialPrivateMode: true,
 
 	res: getJsonSchema(apRequestChart.schema),
 } as const;

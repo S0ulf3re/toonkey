@@ -8,6 +8,7 @@ export const meta = {
 	tags: ['users', 'reactions'],
 
 	requireCredential: false,
+	requireCredentialPrivateMode: true,
 
 	res: {
 		type: 'array',

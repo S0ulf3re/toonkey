@@ -12,6 +12,7 @@ import { generateMutedInstanceQuery } from '../../common/generate-muted-instance
 export const meta = {
 	tags: ['users', 'notes'],
 
+	requireCredentialPrivateMode: true,
 	res: {
 		type: 'array',
 		optional: false, nullable: false,

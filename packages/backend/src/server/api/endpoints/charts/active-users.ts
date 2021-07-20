@@ -4,6 +4,7 @@ import { activeUsersChart } from '@/services/chart/index.js';
 
 export const meta = {
 	tags: ['charts', 'users'],
+	requireCredentialPrivateMode: true,
 
 	res: getJsonSchema(activeUsersChart.schema),
 } as const;

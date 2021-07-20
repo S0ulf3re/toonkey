@@ -4,6 +4,7 @@ import { instanceChart } from '@/services/chart/index.js';
 
 export const meta = {
 	tags: ['charts'],
+	requireCredentialPrivateMode: true,
 
 	res: getJsonSchema(instanceChart.schema),
 } as const;

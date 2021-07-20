@@ -5,6 +5,7 @@ import { Notes } from '@/models/index.js';
 export const meta = {
 	tags: ['notes'],
 
+	requireCredentialPrivateMode: true,
 	res: {
 		type: 'array',
 		optional: false, nullable: false,

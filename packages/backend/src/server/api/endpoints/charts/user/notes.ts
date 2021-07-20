@@ -4,6 +4,7 @@ import { perUserNotesChart } from '@/services/chart/index.js';
 
 export const meta = {
 	tags: ['charts', 'users', 'notes'],
+	requireCredentialPrivateMode: true,
 
 	res: getJsonSchema(perUserNotesChart.schema),
 } as const;

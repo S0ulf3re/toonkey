@@ -4,6 +4,7 @@ import { perUserDriveChart } from '@/services/chart/index.js';
 
 export const meta = {
 	tags: ['charts', 'drive', 'users'],
+	requireCredentialPrivateMode: true,
 
 	res: getJsonSchema(perUserDriveChart.schema),
 } as const;
