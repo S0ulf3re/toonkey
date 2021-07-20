@@ -24,8 +24,28 @@
 					<FormButton primary class="_formBlock" @click="save"><i class="fas fa-save"></i> {{ i18n.ts.save }}</FormButton>
 				</div>
 			</FormFolder>
-		</div>
-	</FormSuspense>
+
+			<FormFolder class="_formBlock">
+				<template #label>{{ i18n.ts.instanceSecurity }}</template>
+
+				<div class="_formRoot">
+					<FormSwitch v-if="!privateMode" v-model="secureMode">
+						{{ i18n.ts.secureMode }}
+						<template #desc>{{ i18n.ts.secureModeInfo }}</template>
+					</FormSwitch>
+					<FormSwitch v-model="privateMode">
+						{{ i18n.ts.privateMode }}
+						<template #desc>{{ i18n.ts.privateModeInfo }}</template>
+					</FormSwitch>
+					<FormTextarea v-if="privateMode" v-model="allowedHosts">
+						<span>{{ i18n.ts.allowedInstances }}</span>
+						<template #desc>{{ i18n.ts.allowedInstancesDescription }}</template>
+					</FormTextarea>
+					<FormButton primary class="_formBlock" @click="saveInstance"><i class="fas fa-save"></i> {{ i18n.ts.save }}</FormButton>
+				</div>
+			</FormFolder>
+</div>
+</FormSuspense>
 </MkSpacer>
 </template>
 
@@ -39,6 +59,7 @@ import FormSection from '@/components/form/section.vue';
 import FormInput from '@/components/form/input.vue';
 import FormButton from '@/components/ui/button.vue';
 import XBotProtection from './bot-protection.vue';
+import FormTextarea from '@/components/form/textarea.vue';
 import * as os from '@/os';
 import * as symbols from '@/symbols';
 import { fetchInstance } from '@/instance';
@@ -48,16 +69,34 @@ let summalyProxy: string = $ref('');
 let enableHcaptcha: boolean = $ref(false);
 let enableRecaptcha: boolean = $ref(false);
 
+let secureMode: boolean = $ref(false);
+let privateMode: boolean = $ref(false);
+let allowedHosts: string = $ref('');
+
 async function init() {
 	const meta = await os.api('admin/meta');
 	summalyProxy = meta.summalyProxy;
 	enableHcaptcha = meta.enableHcaptcha;
 	enableRecaptcha = meta.enableRecaptcha;
+
+	secureMode = meta.secureMode;
+	privateMode = meta.privateMode;
+	allowedHosts = meta.allowedHosts.join('\n');
 }
 
 function save() {
 	os.apiWithDialog('admin/update-meta', {
 		summalyProxy,
+	}).then(() => {
+		fetchInstance();
+	});
+}
+
+function saveInstance() {
+	os.apiWithDialog('admin/update-meta', {
+		secureMode,
+		privateMode,
+		allowedHosts: allowedHosts.split('\n'),
 	}).then(() => {
 		fetchInstance();
 	});
