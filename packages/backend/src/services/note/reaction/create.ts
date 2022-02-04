@@ -76,24 +76,20 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 	// カスタム絵文字リアクションだったら絵文字情報も送る
 	const decodedReaction = decodeReaction(reaction);
 
-	let emoji = await Emojis.findOne({
+	const emoji = await Emojis.findOne({
 		where: {
 			name: decodedReaction.name,
 			host: decodedReaction.host,
 		},
-		select: ['name', 'host', 'url'],
+		select: ['name', 'host', 'originalUrl', 'publicUrl'],
 	});
-
-	if (emoji) {
-		emoji = {
-			name: emoji.host ? `${emoji.name}@${emoji.host}` : `${emoji.name}@.`,
-			url: emoji.url,
-		} as any;
-	}
 
 	publishNoteStream(note.id, 'reacted', {
 		reaction: decodedReaction.reaction,
-		emoji: emoji,
+		emoji: emoji != null ? {
+			name: emoji.host ? `${emoji.name}@${emoji.host}` : `${emoji.name}@.`,
+			url: emoji.publicUrl || emoji.originalUrl, // || emoji.originalUrl してるのは後方互換性のため
+		} : null,
 		userId: user.id,
 	});
 

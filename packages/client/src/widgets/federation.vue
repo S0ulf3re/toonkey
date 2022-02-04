@@ -4,7 +4,7 @@
 
 	<div class="wbrkwalb">
 		<MkLoading v-if="fetching"/>
-		<transition-group v-else tag="div" name="chart" class="instances">
+		<transition-group v-else tag="div" :name="$store.state.animation ? 'chart' : ''" class="instances">
 			<div v-for="(instance, i) in instances" :key="instance.id" class="instance">
 				<img v-if="instance.iconUrl" :src="instance.iconUrl" alt=""/>
 				<div class="body">
@@ -54,13 +54,13 @@ const charts = ref([]);
 const fetching = ref(true);
 
 const fetch = async () => {
-	const instances = await os.api('federation/instances', {
+	const fetchedInstances = await os.api('federation/instances', {
 		sort: '+lastCommunicatedAt',
 		limit: 5
 	});
-	const charts = await Promise.all(instances.map(i => os.api('charts/instance', { host: i.host, limit: 16, span: 'hour' })));
-	instances.value = instances;
-	charts.value = charts;
+	const fetchedCharts = await Promise.all(fetchedInstances.map(i => os.api('charts/instance', { host: i.host, limit: 16, span: 'hour' })));
+	instances.value = fetchedInstances;
+	charts.value = fetchedCharts;
 	fetching.value = false;
 };
 

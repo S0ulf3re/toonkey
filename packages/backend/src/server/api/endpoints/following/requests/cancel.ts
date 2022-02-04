@@ -5,11 +5,12 @@ import define from '../../../define';
 import { ApiError } from '../../../error';
 import { getUser } from '../../../common/getters';
 import { Users } from '@/models/index';
+import { IdentifiableError } from '@/misc/identifiable-error';
 
 export const meta = {
 	tags: ['following', 'account'],
 
-	requireCredential: true as const,
+	requireCredential: true,
 
 	kind: 'write:following',
 
@@ -34,11 +35,11 @@ export const meta = {
 	},
 
 	res: {
-		type: 'object' as const,
-		optional: false as const, nullable: false as const,
-		ref: 'User',
+		type: 'object',
+		optional: false, nullable: false,
+		ref: 'UserLite',
 	},
-};
+} as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, async (ps, user) => {
@@ -51,7 +52,9 @@ export default define(meta, async (ps, user) => {
 	try {
 		await cancelFollowRequest(followee, user);
 	} catch (e) {
-		if (e.id === '17447091-ce07-46dd-b331-c1fd4f15b1e7') throw new ApiError(meta.errors.followRequestNotFound);
+		if (e instanceof IdentifiableError) {
+			if (e.id === '17447091-ce07-46dd-b331-c1fd4f15b1e7') throw new ApiError(meta.errors.followRequestNotFound);
+		}
 		throw e;
 	}
 

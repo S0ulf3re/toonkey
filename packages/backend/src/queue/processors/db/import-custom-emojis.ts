@@ -8,7 +8,7 @@ import { queueLogger } from '../../logger';
 import { downloadUrl } from '@/misc/download-url';
 import { DriveFiles, Emojis } from '@/models/index';
 import { DbUserImportJobData } from '@/queue/types';
-import addFile from '@/services/drive/add-file';
+import { addFile } from '@/services/drive/add-file';
 import { genId } from '@/misc/gen-id';
 
 const logger = queueLogger.createSubLogger('import-custom-emojis');
@@ -41,7 +41,9 @@ export async function importCustomEmojis(job: Bull.Job<DbUserImportJobData>, don
 		fs.writeFileSync(destPath, '', 'binary');
 		await downloadUrl(file.url, destPath);
 	} catch (e) { // TODO: 何度か再試行
-		logger.error(e);
+		if (e instanceof Error || typeof e === 'string') {
+			logger.error(e);
+		}
 		throw e;
 	}
 
@@ -59,7 +61,7 @@ export async function importCustomEmojis(job: Bull.Job<DbUserImportJobData>, don
 			await Emojis.delete({
 				name: emojiInfo.name,
 			});
-			const driveFile = await addFile(null, emojiPath, record.fileName, null, null, true);
+			const driveFile = await addFile({ user: null, path: emojiPath, name: record.fileName, force: true });
 			const emoji = await Emojis.insert({
 				id: genId(),
 				updatedAt: new Date(),
@@ -67,8 +69,9 @@ export async function importCustomEmojis(job: Bull.Job<DbUserImportJobData>, don
 				category: emojiInfo.category,
 				host: null,
 				aliases: emojiInfo.aliases,
-				url: driveFile.url,
-				type: driveFile.type,
+				originalUrl: driveFile.url,
+				publicUrl: driveFile.webpublicUrl ?? driveFile.url,
+				type: driveFile.webpublicType ?? driveFile.type,
 			}).then(x => Emojis.findOneOrFail(x.identifiers[0]));
 		}
 

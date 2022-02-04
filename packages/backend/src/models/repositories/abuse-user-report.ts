@@ -12,7 +12,7 @@ export class AbuseUserReportRepository extends Repository<AbuseUserReport> {
 
 		return await awaitAll({
 			id: report.id,
-			createdAt: report.createdAt,
+			createdAt: report.createdAt.toISOString(),
 			comment: report.comment,
 			resolved: report.resolved,
 			reporterId: report.reporterId,
@@ -27,6 +27,7 @@ export class AbuseUserReportRepository extends Repository<AbuseUserReport> {
 			assignee: report.assigneeId ? Users.pack(report.assignee || report.assigneeId, null, {
 				detail: true,
 			}) : null,
+			forwarded: report.forwarded,
 		});
 	}
 

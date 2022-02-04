@@ -3,7 +3,7 @@ We're glad you're interested in contributing Misskey! In this document you will 
 
 **ℹ️ Important:** This project uses Japanese as its major language, **but you do not need to translate and write the Issues/PRs in Japanese.**
 Also, you might receive comments on your Issue/PR in Japanese, but you do not need to reply to them in Japanese as well.\
-The accuracy of translation into Japanese is not high, so it will be easier for us to understand if you write it in the original language.
+The accuracy of machine translation into Japanese is not high, so it will be easier for us to understand if you write it in the original language.
 It will also allow the reader to use the translation tool of their preference if necessary.
 
 ## Issues
@@ -87,13 +87,17 @@ Configuration files are located in [`/.github/workflows`](/.github/workflows).
 
 ## Vue
 Misskey uses Vue(v3) as its front-end framework.
-**When creating a new component, please use the Composition API (with [setup sugar](https://v3.vuejs.org/api/sfc-script-setup.html) and [ref sugar](https://github.com/vuejs/rfcs/discussions/369)) instead of the Options API.**
-Some of the existing components are implemented in the Options API, but it is an old implementation. Refactors that migrate those components to the Composition API are also welcome.
+- Use TypeScript.
+- **When creating a new component, please use the Composition API (with [setup sugar](https://v3.vuejs.org/api/sfc-script-setup.html) and [ref sugar](https://github.com/vuejs/rfcs/discussions/369)) instead of the Options API.**
+	- Some of the existing components are implemented in the Options API, but it is an old implementation. Refactors that migrate those components to the Composition API are also welcome.
 
 ## Notes
 ### How to resolve conflictions occurred at yarn.lock?
 
 Just execute `yarn` to fix it.
+
+### INSERTするときにはsaveではなくinsertを使用する
+#6441
 
 ### placeholder
 SQLをクエリビルダで組み立てる際、使用するプレースホルダは重複してはならない

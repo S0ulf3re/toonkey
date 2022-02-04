@@ -36,7 +36,7 @@ export interface UserStreamTypes {
 	updateUserProfile: UserProfile;
 	mute: User;
 	unmute: User;
-	follow: Packed<'User'>;
+	follow: Packed<'UserDetailedNotMe'>;
 	unfollow: Packed<'User'>;
 	userAdded: Packed<'User'>;
 }
@@ -46,7 +46,7 @@ export interface MainStreamTypes {
 	mention: Packed<'Note'>;
 	reply: Packed<'Note'>;
 	renote: Packed<'Note'>;
-	follow: Packed<'User'>;
+	follow: Packed<'UserDetailedNotMe'>;
 	followed: Packed<'User'>;
 	unfollow: Packed<'User'>;
 	meUpdated: Packed<'User'>;
@@ -105,7 +105,10 @@ export interface NoteStreamTypes {
 	};
 	reacted: {
 		reaction: string;
-		emoji?: Emoji;
+		emoji?: {
+			name: string;
+			url: string;
+		} | null;
 		userId: User['id'];
 	};
 	unreacted: {
