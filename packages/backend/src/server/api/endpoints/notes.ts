@@ -1,44 +1,22 @@
-import $ from 'cafy';
-import { ID } from '@/misc/cafy-id';
 import define from '../define';
 import { makePaginationQuery } from '../common/make-pagination-query';
 import { Notes } from '@/models/index';
+import { idSchema } from '@/misc/id-schema';
 
 export const meta = {
 	tags: ['notes'],
 
 	params: {
-		local: {
-			validator: $.optional.bool,
-		},
-
-		reply: {
-			validator: $.optional.bool,
-		},
-
-		renote: {
-			validator: $.optional.bool,
-		},
-
-		withFiles: {
-			validator: $.optional.bool,
-		},
-
-		poll: {
-			validator: $.optional.bool,
-		},
-
-		limit: {
-			validator: $.optional.num.range(1, 100),
-			default: 10,
-		},
-
-		sinceId: {
-			validator: $.optional.type(ID),
-		},
-
-		untilId: {
-			validator: $.optional.type(ID),
+		type: 'object',
+		properties: {
+			local: { type: 'boolean' },
+			reply: { type: 'boolean' },
+			renote: { type: 'boolean' },
+			withFiles: { type: 'boolean' },
+			poll: { type: 'boolean' },
+			limit: { type: 'number', minimum: 1, maximum: 100, default: 10 },
+			sinceId: idSchema,
+			untilId: idSchema,
 		},
 	},
 
