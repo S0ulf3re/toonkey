@@ -19,7 +19,16 @@
 	<div class="main">
 		<MkStickyContainer>
 			<template #header><MkHeader v-if="childInfo && !childInfo.hideHeader" :info="childInfo"/></template>
-			<component :is="component" :ref="el => pageChanged(el)" :key="page" v-bind="pageProps"/>
+			<suspense>
+				<template #default>
+					<component :is="component" :ref="el => pageChanged(el)" :key="page" v-bind="pageProps"/>
+				</template>
+				<template #fallback>
+					<div>
+						Loading...
+					</div>
+				</template>
+			</suspense>
 		</MkStickyContainer>
 	</div>
 </div>
