@@ -1,19 +1,18 @@
 import * as redis from 'redis';
 import config from '@/config/index';
 
-export function createConnection() {
-	return redis.createClient(
-		config.redis.port,
-		config.redis.host,
-		{
-			password: config.redis.pass,
-			prefix: config.redis.prefix,
-			db: config.redis.db || 0,
-		}
-	);
-}
+export const redisClient = redis.createClient({
+	socket: {
+		port: config.redis.port,
+		host: config.redis.host,
+	},
+	password: config.redis.pass,
+	prefix: config.redis.prefix,
+	database: config.redis.db || 0,
+});
 
-export const subsdcriber = createConnection();
-subsdcriber.subscribe(config.host);
+redisClient.connect();
 
-export const redisClient = createConnection();
+export const redisSubscriber = redisClient.duplicate();
+
+redisSubscriber.connect();

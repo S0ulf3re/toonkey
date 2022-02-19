@@ -5,7 +5,6 @@ import call from '../call';
 import readNote from '@/services/note/read';
 import Channel from './channel';
 import channels from './channels/index';
-import { EventEmitter } from 'events';
 import { User } from '@/models/entities/user';
 import { Channel as ChannelModel } from '@/models/entities/channel';
 import { Users, Followings, Mutings, UserProfiles, ChannelFollowings, Blockings } from '@/models/index';
@@ -16,6 +15,7 @@ import { publishChannelStream, publishGroupMessagingStream, publishMessagingStre
 import { UserGroup } from '@/models/entities/user-group';
 import { StreamEventEmitter, StreamMessages } from './types';
 import { Packed } from '@/misc/schema';
+import { redisSubscriber } from '@/db/redis';
 
 /**
  * Main stream connection
@@ -29,27 +29,22 @@ export default class Connection {
 	public followingChannels: Set<ChannelModel['id']> = new Set();
 	public token?: AccessToken;
 	private wsConnection: websocket.connection;
-	public subscriber: StreamEventEmitter;
 	private channels: Channel[] = [];
 	private subscribingNotes: any = {};
 	private cachedNotes: Packed<'Note'>[] = [];
 
 	constructor(
 		wsConnection: websocket.connection,
-		subscriber: EventEmitter,
 		user: User | null | undefined,
 		token: AccessToken | null | undefined
 	) {
 		this.wsConnection = wsConnection;
-		this.subscriber = subscriber;
 		if (user) this.user = user;
 		if (token) this.token = token;
 
 		this.wsConnection.on('message', this.onWsConnectionMessage);
 
-		this.subscriber.on('broadcast', data => {
-			this.onBroadcastMessage(data);
-		});
+		redisSubscriber.subscribe('broadcast', this.onBroadcastMessage);
 
 		if (this.user) {
 			this.updateFollowing();
@@ -58,12 +53,13 @@ export default class Connection {
 			this.updateFollowingChannels();
 			this.updateUserProfile();
 
-			this.subscriber.on(`user:${this.user.id}`, this.onUserEvent);
+			redisSubscriber.subscribe(`user:${this.user.id}`, this.onUserEvent);
 		}
 	}
 
 	@autobind
-	private onUserEvent(data: StreamMessages['user']['payload']) { // { type, body }と展開するとそれぞれ型が分離してしまう
+	private onUserEvent(message: string) {
+		const data = JSON.parse(message) as StreamMessages['user']['payload']; // { type, body }と展開するとそれぞれ型が分離してしまう
 		switch (data.type) {
 			case 'follow':
 				this.following.add(data.body.id);
@@ -145,7 +141,8 @@ export default class Connection {
 	}
 
 	@autobind
-	private onBroadcastMessage(data: StreamMessages['broadcast']['payload']) {
+	private onBroadcastMessage(message: string) {
+		const data = JSON.parse(message) as StreamMessages['broadcast']['payload'];
 		this.sendMessageToWs(data.type, data.body);
 	}
 
@@ -223,6 +220,8 @@ export default class Connection {
 	private onSubscribeNote(payload: any) {
 		if (!payload.id) return;
 
+		// TODO: 購読できる条件を設ける
+
 		if (this.subscribingNotes[payload.id] == null) {
 			this.subscribingNotes[payload.id] = 0;
 		}
@@ -230,7 +229,7 @@ export default class Connection {
 		this.subscribingNotes[payload.id]++;
 
 		if (this.subscribingNotes[payload.id] === 1) {
-			this.subscriber.on(`noteStream:${payload.id}`, this.onNoteStreamMessage);
+			redisSubscriber.subscribe(`noteStream:${payload.id}`, this.onNoteStreamMessage);
 		}
 	}
 
@@ -244,12 +243,13 @@ export default class Connection {
 		this.subscribingNotes[payload.id]--;
 		if (this.subscribingNotes[payload.id] <= 0) {
 			delete this.subscribingNotes[payload.id];
-			this.subscriber.off(`noteStream:${payload.id}`, this.onNoteStreamMessage);
+			redisSubscriber.unsubscribe(`noteStream:${payload.id}`, this.onNoteStreamMessage);
 		}
 	}
 
 	@autobind
-	private async onNoteStreamMessage(data: StreamMessages['note']['payload']) {
+	private async onNoteStreamMessage(message: string) {
+		const data = JSON.parse(message) as StreamMessages['note']['payload'];
 		this.sendMessageToWs('noteUpdated', {
 			id: data.body.id,
 			type: data.type,
@@ -417,6 +417,15 @@ export default class Connection {
 	public dispose() {
 		for (const c of this.channels.filter(c => c.dispose)) {
 			if (c.dispose) c.dispose();
+		}
+
+		for (const id of Object.keys(this.subscribingNotes)) {
+			redisSubscriber.unsubscribe(`noteStream:${id}`, this.onNoteStreamMessage);
+		}
+
+		redisSubscriber.unsubscribe('broadcast', this.onBroadcastMessage);
+		if (this.user) {
+			redisSubscriber.unsubscribe(`user:${this.user.id}`, this.onUserEvent);
 		}
 	}
 }

@@ -123,13 +123,13 @@ router.get('/tw/cb', async ctx => {
 			return;
 		}
 
-		const get = new Promise<any>((res, rej) => {
-			redisClient.get(sessid, async (_, twCtx) => {
-				res(twCtx);
-			});
-		});
-
-		const twCtx = await get;
+		const session = await redisClient.get(sessid);
+		if (session == null) {
+			ctx.throw(400, 'invalid session');
+			return;
+		}
+	
+		const twCtx = JSON.parse(session);
 
 		const result = await twAuth!.done(JSON.parse(twCtx), ctx.query.oauth_verifier);
 
@@ -152,13 +152,13 @@ router.get('/tw/cb', async ctx => {
 			return;
 		}
 
-		const get = new Promise<any>((res, rej) => {
-			redisClient.get(userToken, async (_, twCtx) => {
-				res(twCtx);
-			});
-		});
-
-		const twCtx = await get;
+		const session = await redisClient.get(userToken);
+		if (session == null) {
+			ctx.throw(400, 'invalid session');
+			return;
+		}
+	
+		const twCtx = JSON.parse(session);
 
 		const result = await twAuth!.done(JSON.parse(twCtx), verifier);
 

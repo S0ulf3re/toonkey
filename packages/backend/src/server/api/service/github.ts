@@ -142,11 +142,13 @@ router.get('/gh/cb', async ctx => {
 			return;
 		}
 
-		const { redirect_uri, state } = await new Promise<any>((res, rej) => {
-			redisClient.get(sessid, async (_, state) => {
-				res(JSON.parse(state));
-			});
-		});
+		const session = await redisClient.get(sessid);
+		if (session == null) {
+			ctx.throw(400, 'invalid session');
+			return;
+		}
+	
+		const { redirect_uri, state } = JSON.parse(session);
 
 		if (ctx.query.state !== state) {
 			ctx.throw(400, 'invalid session');
@@ -193,11 +195,13 @@ router.get('/gh/cb', async ctx => {
 			return;
 		}
 
-		const { redirect_uri, state } = await new Promise<any>((res, rej) => {
-			redisClient.get(userToken, async (_, state) => {
-				res(JSON.parse(state));
-			});
-		});
+		const session = await redisClient.get(userToken);
+		if (session == null) {
+			ctx.throw(400, 'invalid session');
+			return;
+		}
+	
+		const { redirect_uri, state } = JSON.parse(session);
 
 		if (ctx.query.state !== state) {
 			ctx.throw(400, 'invalid session');

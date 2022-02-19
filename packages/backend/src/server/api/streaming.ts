@@ -4,8 +4,6 @@ import * as websocket from 'websocket';
 import MainStreamConnection from './stream/index';
 import { ParsedUrlQuery } from 'querystring';
 import authenticate from './authenticate';
-import { EventEmitter } from 'events';
-import { subsdcriber as redisClient } from '../../db/redis';
 import { Users } from '@/models/index';
 
 module.exports = (server: http.Server) => {
@@ -29,16 +27,7 @@ module.exports = (server: http.Server) => {
 
 		const connection = request.accept();
 
-		const ev = new EventEmitter();
-
-		async function onRedisMessage(_: string, data: string) {
-			const parsed = JSON.parse(data);
-			ev.emit(parsed.channel, parsed.message);
-		}
-
-		redisClient.on('message', onRedisMessage);
-
-		const main = new MainStreamConnection(connection, ev, user, app);
+		const main = new MainStreamConnection(connection, user, app);
 
 		const intervalId = user ? setInterval(() => {
 			Users.update(user.id, {
@@ -52,9 +41,7 @@ module.exports = (server: http.Server) => {
 		}
 
 		connection.once('close', () => {
-			ev.removeAllListeners();
 			main.dispose();
-			redisClient.off('message', onRedisMessage);
 			if (intervalId) clearInterval(intervalId);
 		});
 
