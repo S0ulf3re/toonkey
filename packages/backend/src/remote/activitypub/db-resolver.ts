@@ -1,12 +1,15 @@
+import escapeRegexp from 'escape-regexp';
 import config from '@/config/index.js';
 import { Note } from '@/models/entities/note.js';
-import { User, IRemoteUser } from '@/models/entities/user.js';
+import { User, IRemoteUser, CacheableRemoteUser } from '@/models/entities/user.js';
 import { UserPublickey } from '@/models/entities/user-publickey.js';
 import { MessagingMessage } from '@/models/entities/messaging-message.js';
 import { Notes, Users, UserPublickeys, MessagingMessages } from '@/models/index.js';
 import { IObject, getApId } from './type.js';
 import { resolvePerson } from './models/person.js';
-import escapeRegexp from 'escape-regexp';
+import { Cache } from '@/misc/cache.js';
+
+const publicKeyCache = new Cache<(UserPublickey & { user: User }) | null>(Infinity);
 
 export default class DbResolver {
 	constructor() {
@@ -75,12 +78,21 @@ export default class DbResolver {
 	/**
 	 * AP KeyId => Misskey User and Key
 	 */
-	public async getAuthUserFromKeyId(keyId: string): Promise<AuthUser | null> {
-		const key = await UserPublickeys.findOne({
-			keyId,
-		}, {
-			relations: ['user'],
-		});
+	public async getAuthUserFromKeyId(keyId: string): Promise<{
+		user: CacheableRemoteUser;
+		key: UserPublickey;
+	} | null> {
+		const key = await publicKeyCache.fetch(keyId, async () => {
+			const key = await UserPublickeys.findOne({
+				keyId,
+			}, {
+				relations: ['user'],
+			});
+	
+			if (key == null) return null;
+
+			return key as UserPublickey & { user: User };
+		}, key => key != null);
 
 		if (key == null) return null;
 
@@ -93,7 +105,10 @@ export default class DbResolver {
 	/**
 	 * AP Actor id => Misskey User and Key
 	 */
-	public async getAuthUserFromApId(uri: string): Promise<AuthUser | null> {
+	public async getAuthUserFromApId(uri: string): Promise<{
+		user: CacheableRemoteUser;
+		key?: UserPublickey;
+	} | null> {
 		const user = await resolvePerson(uri) as IRemoteUser;
 
 		if (user == null) return null;
@@ -124,11 +139,6 @@ export default class DbResolver {
 		}
 	}
 }
-
-export type AuthUser = {
-	user: IRemoteUser;
-	key?: UserPublickey;
-};
 
 type UriParseResult = {
 	/** id in DB (local object only) */

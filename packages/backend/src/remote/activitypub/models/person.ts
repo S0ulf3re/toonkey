@@ -30,6 +30,9 @@ import { fetchInstanceMetadata } from '@/services/fetch-instance-metadata.js';
 import { normalizeForSearch } from '@/misc/normalize-for-search.js';
 import { truncate } from '@/misc/truncate.js';
 import { StatusError } from '@/misc/fetch.js';
+import { Cache } from '@/misc/cache.js';
+
+const uriPersonCache = new Cache<User | null>(Infinity);
 
 const logger = apLogger;
 
@@ -90,6 +93,8 @@ function validateActor(x: IObject, uri: string): IActor {
  * Personをフェッチします。
  *
  * Misskeyに対象のPersonが登録されていればそれを返します。
+ * 
+ * TODO: cache
  */
 export async function fetchPerson(uri: string, resolver?: Resolver): Promise<User | null> {
 	if (typeof uri !== 'string') throw new Error('uri is not string');

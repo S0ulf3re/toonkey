@@ -1,11 +1,12 @@
 import Koa from 'koa';
 import { performance } from 'perf_hooks';
 import { limiter } from './limiter.js';
-import { User } from '@/models/entities/user.js';
+import { CacheableLocalUser, User } from '@/models/entities/user.js';
 import endpoints, { IEndpoint } from './endpoints.js';
 import { ApiError } from './error.js';
 import { apiLogger } from './logger.js';
 import { AccessToken } from '@/models/entities/access-token.js';
+import { Users } from '@/models/index.js';
 
 const accessDenied = {
 	message: 'Access denied.',
@@ -13,7 +14,7 @@ const accessDenied = {
 	id: '56f35758-7dd5-468b-8439-5d6fb8ec9b8e',
 };
 
-export default async (endpoint: string, user: User | null | undefined, token: AccessToken | null | undefined, data: any, ctx?: Koa.Context) => {
+export default async (endpoint: string, user: CacheableLocalUser | null | undefined, token: AccessToken | null | undefined, data: any, ctx?: Koa.Context) => {
 	const isSecure = user != null && token == null;
 
 	const ep = endpoints.find(e => e.name === endpoint);
@@ -40,7 +41,7 @@ export default async (endpoint: string, user: User | null | undefined, token: Ac
 		});
 	}
 
-	if (ep.meta.requireCredential && user!.isSuspended) {
+	if (ep.meta.requireCredential && Users.checkSuspended(user!.id)) {
 		throw new ApiError({
 			message: 'Your account has been suspended.',
 			code: 'YOUR_ACCOUNT_SUSPENDED',
@@ -49,12 +50,16 @@ export default async (endpoint: string, user: User | null | undefined, token: Ac
 		});
 	}
 
-	if (ep.meta.requireAdmin && !user!.isAdmin) {
-		throw new ApiError(accessDenied, { reason: 'You are not the admin.' });
-	}
+	if (ep.meta.requireAdmin || ep.meta.requireModerator) {
+		const fullUser = await Users.findOneOrFail(user!.id);
 
-	if (ep.meta.requireModerator && !user!.isAdmin && !user!.isModerator) {
-		throw new ApiError(accessDenied, { reason: 'You are not a moderator.' });
+		if (ep.meta.requireAdmin && !fullUser.isAdmin) {
+			throw new ApiError(accessDenied, { reason: 'You are not the admin.' });
+		}
+	
+		if (ep.meta.requireModerator && !fullUser.isAdmin && !fullUser.isModerator) {
+			throw new ApiError(accessDenied, { reason: 'You are not a moderator.' });
+		}
 	}
 
 	if (token && ep.meta.kind && !token.permission.some(p => p === ep.meta.kind)) {
@@ -65,7 +70,7 @@ export default async (endpoint: string, user: User | null | undefined, token: Ac
 		});
 	}
 
-	if (ep.meta.requireCredential && ep.meta.limit && !user!.isAdmin && !user!.isModerator) {
+	if (ep.meta.requireCredential && ep.meta.limit) {
 		// Rate limit
 		await limiter(ep as IEndpoint & { meta: { limit: NonNullable<IEndpoint['meta']['limit']> } }, user!).catch(e => {
 			throw new ApiError({

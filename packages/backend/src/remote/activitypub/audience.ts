@@ -3,7 +3,7 @@ import Resolver from './resolver.js';
 import { resolvePerson } from './models/person.js';
 import { unique, concat } from '@/prelude/array.js';
 import promiseLimit from 'promise-limit';
-import { User, IRemoteUser } from '@/models/entities/user.js';
+import { User, CacheableRemoteUser } from '@/models/entities/user.js';
 
 type Visibility = 'public' | 'home' | 'followers' | 'specified';
 
@@ -13,7 +13,7 @@ type AudienceInfo = {
 	visibleUsers: User[],
 };
 
-export async function parseAudience(actor: IRemoteUser, to?: ApObject, cc?: ApObject, resolver?: Resolver): Promise<AudienceInfo> {
+export async function parseAudience(actor: CacheableRemoteUser, to?: ApObject, cc?: ApObject, resolver?: Resolver): Promise<AudienceInfo> {
 	const toGroups = groupingAudience(getApIds(to), actor);
 	const ccGroups = groupingAudience(getApIds(cc), actor);
 
@@ -55,7 +55,7 @@ export async function parseAudience(actor: IRemoteUser, to?: ApObject, cc?: ApOb
 	};
 }
 
-function groupingAudience(ids: string[], actor: IRemoteUser) {
+function groupingAudience(ids: string[], actor: CacheableRemoteUser) {
 	const groups = {
 		public: [] as string[],
 		followers: [] as string[],
@@ -85,7 +85,7 @@ function isPublic(id: string) {
 	].includes(id);
 }
 
-function isFollowers(id: string, actor: IRemoteUser) {
+function isFollowers(id: string, actor: CacheableRemoteUser) {
 	return (
 		id === (actor.followersUri || `${actor.uri}/followers`)
 	);

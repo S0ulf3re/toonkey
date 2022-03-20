@@ -106,12 +106,14 @@ export class User {
 	})
 	public tags: string[];
 
+	@Index()
 	@Column('boolean', {
 		default: false,
 		comment: 'Whether the User is suspended.',
 	})
 	public isSuspended: boolean;
 
+	@Index()
 	@Column('boolean', {
 		default: false,
 		comment: 'Whether the User is silenced.',
@@ -136,12 +138,14 @@ export class User {
 	})
 	public isCat: boolean;
 
+	@Index()
 	@Column('boolean', {
 		default: false,
 		comment: 'Whether the User is the admin.',
 	})
 	public isAdmin: boolean;
 
+	@Index()
 	@Column('boolean', {
 		default: false,
 		comment: 'Whether the User is a moderator.',
@@ -234,3 +238,27 @@ export interface ILocalUser extends User {
 export interface IRemoteUser extends User {
 	host: string;
 }
+
+export type CacheableLocalUser = {
+	id: ILocalUser['id'];
+	createdAt: ILocalUser['createdAt'];
+	host: ILocalUser['host'];
+	username: ILocalUser['username'];
+	uri: ILocalUser['uri'];
+	inbox: ILocalUser['inbox'];
+	sharedInbox: ILocalUser['sharedInbox'];
+
+	showTimelineReplies: ILocalUser['showTimelineReplies'];
+};
+
+export type CacheableRemoteUser = {
+	id: IRemoteUser['id'];
+	createdAt: IRemoteUser['createdAt'];
+	host: IRemoteUser['host'];
+	username: IRemoteUser['username']; 
+	uri: IRemoteUser['uri'];
+	inbox: IRemoteUser['inbox'];
+	sharedInbox: IRemoteUser['sharedInbox'];
+	featured: IRemoteUser['featured'];
+	followersUri: IRemoteUser['followersUri'];
+};

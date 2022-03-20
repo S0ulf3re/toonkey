@@ -37,6 +37,65 @@ export class UserRepository extends Repository<User> {
 	public validateBirthday = ajv.compile(this.birthdaySchema);
 	//#endregion
 
+	private suspendedUsersCache: Set<User['id']> = new Set();
+	private silencedUsersCache: Set<User['id']> = new Set();
+	private moderatorsCache: Set<User['id']> = new Set();
+
+	constructor() {
+		super();
+
+		const fetchCache = () => {
+			this.find({
+				where: {
+					isSuspended: true,
+				},
+				select: ['id'],
+			}).then(users => {
+				this.suspendedUsersCache = new Set(users.map(user => user.id));
+			});
+
+			this.find({
+				where: {
+					isSilenced: true,
+				},
+				select: ['id'],
+			}).then(users => {
+				this.silencedUsersCache = new Set(users.map(user => user.id));
+			});
+
+			this.find({
+				where: [{
+					isAdmin: true,
+				}, {
+					isModerator: true,
+				}],
+				select: ['id'],
+			}).then(users => {
+				this.moderatorsCache = new Set(users.map(user => user.id));
+			});
+		};
+
+		setImmediate(() => {
+			fetchCache();
+		});
+
+		setInterval(() => {
+			fetchCache();
+		}, 1000 * 60 * 5);
+	}
+
+	public checkSuspended(userId: User['id']): boolean {
+		return this.suspendedUsersCache.has(userId);
+	}
+
+	public checkSilenced(userId: User['id']): boolean {
+		return this.silencedUsersCache.has(userId);
+	}
+
+	public checkModerator(userId: User['id']): boolean {
+		return this.moderatorsCache.has(userId);
+	}
+
 	public async getRelation(me: User['id'], target: User['id']) {
 		const [following1, following2, followReq1, followReq2, toBlocking, fromBlocked, mute] = await Promise.all([
 			Followings.findOne({
