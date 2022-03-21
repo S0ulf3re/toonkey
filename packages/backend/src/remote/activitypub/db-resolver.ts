@@ -10,6 +10,7 @@ import { resolvePerson } from './models/person.js';
 import { Cache } from '@/misc/cache.js';
 
 const publicKeyCache = new Cache<(UserPublickey & { user: User }) | null>(Infinity);
+const publicKeyByUserIdCache = new Cache<UserPublickey | null>(Infinity);
 
 export default class DbResolver {
 	constructor() {
@@ -107,14 +108,13 @@ export default class DbResolver {
 	 */
 	public async getAuthUserFromApId(uri: string): Promise<{
 		user: CacheableRemoteUser;
-		key?: UserPublickey;
+		key: UserPublickey | null;
 	} | null> {
 		const user = await resolvePerson(uri) as CacheableRemoteUser;
 
 		if (user == null) return null;
 
-		// TODO: cache
-		const key = await UserPublickeys.findOne(user.id);
+		const key = await publicKeyByUserIdCache.fetch(user.id, () => UserPublickeys.findOne(user.id).then(x => x || null), v => v != null); // TODO: typeorm 3.0 にしたら.then(x => x || null)は消せる
 
 		return {
 			user,

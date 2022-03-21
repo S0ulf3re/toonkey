@@ -49,7 +49,7 @@ export default async (job: Bull.Job<InboxJobData>): Promise<string> => {
 	// HTTP-Signature keyIdを元にDBから取得
 	let authUser: {
 		user: CacheableRemoteUser;
-		key?: UserPublickey;
+		key: UserPublickey | null;
 	} | null = await dbResolver.getAuthUserFromKeyId(signature.keyId);
 
 	// keyIdでわからなければ、activity.actorを元にDBから取得 || activity.actorを元にリモートから取得
