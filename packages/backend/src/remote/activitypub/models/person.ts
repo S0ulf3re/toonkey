@@ -15,7 +15,7 @@ import { apLogger } from '../logger.js';
 import { Note } from '@/models/entities/note.js';
 import { updateUsertags } from '@/services/update-hashtag.js';
 import { Users, Instances, DriveFiles, Followings, UserProfiles, UserPublickeys } from '@/models/index.js';
-import { User, IRemoteUser } from '@/models/entities/user.js';
+import { User, IRemoteUser, CacheableUser } from '@/models/entities/user.js';
 import { Emoji } from '@/models/entities/emoji.js';
 import { UserNotePining } from '@/models/entities/user-note-pining.js';
 import { genId } from '@/misc/gen-id.js';
@@ -32,7 +32,7 @@ import { truncate } from '@/misc/truncate.js';
 import { StatusError } from '@/misc/fetch.js';
 import { Cache } from '@/misc/cache.js';
 
-const uriPersonCache = new Cache<User | null>(Infinity);
+const uriPersonCache = new Cache<CacheableUser | null>(Infinity);
 
 const logger = apLogger;
 
@@ -93,22 +93,26 @@ function validateActor(x: IObject, uri: string): IActor {
  * Personをフェッチします。
  *
  * Misskeyに対象のPersonが登録されていればそれを返します。
- * 
- * TODO: cache
  */
-export async function fetchPerson(uri: string, resolver?: Resolver): Promise<User | null> {
+export async function fetchPerson(uri: string, resolver?: Resolver): Promise<CacheableUser | null> {
 	if (typeof uri !== 'string') throw new Error('uri is not string');
+
+	const cached = uriPersonCache.get(uri);
+	if (cached) return cached;
 
 	// URIがこのサーバーを指しているならデータベースからフェッチ
 	if (uri.startsWith(config.url + '/')) {
 		const id = uri.split('/').pop();
-		return await Users.findOne(id).then(x => x || null);
+		const u = await Users.findOne(id).then(x => x || null); // TODO: typeorm 3.0 にしたら .then(x => x || null) を消す
+		if (u) uriPersonCache.set(uri, u);
+		return u;
 	}
 
 	//#region このサーバーに既に登録されていたらそれを返す
 	const exist = await Users.findOne({ uri });
 
 	if (exist) {
+		uriPersonCache.set(uri, exist);
 		return exist;
 	}
 	//#endregion
@@ -376,7 +380,7 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
  * Misskeyに対象のPersonが登録されていればそれを返し、そうでなければ
  * リモートサーバーからフェッチしてMisskeyに登録しそれを返します。
  */
-export async function resolvePerson(uri: string, resolver?: Resolver): Promise<User> {
+export async function resolvePerson(uri: string, resolver?: Resolver): Promise<CacheableUser> {
 	if (typeof uri !== 'string') throw new Error('uri is not string');
 
 	//#region このサーバーに既に登録されていたらそれを返す

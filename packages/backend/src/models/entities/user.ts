@@ -262,3 +262,5 @@ export type CacheableRemoteUser = {
 	featured: IRemoteUser['featured'];
 	followersUri: IRemoteUser['followersUri'];
 };
+
+export type CacheableUser = CacheableLocalUser | CacheableRemoteUser;

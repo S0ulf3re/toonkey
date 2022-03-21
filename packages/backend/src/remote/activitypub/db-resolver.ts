@@ -109,10 +109,11 @@ export default class DbResolver {
 		user: CacheableRemoteUser;
 		key?: UserPublickey;
 	} | null> {
-		const user = await resolvePerson(uri) as IRemoteUser;
+		const user = await resolvePerson(uri) as CacheableRemoteUser;
 
 		if (user == null) return null;
 
+		// TODO: cache
 		const key = await UserPublickeys.findOne(user.id);
 
 		return {
