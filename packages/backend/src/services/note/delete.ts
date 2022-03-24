@@ -29,6 +29,10 @@ export default async function(user: { id: User['id']; uri: User['uri']; host: Us
 		Notes.decrement({ id: note.renoteId }, 'score', 1);
 	}
 
+	if (note.replyId) {
+		await Notes.decrement({ id: note.replyId }, 'repliesCount', 1);
+	}
+
 	if (!quiet) {
 		publishNoteStream(note.id, 'deleted', {
 			deletedAt: deletedAt,
