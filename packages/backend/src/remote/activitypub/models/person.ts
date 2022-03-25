@@ -31,6 +31,7 @@ import { normalizeForSearch } from '@/misc/normalize-for-search.js';
 import { truncate } from '@/misc/truncate.js';
 import { StatusError } from '@/misc/fetch.js';
 import { uriPersonCache } from '@/services/user-cache.js';
+import { publishInternalEvent } from '@/services/stream.js';
 
 const logger = apLogger;
 
@@ -358,6 +359,8 @@ export async function updatePerson(uri: string, resolver?: Resolver | null, hint
 		birthday: bday ? bday[0] : null,
 		location: person['vcard:Address'] || null,
 	});
+
+	publishInternalEvent('remoteUserUpdated', { id: exist.id });
 
 	// ハッシュタグ更新
 	updateUsertags(exist, tags);

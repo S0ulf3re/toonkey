@@ -16,7 +16,8 @@ subsdcriber.on('message', async (_, data) => {
 		switch (type) {
 			case 'userChangeSuspendedState':
 			case 'userChangeSilencedState':
-			case 'userChangeModeratorState': {
+			case 'userChangeModeratorState':
+			case 'remoteUserUpdated': {
 				const user = await Users.findOneOrFail(body.id);
 				userByIdCache.set(user.id, user);
 				for (const [k, v] of uriPersonCache.cache.entries()) {

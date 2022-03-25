@@ -22,6 +22,7 @@ export interface InternalStreamTypes {
 	userChangeSilencedState: { id: User['id']; isSilenced: User['isSilenced']; };
 	userChangeModeratorState: { id: User['id']; isModerator: User['isModerator']; };
 	userTokenRegenerated: { id: User['id']; oldToken: User['token']; newToken: User['token']; };
+	remoteUserUpdated: { id: User['id']; };
 	antennaCreated: Antenna;
 	antennaDeleted: Antenna;
 	antennaUpdated: Antenna;
