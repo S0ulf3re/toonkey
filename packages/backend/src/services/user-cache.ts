@@ -1,4 +1,4 @@
-import { CacheableLocalUser, CacheableUser, User } from '@/models/entities/user.js';
+import { CacheableLocalUser, CacheableUser, ILocalUser, User } from '@/models/entities/user.js';
 import { Users } from '@/models/index.js';
 import { Cache } from '@/misc/cache.js';
 import { subsdcriber } from '@/db/redis.js';
@@ -16,7 +16,7 @@ subsdcriber.on('message', async (_, data) => {
 		switch (type) {
 			case 'userChangeSuspendedState':
 			case 'userChangeSilencedState':
-			case 'userChangeModeratorState':
+			case 'userChangeModeratorState': {
 				const user = await Users.findOneOrFail(body.id);
 				userByIdCache.set(user.id, user);
 				for (const [k, v] of uriPersonCache.cache.entries()) {
@@ -29,9 +29,13 @@ subsdcriber.on('message', async (_, data) => {
 					localUserByIdCache.set(user.id, user);
 				}
 				break;
-			case 'userTokenRegenerated':
-				
+			}
+			case 'userTokenRegenerated': {
+				const user = await Users.findOneOrFail(body.id) as ILocalUser;
+				localUserByNativeTokenCache.delete(body.oldToken);
+				localUserByNativeTokenCache.set(body.newToken, user);
 				break;
+			}
 			default:
 				break;
 		}
