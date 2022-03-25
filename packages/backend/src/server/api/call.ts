@@ -6,7 +6,6 @@ import endpoints, { IEndpoint } from './endpoints.js';
 import { ApiError } from './error.js';
 import { apiLogger } from './logger.js';
 import { AccessToken } from '@/models/entities/access-token.js';
-import { Users } from '@/models/index.js';
 
 const accessDenied = {
 	message: 'Access denied.',
@@ -50,16 +49,12 @@ export default async (endpoint: string, user: CacheableLocalUser | null | undefi
 		});
 	}
 
-	if (ep.meta.requireAdmin || ep.meta.requireModerator) {
-		const fullUser = await Users.findOneOrFail(user!.id);
+	if (ep.meta.requireAdmin && !user!.isAdmin) {
+		throw new ApiError(accessDenied, { reason: 'You are not the admin.' });
+	}
 
-		if (ep.meta.requireAdmin && !fullUser.isAdmin) {
-			throw new ApiError(accessDenied, { reason: 'You are not the admin.' });
-		}
-	
-		if (ep.meta.requireModerator && !fullUser.isAdmin && !fullUser.isModerator) {
-			throw new ApiError(accessDenied, { reason: 'You are not a moderator.' });
-		}
+	if (ep.meta.requireModerator && !user!.isAdmin && !user!.isModerator) {
+		throw new ApiError(accessDenied, { reason: 'You are not a moderator.' });
 	}
 
 	if (token && ep.meta.kind && !token.permission.some(p => p === ep.meta.kind)) {
@@ -70,7 +65,7 @@ export default async (endpoint: string, user: CacheableLocalUser | null | undefi
 		});
 	}
 
-	if (ep.meta.requireCredential && ep.meta.limit) {
+	if (ep.meta.requireCredential && ep.meta.limit && !user!.isAdmin && !user!.isModerator) {
 		// Rate limit
 		await limiter(ep as IEndpoint & { meta: { limit: NonNullable<IEndpoint['meta']['limit']> } }, user!).catch(e => {
 			throw new ApiError({

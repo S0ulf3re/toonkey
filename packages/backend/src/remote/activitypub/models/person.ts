@@ -30,9 +30,7 @@ import { fetchInstanceMetadata } from '@/services/fetch-instance-metadata.js';
 import { normalizeForSearch } from '@/misc/normalize-for-search.js';
 import { truncate } from '@/misc/truncate.js';
 import { StatusError } from '@/misc/fetch.js';
-import { Cache } from '@/misc/cache.js';
-
-const uriPersonCache = new Cache<CacheableUser | null>(Infinity);
+import { uriPersonCache } from '@/services/user-cache.js';
 
 const logger = apLogger;
 

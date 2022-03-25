@@ -8,8 +8,9 @@ import { Notes, Users, UserPublickeys, MessagingMessages } from '@/models/index.
 import { IObject, getApId } from './type.js';
 import { resolvePerson } from './models/person.js';
 import { Cache } from '@/misc/cache.js';
+import { userByIdCache } from '@/services/user-cache.js';
 
-const publicKeyCache = new Cache<(UserPublickey & { user: User }) | null>(Infinity);
+const publicKeyCache = new Cache<UserPublickey | null>(Infinity);
 const publicKeyByUserIdCache = new Cache<UserPublickey | null>(Infinity);
 
 export default class DbResolver {
@@ -86,19 +87,17 @@ export default class DbResolver {
 		const key = await publicKeyCache.fetch(keyId, async () => {
 			const key = await UserPublickeys.findOne({
 				keyId,
-			}, {
-				relations: ['user'],
 			});
 	
 			if (key == null) return null;
 
-			return key as UserPublickey & { user: User };
+			return key;
 		}, key => key != null);
 
 		if (key == null) return null;
 
 		return {
-			user: key.user as IRemoteUser,
+			user: await userByIdCache.fetch(key.userId, () => Users.findOneOrFail(key.userId)) as CacheableRemoteUser,
 			key,
 		};
 	}

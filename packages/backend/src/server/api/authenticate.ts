@@ -1,12 +1,11 @@
 import isNativeToken from './common/is-native-token.js';
-import { CacheableLocalUser, ILocalUser, User } from '@/models/entities/user.js';
+import { CacheableLocalUser, ILocalUser } from '@/models/entities/user.js';
 import { Users, AccessTokens, Apps } from '@/models/index.js';
 import { AccessToken } from '@/models/entities/access-token.js';
 import { Cache } from '@/misc/cache.js';
 import { App } from '@/models/entities/app.js';
+import { localUserByIdCache, localUserByNativeTokenCache } from '@/services/user-cache.js';
 
-const userByNativeTokenCache = new Cache<CacheableLocalUser | null>(1000 * 60 * 5);
-const userByIdCache = new Cache<CacheableLocalUser>(1000 * 60 * 5);
 const appCache = new Cache<App>(Infinity);
 
 export class AuthenticationError extends Error {
@@ -23,7 +22,7 @@ export default async (token: string | null): Promise<[CacheableLocalUser | null 
 
 	if (isNativeToken(token)) {
 		// TODO: typeorm 3.0にしたら .then(x => x || null) は消せる
-		const user = await userByNativeTokenCache.fetch(token,
+		const user = await localUserByNativeTokenCache.fetch(token,
 			() => Users.findOne({ token }).then(x => x || null) as Promise<ILocalUser | null>);
 
 		if (user == null) {
@@ -48,7 +47,7 @@ export default async (token: string | null): Promise<[CacheableLocalUser | null 
 			lastUsedAt: new Date(),
 		});
 
-		const user = await userByIdCache.fetch(accessToken.userId,
+		const user = await localUserByIdCache.fetch(accessToken.userId,
 			() => Users.findOne({
 				id: accessToken.userId, // findOne(accessToken.userId) のように書かないのは後方互換性のため
 			}) as Promise<ILocalUser>);
