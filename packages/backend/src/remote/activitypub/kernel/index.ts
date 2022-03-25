@@ -38,7 +38,7 @@ export async function performActivity(actor: CacheableRemoteUser, activity: IObj
 }
 
 async function performOneActivity(actor: CacheableRemoteUser, activity: IObject): Promise<void> {
-	if (Users.checkSuspended(actor.id)) return;
+	if (actor.isSuspended) return;
 
 	if (isCreate(activity)) {
 		await create(actor, activity);

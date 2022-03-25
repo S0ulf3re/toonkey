@@ -93,7 +93,7 @@ export async function createNote(value: string | IObject, resolver?: Resolver, s
 	const actor = await resolvePerson(getOneApId(note.attributedTo), resolver) as CacheableRemoteUser;
 
 	// 投稿者が凍結されていたらスキップ
-	if (Users.checkSuspended(actor.id)) {
+	if (actor.isSuspended) {
 		throw new Error('actor has been suspended');
 	}
 

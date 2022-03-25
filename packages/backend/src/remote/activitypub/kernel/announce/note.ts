@@ -18,6 +18,10 @@ const logger = apLogger;
 export default async function(resolver: Resolver, actor: CacheableRemoteUser, activity: IAnnounce, targetUri: string): Promise<void> {
 	const uri = getApId(activity);
 
+	if (actor.isSuspended) {
+		return;
+	}
+
 	// アナウンス先をブロックしてたら中断
 	const meta = await fetchMeta();
 	if (meta.blockedHosts.includes(extractDbHost(uri))) return;

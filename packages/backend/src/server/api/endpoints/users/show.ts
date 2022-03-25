@@ -61,7 +61,7 @@ export const paramDef = {
 export default define(meta, paramDef, async (ps, me) => {
 	let user;
 
-	const isAdminOrModerator = me && Users.checkModerator(me.id);
+	const isAdminOrModerator = me && (me.isAdmin || me.isModerator);
 
 	if (ps.userIds) {
 		if (ps.userIds.length === 0) {

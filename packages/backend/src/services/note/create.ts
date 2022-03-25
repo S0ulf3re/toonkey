@@ -150,7 +150,7 @@ export default async (user: { id: User['id']; username: User['username']; host: 
 	if (data.channel != null) data.localOnly = true;
 
 	// サイレンス
-	if (Users.checkSilenced(user.id) && data.visibility === 'public' && data.channel == null) {
+	if (user.isSilenced && data.visibility === 'public' && data.channel == null) {
 		data.visibility = 'home';
 	}
 

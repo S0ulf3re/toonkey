@@ -15,7 +15,7 @@ const logger = apLogger;
  */
 export async function createImage(actor: CacheableRemoteUser, value: any): Promise<DriveFile> {
 	// 投稿者が凍結されていたらスキップ
-	if (Users.checkSuspended(actor.id)) {
+	if (actor.isSuspended) {
 		throw new Error('actor has been suspended');
 	}
 

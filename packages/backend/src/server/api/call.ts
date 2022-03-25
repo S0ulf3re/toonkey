@@ -41,7 +41,7 @@ export default async (endpoint: string, user: CacheableLocalUser | null | undefi
 		});
 	}
 
-	if (ep.meta.requireCredential && Users.checkSuspended(user!.id)) {
+	if (ep.meta.requireCredential && user!.isSuspended) {
 		throw new ApiError({
 			message: 'Your account has been suspended.',
 			code: 'YOUR_ACCOUNT_SUSPENDED',

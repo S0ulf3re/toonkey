@@ -56,7 +56,7 @@ export const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
 	const m = await fetchMeta();
-	if (m.disableLocalTimeline && !Users.checkModerator(user.id)) {
+	if (m.disableLocalTimeline && (!user.isAdmin && !user.isModerator)) {
 		throw new ApiError(meta.errors.stlDisabled);
 	}
 

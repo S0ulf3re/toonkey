@@ -42,7 +42,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		throw new ApiError(meta.errors.noSuchFile);
 	}
 
-	if (!Users.checkModerator(user.id) && (file.userId !== user.id)) {
+	if ((!user.isAdmin && !user.isModerator) && (file.userId !== user.id)) {
 		throw new ApiError(meta.errors.accessDenied);
 	}
 
