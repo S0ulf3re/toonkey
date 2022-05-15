@@ -1,9 +1,9 @@
 import ms from 'ms';
-import define from '../../define';
-import { Pages, DriveFiles } from '@/models/index';
-import { genId } from '@/misc/gen-id';
-import { Page } from '@/models/entities/page';
-import { ApiError } from '../../error';
+import define from '../../define.js';
+import { Pages, DriveFiles } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
+import { Page } from '@/models/entities/page.js';
+import { ApiError } from '../../error.js';
 
 export const meta = {
 	tags: ['pages'],
@@ -37,7 +37,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		title: { type: 'string' },
@@ -62,7 +62,7 @@ const paramDef = {
 export default define(meta, paramDef, async (ps, user) => {
 	let eyeCatchingImage = null;
 	if (ps.eyeCatchingImageId != null) {
-		eyeCatchingImage = await DriveFiles.findOne({
+		eyeCatchingImage = await DriveFiles.findOneBy({
 			id: ps.eyeCatchingImageId,
 			userId: user.id,
 		});
@@ -72,7 +72,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		}
 	}
 
-	await Pages.find({
+	await Pages.findBy({
 		userId: user.id,
 		name: ps.name,
 	}).then(result => {
@@ -97,7 +97,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		alignCenter: ps.alignCenter,
 		hideTitleWhenPinned: ps.hideTitleWhenPinned,
 		font: ps.font,
-	})).then(x => Pages.findOneOrFail(x.identifiers[0]));
+	})).then(x => Pages.findOneByOrFail(x.identifiers[0]));
 
 	return await Pages.pack(page);
 });

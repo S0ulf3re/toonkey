@@ -1,9 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import config from '@/config/index';
-import define from '../../../define';
-import { ApiError } from '../../../error';
-import { Apps, AuthSessions } from '@/models/index';
-import { genId } from '@/misc/gen-id';
+import config from '@/config/index.js';
+import define from '../../../define.js';
+import { ApiError } from '../../../error.js';
+import { Apps, AuthSessions } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
 
 export const meta = {
 	tags: ['auth'],
@@ -35,7 +35,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		appSecret: { type: 'string' },
@@ -46,7 +46,7 @@ const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps) => {
 	// Lookup app
-	const app = await Apps.findOne({
+	const app = await Apps.findOneBy({
 		secret: ps.appSecret,
 	});
 
@@ -63,7 +63,7 @@ export default define(meta, paramDef, async (ps) => {
 		createdAt: new Date(),
 		appId: app.id,
 		token: token,
-	}).then(x => AuthSessions.findOneOrFail(x.identifiers[0]));
+	}).then(x => AuthSessions.findOneByOrFail(x.identifiers[0]));
 
 	return {
 		token: doc.token,

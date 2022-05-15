@@ -1,13 +1,13 @@
-import { IRemoteUser } from '@/models/entities/user';
-import deleteNode from '@/services/note/delete';
-import { apLogger } from '../../logger';
-import DbResolver from '../../db-resolver';
-import { getApLock } from '@/misc/app-lock';
-import { deleteMessage } from '@/services/messages/delete';
+import { CacheableRemoteUser } from '@/models/entities/user.js';
+import deleteNode from '@/services/note/delete.js';
+import { apLogger } from '../../logger.js';
+import DbResolver from '../../db-resolver.js';
+import { getApLock } from '@/misc/app-lock.js';
+import { deleteMessage } from '@/services/messages/delete.js';
 
 const logger = apLogger;
 
-export default async function(actor: IRemoteUser, uri: string): Promise<string> {
+export default async function(actor: CacheableRemoteUser, uri: string): Promise<string> {
 	logger.info(`Deleting the Note: ${uri}`);
 
 	const unlock = await getApLock(uri);

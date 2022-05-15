@@ -1,6 +1,6 @@
-import define from '../../define';
-import { Instances } from '@/models/index';
-import { toPuny } from '@/misc/convert-host';
+import define from '../../define.js';
+import { Instances } from '@/models/index.js';
+import { toPuny } from '@/misc/convert-host.js';
 
 export const meta = {
 	tags: ['federation'],
@@ -17,7 +17,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		host: { type: 'string' },
@@ -28,7 +28,7 @@ const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
 	const instance = await Instances
-		.findOne({ host: toPuny(ps.host) });
+		.findOneBy({ host: toPuny(ps.host) });
 
 	return instance ? await Instances.pack(instance) : null;
 });

@@ -1,6 +1,6 @@
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import * as tmp from 'tmp';
-import { IImage, convertToJpeg } from './image-processor';
+import { IImage, convertToJpeg } from './image-processor.js';
 import * as FFmpeg from 'fluent-ffmpeg';
 
 export async function GenerateVideoThumbnail(path: string): Promise<IImage> {
@@ -27,6 +27,7 @@ export async function GenerateVideoThumbnail(path: string): Promise<IImage> {
 
 	const outPath = `${outDir}/output.png`;
 
+	// JPEGに変換 (Webpでもいいが、MastodonはWebpをサポートせず表示できなくなる)
 	const thumbnail = await convertToJpeg(outPath, 498, 280);
 
 	// cleanup

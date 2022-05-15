@@ -1,6 +1,6 @@
-import define from '../../define';
-import { MessagingMessage } from '@/models/entities/messaging-message';
-import { MessagingMessages, Mutings, UserGroupJoinings } from '@/models/index';
+import define from '../../define.js';
+import { MessagingMessage } from '@/models/entities/messaging-message.js';
+import { MessagingMessages, Mutings, UserGroupJoinings } from '@/models/index.js';
 import { Brackets } from 'typeorm';
 
 export const meta = {
@@ -21,7 +21,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
@@ -32,11 +32,11 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const mute = await Mutings.find({
+	const mute = await Mutings.findBy({
 		muterId: user.id,
 	});
 
-	const groups = ps.group ? await UserGroupJoinings.find({
+	const groups = ps.group ? await UserGroupJoinings.findBy({
 		userId: user.id,
 	}).then(xs => xs.map(x => x.userGroupId)) : [];
 

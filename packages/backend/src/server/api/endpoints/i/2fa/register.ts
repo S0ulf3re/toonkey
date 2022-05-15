@@ -1,9 +1,9 @@
-import * as bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import * as speakeasy from 'speakeasy';
 import * as QRCode from 'qrcode';
-import config from '@/config/index';
-import define from '../../../define';
-import { UserProfiles } from '@/models/index';
+import config from '@/config/index.js';
+import { UserProfiles } from '@/models/index.js';
+import define from '../../../define.js';
 
 export const meta = {
 	requireCredential: true,
@@ -11,7 +11,7 @@ export const meta = {
 	secure: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		password: { type: 'string' },
@@ -21,7 +21,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const profile = await UserProfiles.findOneOrFail(user.id);
+	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
 	// Compare password
 	const same = await bcrypt.compare(ps.password, profile.password!);
@@ -40,15 +40,17 @@ export default define(meta, paramDef, async (ps, user) => {
 	});
 
 	// Get the data URL of the authenticator URL
-	const dataUrl = await QRCode.toDataURL(speakeasy.otpauthURL({
+	const url = speakeasy.otpauthURL({
 		secret: secret.base32,
 		encoding: 'base32',
 		label: user.username,
 		issuer: config.host,
-	}));
+	});
+	const dataUrl = await QRCode.toDataURL(url);
 
 	return {
 		qr: dataUrl,
+		url,
 		secret: secret.base32,
 		label: user.username,
 		issuer: config.host,

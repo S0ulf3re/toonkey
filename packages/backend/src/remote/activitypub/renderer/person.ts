@@ -1,25 +1,25 @@
-import { URL } from 'url';
+import { URL } from 'node:url';
 import * as mfm from 'mfm-js';
-import renderImage from './image';
-import renderKey from './key';
-import config from '@/config/index';
-import { ILocalUser } from '@/models/entities/user';
-import { toHtml } from '../../../mfm/to-html';
-import { getEmojis } from './note';
-import renderEmoji from './emoji';
-import { IIdentifier } from '../models/identifier';
-import renderHashtag from './hashtag';
-import { DriveFiles, UserProfiles } from '@/models/index';
-import { getUserKeypair } from '@/misc/keypair-store';
+import renderImage from './image.js';
+import renderKey from './key.js';
+import config from '@/config/index.js';
+import { ILocalUser } from '@/models/entities/user.js';
+import { toHtml } from '../../../mfm/to-html.js';
+import { getEmojis } from './note.js';
+import renderEmoji from './emoji.js';
+import { IIdentifier } from '../models/identifier.js';
+import renderHashtag from './hashtag.js';
+import { DriveFiles, UserProfiles } from '@/models/index.js';
+import { getUserKeypair } from '@/misc/keypair-store.js';
 
 export async function renderPerson(user: ILocalUser) {
 	const id = `${config.url}/users/${user.id}`;
 	const isSystem = !!user.username.match(/\./);
 
 	const [avatar, banner, profile] = await Promise.all([
-		user.avatarId ? DriveFiles.findOne(user.avatarId) : Promise.resolve(undefined),
-		user.bannerId ? DriveFiles.findOne(user.bannerId) : Promise.resolve(undefined),
-		UserProfiles.findOneOrFail(user.id),
+		user.avatarId ? DriveFiles.findOneBy({ id: user.avatarId }) : Promise.resolve(undefined),
+		user.bannerId ? DriveFiles.findOneBy({ id: user.bannerId }) : Promise.resolve(undefined),
+		UserProfiles.findOneByOrFail({ userId: user.id }),
 	]);
 
 	const attachment: {

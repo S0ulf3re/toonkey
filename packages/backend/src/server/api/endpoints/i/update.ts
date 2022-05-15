@@ -1,19 +1,19 @@
-const RE2 = require('re2');
+import RE2 from 're2';
 import * as mfm from 'mfm-js';
-import { publishMainStream, publishUserEvent } from '@/services/stream';
-import acceptAllFollowRequests from '@/services/following/requests/accept-all';
-import { publishToFollowers } from '@/services/i/update';
-import define from '../../define';
-import { extractCustomEmojisFromMfm } from '@/misc/extract-custom-emojis-from-mfm';
-import { extractHashtags } from '@/misc/extract-hashtags';
-import * as langmap from 'langmap';
-import { updateUsertags } from '@/services/update-hashtag';
-import { ApiError } from '../../error';
-import { Users, DriveFiles, UserProfiles, Pages } from '@/models/index';
-import { User } from '@/models/entities/user';
-import { UserProfile } from '@/models/entities/user-profile';
-import { notificationTypes } from '@/types';
-import { normalizeForSearch } from '@/misc/normalize-for-search';
+import { publishMainStream, publishUserEvent } from '@/services/stream.js';
+import acceptAllFollowRequests from '@/services/following/requests/accept-all.js';
+import { publishToFollowers } from '@/services/i/update.js';
+import define from '../../define.js';
+import { extractCustomEmojisFromMfm } from '@/misc/extract-custom-emojis-from-mfm.js';
+import { extractHashtags } from '@/misc/extract-hashtags.js';
+import { updateUsertags } from '@/services/update-hashtag.js';
+import { ApiError } from '../../error.js';
+import { Users, DriveFiles, UserProfiles, Pages } from '@/models/index.js';
+import { User } from '@/models/entities/user.js';
+import { UserProfile } from '@/models/entities/user-profile.js';
+import { notificationTypes } from '@/types.js';
+import { normalizeForSearch } from '@/misc/normalize-for-search.js';
+import { langmap } from '@/misc/langmap.js';
 
 export const meta = {
 	tags: ['account'],
@@ -67,19 +67,19 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		name: { ...Users.nameSchema, nullable: true },
 		description: { ...Users.descriptionSchema, nullable: true },
 		location: { ...Users.locationSchema, nullable: true },
 		birthday: { ...Users.birthdaySchema, nullable: true },
-		lang: { type: 'string', enum: Object.keys(langmap), nullable: true },
+		lang: { type: 'string', enum: [null, ...Object.keys(langmap)], nullable: true },
 		avatarId: { type: 'string', format: 'misskey:id', nullable: true },
 		bannerId: { type: 'string', format: 'misskey:id', nullable: true },
 		fields: { type: 'array',
 			minItems: 0,
-			maxItems: 8,
+			maxItems: 16,
 			items: {
 				type: 'object',
 				properties: {
@@ -121,13 +121,13 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, _user, token) => {
-	const user = await Users.findOneOrFail(_user.id);
+	const user = await Users.findOneByOrFail({ id: _user.id });
 	const isSecure = token == null;
 
 	const updates = {} as Partial<User>;
 	const profileUpdates = {} as Partial<UserProfile>;
 
-	const profile = await UserProfiles.findOneOrFail(user.id);
+	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
 	if (ps.name !== undefined) updates.name = ps.name;
 	if (ps.description !== undefined) profileUpdates.description = ps.description;
@@ -171,33 +171,21 @@ export default define(meta, paramDef, async (ps, _user, token) => {
 	if (ps.emailNotificationTypes !== undefined) profileUpdates.emailNotificationTypes = ps.emailNotificationTypes;
 
 	if (ps.avatarId) {
-		const avatar = await DriveFiles.findOne(ps.avatarId);
+		const avatar = await DriveFiles.findOneBy({ id: ps.avatarId });
 
 		if (avatar == null || avatar.userId !== user.id) throw new ApiError(meta.errors.noSuchAvatar);
 		if (!avatar.type.startsWith('image/')) throw new ApiError(meta.errors.avatarNotAnImage);
-
-		updates.avatarUrl = DriveFiles.getPublicUrl(avatar, true);
-
-		if (avatar.blurhash) {
-			updates.avatarBlurhash = avatar.blurhash;
-		}
 	}
 
 	if (ps.bannerId) {
-		const banner = await DriveFiles.findOne(ps.bannerId);
+		const banner = await DriveFiles.findOneBy({ id: ps.bannerId });
 
 		if (banner == null || banner.userId !== user.id) throw new ApiError(meta.errors.noSuchBanner);
 		if (!banner.type.startsWith('image/')) throw new ApiError(meta.errors.bannerNotAnImage);
-
-		updates.bannerUrl = DriveFiles.getPublicUrl(banner, false);
-
-		if (banner.blurhash) {
-			updates.bannerBlurhash = banner.blurhash;
-		}
 	}
 
 	if (ps.pinnedPageId) {
-		const page = await Pages.findOne(ps.pinnedPageId);
+		const page = await Pages.findOneBy({ id: ps.pinnedPageId });
 
 		if (page == null || page.userId !== user.id) throw new ApiError(meta.errors.noSuchPage);
 
@@ -250,7 +238,7 @@ export default define(meta, paramDef, async (ps, _user, token) => {
 
 	// Publish meUpdated event
 	publishMainStream(user.id, 'meUpdated', iObj);
-	publishUserEvent(user.id, 'updateUserProfile', await UserProfiles.findOne(user.id));
+	publishUserEvent(user.id, 'updateUserProfile', await UserProfiles.findOneBy({ userId: user.id }));
 
 	// 鍵垢を解除したとき、溜まっていたフォローリクエストがあるならすべて承認
 	if (user.isLocked && ps.isLocked === false) {

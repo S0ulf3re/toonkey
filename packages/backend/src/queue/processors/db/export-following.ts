@@ -1,22 +1,22 @@
-import * as Bull from 'bull';
+import Bull from 'bull';
 import * as tmp from 'tmp';
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 
-import { queueLogger } from '../../logger';
-import { addFile } from '@/services/drive/add-file';
+import { queueLogger } from '../../logger.js';
+import { addFile } from '@/services/drive/add-file.js';
 import { format as dateFormat } from 'date-fns';
-import { getFullApAccount } from '@/misc/convert-host';
-import { Users, Followings, Mutings } from '@/models/index';
+import { getFullApAccount } from '@/misc/convert-host.js';
+import { Users, Followings, Mutings } from '@/models/index.js';
 import { In, MoreThan, Not } from 'typeorm';
-import { DbUserJobData } from '@/queue/types';
-import { Following } from '@/models/entities/following';
+import { DbUserJobData } from '@/queue/types.js';
+import { Following } from '@/models/entities/following.js';
 
 const logger = queueLogger.createSubLogger('export-following');
 
 export async function exportFollowing(job: Bull.Job<DbUserJobData>, done: () => void): Promise<void> {
 	logger.info(`Exporting following of ${job.data.user.id} ...`);
 
-	const user = await Users.findOne(job.data.user.id);
+	const user = await Users.findOneBy({ id: job.data.user.id });
 	if (user == null) {
 		done();
 		return;
@@ -36,7 +36,7 @@ export async function exportFollowing(job: Bull.Job<DbUserJobData>, done: () => 
 
 	let cursor: Following['id'] | null = null;
 
-	const mutings = job.data.excludeMuting ? await Mutings.find({
+	const mutings = job.data.excludeMuting ? await Mutings.findBy({
 		muterId: user.id,
 	}) : [];
 
@@ -60,7 +60,7 @@ export async function exportFollowing(job: Bull.Job<DbUserJobData>, done: () => 
 		cursor = followings[followings.length - 1].id;
 
 		for (const following of followings) {
-			const u = await Users.findOne({ id: following.followeeId });
+			const u = await Users.findOneBy({ id: following.followeeId });
 			if (u == null) {
 				continue;
 			}

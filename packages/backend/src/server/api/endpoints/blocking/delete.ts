@@ -1,9 +1,9 @@
 import ms from 'ms';
-import deleteBlocking from '@/services/blocking/delete';
-import define from '../../define';
-import { ApiError } from '../../error';
-import { getUser } from '../../common/getters';
-import { Blockings, Users } from '@/models/index';
+import deleteBlocking from '@/services/blocking/delete.js';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
+import { getUser } from '../../common/getters.js';
+import { Blockings, Users } from '@/models/index.js';
 
 export const meta = {
 	tags: ['account'],
@@ -44,7 +44,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		userId: { type: 'string', format: 'misskey:id' },
@@ -54,7 +54,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const blocker = await Users.findOneOrFail(user.id);
+	const blocker = await Users.findOneByOrFail({ id: user.id });
 
 	// Check if the blockee is yourself
 	if (user.id === ps.userId) {
@@ -68,7 +68,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	});
 
 	// Check not blocking
-	const exist = await Blockings.findOne({
+	const exist = await Blockings.findOneBy({
 		blockerId: blocker.id,
 		blockeeId: blockee.id,
 	});

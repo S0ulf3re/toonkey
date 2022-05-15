@@ -1,6 +1,6 @@
-import define from '../../define';
-import { Users } from '@/models/index';
-import { normalizeForSearch } from '@/misc/normalize-for-search';
+import define from '../../define.js';
+import { Users } from '@/models/index.js';
+import { normalizeForSearch } from '@/misc/normalize-for-search.js';
 
 export const meta = {
 	requireCredential: false,
@@ -18,7 +18,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		tag: { type: 'string' },

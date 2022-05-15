@@ -1,9 +1,9 @@
 import { Entity, Index, JoinColumn, Column, PrimaryColumn, ManyToOne } from 'typeorm';
-import { User } from './user';
-import { DriveFile } from './drive-file';
-import { id } from '../id';
-import { noteVisibilities } from '../../types';
-import { Channel } from './channel';
+import { User } from './user.js';
+import { DriveFile } from './drive-file.js';
+import { id } from '../id.js';
+import { noteVisibilities } from '../../types.js';
+import { Channel } from './channel.js';
 
 @Entity()
 @Index('IDX_NOTE_TAGS', { synchronize: false })
@@ -53,8 +53,8 @@ export class Note {
 	})
 	public threadId: string | null;
 
-	@Column('varchar', {
-		length: 8192, nullable: true,
+	@Column('text', {
+		nullable: true,
 	})
 	public text: string | null;
 
@@ -179,7 +179,7 @@ export class Note {
 	@Index()
 	@Column({
 		...id(),
-		nullable: true, default: null,
+		nullable: true,
 		comment: 'The ID of source channel.',
 	})
 	public channelId: Channel['id'] | null;

@@ -1,6 +1,6 @@
-import define from '../../../define';
-import { Ads } from '@/models/index';
-import { genId } from '@/misc/gen-id';
+import define from '../../../define.js';
+import { Ads } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -9,7 +9,7 @@ export const meta = {
 	requireModerator: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		url: { type: 'string', minLength: 1 },

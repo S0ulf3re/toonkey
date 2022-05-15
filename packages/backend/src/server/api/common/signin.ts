@@ -1,15 +1,15 @@
-import * as Koa from 'koa';
+import Koa from 'koa';
 
-import config from '@/config/index';
-import { ILocalUser } from '@/models/entities/user';
-import { Signins } from '@/models/index';
-import { genId } from '@/misc/gen-id';
-import { publishMainStream } from '@/services/stream';
+import config from '@/config/index.js';
+import { ILocalUser } from '@/models/entities/user.js';
+import { Signins } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
+import { publishMainStream } from '@/services/stream.js';
 
 export default function(ctx: Koa.Context, user: ILocalUser, redirect = false) {
 	if (redirect) {
 		//#region Cookie
-		ctx.cookies.set('igi', user.token, {
+		ctx.cookies.set('igi', user.token!, {
 			path: '/',
 			// SEE: https://github.com/koajs/koa/issues/974
 			// When using a SSL proxy it should be configured to add the "X-Forwarded-Proto: https" header
@@ -36,7 +36,7 @@ export default function(ctx: Koa.Context, user: ILocalUser, redirect = false) {
 			ip: ctx.ip,
 			headers: ctx.headers,
 			success: true,
-		}).then(x => Signins.findOneOrFail(x.identifiers[0]));
+		}).then(x => Signins.findOneByOrFail(x.identifiers[0]));
 
 		// Publish signin event
 		publishMainStream(user.id, 'signin', await Signins.pack(record));

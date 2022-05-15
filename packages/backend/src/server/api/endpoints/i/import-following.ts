@@ -1,8 +1,8 @@
-import define from '../../define';
-import { createImportFollowingJob } from '@/queue/index';
+import define from '../../define.js';
+import { createImportFollowingJob } from '@/queue/index.js';
 import ms from 'ms';
-import { ApiError } from '../../error';
-import { DriveFiles } from '@/models/index';
+import { ApiError } from '../../error.js';
+import { DriveFiles } from '@/models/index.js';
 
 export const meta = {
 	secure: true,
@@ -39,7 +39,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		fileId: { type: 'string', format: 'misskey:id' },
@@ -49,7 +49,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const file = await DriveFiles.findOne(ps.fileId);
+	const file = await DriveFiles.findOneBy({ id: ps.fileId });
 
 	if (file == null) throw new ApiError(meta.errors.noSuchFile);
 	//if (!file.type.endsWith('/csv')) throw new ApiError(meta.errors.unexpectedFileType);

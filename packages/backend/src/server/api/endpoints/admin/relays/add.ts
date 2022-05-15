@@ -1,7 +1,7 @@
-import { URL } from 'url';
-import define from '../../../define';
-import { addRelay } from '@/services/relay';
-import { ApiError } from '../../../error';
+import { URL } from 'node:url';
+import define from '../../../define.js';
+import { addRelay } from '@/services/relay.js';
+import { ApiError } from '../../../error.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -45,7 +45,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		inbox: { type: 'string' },

@@ -1,7 +1,7 @@
-import define from '../../define';
-import { ApiError } from '../../error';
-import { Channels, ChannelFollowings } from '@/models/index';
-import { publishUserEvent } from '@/services/stream';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
+import { Channels, ChannelFollowings } from '@/models/index.js';
+import { publishUserEvent } from '@/services/stream.js';
 
 export const meta = {
 	tags: ['channels'],
@@ -19,7 +19,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		channelId: { type: 'string', format: 'misskey:id' },
@@ -29,7 +29,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const channel = await Channels.findOne({
+	const channel = await Channels.findOneBy({
 		id: ps.channelId,
 	});
 

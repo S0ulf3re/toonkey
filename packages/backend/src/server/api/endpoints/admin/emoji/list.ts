@@ -1,7 +1,7 @@
-import define from '../../../define';
-import { Emojis } from '@/models/index';
-import { makePaginationQuery } from '../../../common/make-pagination-query';
-import { Emoji } from '@/models/entities/emoji';
+import define from '../../../define.js';
+import { Emojis } from '@/models/index.js';
+import { makePaginationQuery } from '../../../common/make-pagination-query.js';
+import { Emoji } from '@/models/entities/emoji.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -38,8 +38,9 @@ export const meta = {
 					optional: false, nullable: true,
 				},
 				host: {
-					type: 'string',
-					optional: false, nullable: true,
+					type: 'null',
+					optional: false,
+					description: 'The local host is represented with `null`. The field exists for compatibility with other API endpoints that return files.',
 				},
 				url: {
 					type: 'string',
@@ -50,7 +51,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		query: { type: 'string', nullable: true, default: null },

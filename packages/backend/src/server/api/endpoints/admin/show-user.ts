@@ -1,5 +1,5 @@
-import define from '../../define';
-import { Users } from '@/models/index';
+import define from '../../define.js';
+import { Users } from '@/models/index.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -13,7 +13,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		userId: { type: 'string', format: 'misskey:id' },
@@ -23,13 +23,14 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const user = await Users.findOne(ps.userId as string);
+	const user = await Users.findOneBy({ id: ps.userId });
 
 	if (user == null) {
 		throw new Error('user not found');
 	}
 
-	if ((me.isModerator && !me.isAdmin) && user.isAdmin) {
+	const _me = await Users.findOneByOrFail({ id: me.id });
+	if ((_me.isModerator && !_me.isAdmin) && user.isAdmin) {
 		throw new Error('cannot show info of admin');
 	}
 

@@ -1,6 +1,6 @@
-import define from '../../define';
-import { getConnection } from 'typeorm';
-import { insertModerationLog } from '@/services/insert-moderation-log';
+import define from '../../define.js';
+import { insertModerationLog } from '@/services/insert-moderation-log.js';
+import { db } from '@/db/postgre.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -9,7 +9,7 @@ export const meta = {
 	requireModerator: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		full: { type: 'boolean' },
@@ -30,7 +30,7 @@ export default define(meta, paramDef, async (ps, me) => {
 		params.push('ANALYZE');
 	}
 
-	getConnection().query('VACUUM ' + params.join(' '));
+	db.query('VACUUM ' + params.join(' '));
 
 	insertModerationLog(me, 'vacuum', ps);
 });

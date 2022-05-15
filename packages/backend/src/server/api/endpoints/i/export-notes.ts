@@ -1,5 +1,5 @@
-import define from '../../define';
-import { createExportNotesJob } from '@/queue/index';
+import define from '../../define.js';
+import { createExportNotesJob } from '@/queue/index.js';
 import ms from 'ms';
 
 export const meta = {
@@ -11,7 +11,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],

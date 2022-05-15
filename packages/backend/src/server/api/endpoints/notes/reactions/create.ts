@@ -1,7 +1,7 @@
-import createReaction from '@/services/note/reaction/create';
-import define from '../../../define';
-import { getNote } from '../../../common/getters';
-import { ApiError } from '../../../error';
+import createReaction from '@/services/note/reaction/create.js';
+import define from '../../../define.js';
+import { getNote } from '../../../common/getters.js';
+import { ApiError } from '../../../error.js';
 
 export const meta = {
 	tags: ['reactions', 'notes'],
@@ -31,7 +31,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },

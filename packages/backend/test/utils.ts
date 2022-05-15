@@ -1,14 +1,18 @@
-import * as fs from 'fs';
+import * as fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 import * as WebSocket from 'ws';
 import * as misskey from 'misskey-js';
 import fetch from 'node-fetch';
-const FormData = require('form-data');
+import FormData from 'form-data';
 import * as childProcess from 'child_process';
-import * as http from 'http';
-import loadConfig from '../src/config/load';
+import * as http from 'node:http';
+import loadConfig from '../src/config/load.js';
 import { SIGKILL } from 'constants';
-import { createConnection, getConnection } from 'typeorm';
-import { entities } from '../src/db/postgre';
+import { entities } from '../src/db/postgre.js';
+
+const _filename = fileURLToPath(import.meta.url);
+const _dirname = dirname(_filename);
 
 const config = loadConfig();
 export const port = config.port;
@@ -73,7 +77,7 @@ export const react = async (user: any, note: any, reaction: string): Promise<any
 export const uploadFile = (user: any, path?: string): Promise<any> => {
 		const formData = new FormData();
 		formData.append('i', user.token);
-		formData.append('file', fs.createReadStream(path || __dirname + '/resources/Lenna.png'));
+		formData.append('file', fs.createReadStream(path || _dirname + '/resources/Lenna.png'));
 
 		return fetch(`http://localhost:${port}/api/drive/files/create`, {
 			method: 'post',
@@ -140,7 +144,7 @@ export const simpleGet = async (path: string, accept = '*/*'): Promise<{ status?
 
 export function launchServer(callbackSpawnedProcess: (p: childProcess.ChildProcess) => void, moreProcess: () => Promise<void> = async () => {}) {
 	return (done: (err?: Error) => any) => {
-		const p = childProcess.spawn('node', [__dirname + '/../index.js'], {
+		const p = childProcess.spawn('node', [_dirname + '/../index.js'], {
 			stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
 			env: { NODE_ENV: 'test', PATH: process.env.PATH }
 		});
@@ -179,7 +183,7 @@ export function startServer(timeout = 30 * 1000): Promise<childProcess.ChildProc
 			rej('timeout to start');
 		}, timeout);
 
-		const p = childProcess.spawn('node', [__dirname + '/../built/index.js'], {
+		const p = childProcess.spawn('node', [_dirname + '/../built/index.js'], {
 			stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
 			env: { NODE_ENV: 'test', PATH: process.env.PATH }
 		});

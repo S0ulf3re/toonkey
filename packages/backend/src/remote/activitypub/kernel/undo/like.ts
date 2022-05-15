@@ -1,12 +1,12 @@
-import { IRemoteUser } from '@/models/entities/user';
-import { ILike, getApId } from '../../type';
-import deleteReaction from '@/services/note/reaction/delete';
-import { fetchNote } from '../../models/note';
+import { CacheableRemoteUser } from '@/models/entities/user.js';
+import { ILike, getApId } from '../../type.js';
+import deleteReaction from '@/services/note/reaction/delete.js';
+import { fetchNote } from '../../models/note.js';
 
 /**
  * Process Undo.Like activity
  */
-export default async (actor: IRemoteUser, activity: ILike) => {
+export default async (actor: CacheableRemoteUser, activity: ILike) => {
 	const targetUri = getApId(activity.object);
 
 	const note = await fetchNote(targetUri);

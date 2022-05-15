@@ -1,5 +1,5 @@
-import define from '../../define';
-import { createNotification } from '@/services/create-notification';
+import define from '../../define.js';
+import { createNotification } from '@/services/create-notification.js';
 
 export const meta = {
 	tags: ['notifications'],
@@ -12,7 +12,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		body: { type: 'string' },

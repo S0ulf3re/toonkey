@@ -1,7 +1,7 @@
-import config from '@/config/index';
-import define from '../../define';
-import { Instances } from '@/models/index';
-import { fetchMeta } from '@/misc/fetch-meta';
+import config from '@/config/index.js';
+import define from '../../define.js';
+import { Instances } from '@/models/index.js';
+import { fetchMeta } from '@/misc/fetch-meta.js';
 
 export const meta = {
 	tags: ['federation'],
@@ -19,10 +19,10 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
-		host: { type: 'string', nullable: true },
+		host: { type: 'string', nullable: true, description: 'Omit or use `null` to not filter by host.' },
 		blocked: { type: 'boolean', nullable: true },
 		notResponding: { type: 'boolean', nullable: true },
 		suspended: { type: 'boolean', nullable: true },
@@ -55,10 +55,6 @@ export default define(meta, paramDef, async (ps, me) => {
 		case '-caughtAt': query.orderBy('instance.caughtAt', 'ASC'); break;
 		case '+lastCommunicatedAt': query.orderBy('instance.lastCommunicatedAt', 'DESC'); break;
 		case '-lastCommunicatedAt': query.orderBy('instance.lastCommunicatedAt', 'ASC'); break;
-		case '+driveUsage': query.orderBy('instance.driveUsage', 'DESC'); break;
-		case '-driveUsage': query.orderBy('instance.driveUsage', 'ASC'); break;
-		case '+driveFiles': query.orderBy('instance.driveFiles', 'DESC'); break;
-		case '-driveFiles': query.orderBy('instance.driveFiles', 'ASC'); break;
 
 		default: query.orderBy('instance.id', 'DESC'); break;
 	}

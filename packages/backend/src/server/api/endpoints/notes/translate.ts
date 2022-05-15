@@ -1,12 +1,12 @@
-import define from '../../define';
-import { getNote } from '../../common/getters';
-import { ApiError } from '../../error';
+import { URLSearchParams } from 'node:url';
 import fetch from 'node-fetch';
-import config from '@/config/index';
-import { getAgentByUrl } from '@/misc/fetch';
-import { URLSearchParams } from 'url';
-import { fetchMeta } from '@/misc/fetch-meta';
-import { Notes } from '@/models';
+import config from '@/config/index.js';
+import { getAgentByUrl } from '@/misc/fetch.js';
+import { fetchMeta } from '@/misc/fetch-meta.js';
+import { Notes } from '@/models/index.js';
+import { ApiError } from '../../error.js';
+import { getNote } from '../../common/getters.js';
+import define from '../../define.js';
 
 export const meta = {
 	tags: ['notes'],
@@ -27,7 +27,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },
@@ -75,11 +75,17 @@ export default define(meta, paramDef, async (ps, user) => {
 			Accept: 'application/json, */*',
 		},
 		body: params,
-		timeout: 10000,
+		// TODO
+		//timeout: 10000,
 		agent: getAgentByUrl,
 	});
 
-	const json = await res.json();
+	const json = (await res.json()) as {
+		translations: {
+			detected_source_language: string;
+			text: string;
+		}[];
+	};
 
 	return {
 		sourceLang: json.translations[0].detected_source_language,

@@ -1,7 +1,7 @@
-import define from '../../../define';
-import unwatch from '@/services/note/unwatch';
-import { getNote } from '../../../common/getters';
-import { ApiError } from '../../../error';
+import define from '../../../define.js';
+import unwatch from '@/services/note/unwatch.js';
+import { getNote } from '../../../common/getters.js';
+import { ApiError } from '../../../error.js';
 
 export const meta = {
 	tags: ['notes'],
@@ -19,7 +19,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },

@@ -1,5 +1,5 @@
-import define from '../define';
-import endpoints from '../endpoints';
+import define from '../define.js';
+import endpoints from '../endpoints.js';
 
 export const meta = {
 	requireCredential: false,
@@ -22,7 +22,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],

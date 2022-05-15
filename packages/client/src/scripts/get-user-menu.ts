@@ -6,6 +6,7 @@ import * as os from '@/os';
 import { userActions } from '@/store';
 import { router } from '@/router';
 import { $i, iAmModerator } from '@/account';
+import { defineAsyncComponent } from 'vue';
 
 export function getUserMenu(user) {
 	const meId = $i ? $i.id : null;
@@ -56,11 +57,44 @@ export function getUserMenu(user) {
 	}
 
 	async function toggleMute() {
-		os.apiWithDialog(user.isMuted ? 'mute/delete' : 'mute/create', {
-			userId: user.id
-		}).then(() => {
-			user.isMuted = !user.isMuted;
-		});
+		if (user.isMuted) {
+			os.apiWithDialog('mute/delete', {
+				userId: user.id,
+			}).then(() => {
+				user.isMuted = false;
+			});
+		} else {
+			const { canceled, result: period } = await os.select({
+				title: i18n.ts.mutePeriod,
+				items: [{
+					value: 'indefinitely', text: i18n.ts.indefinitely,
+				}, {
+					value: 'tenMinutes', text: i18n.ts.tenMinutes,
+				}, {
+					value: 'oneHour', text: i18n.ts.oneHour,
+				}, {
+					value: 'oneDay', text: i18n.ts.oneDay,
+				}, {
+					value: 'oneWeek', text: i18n.ts.oneWeek,
+				}],
+				default: 'indefinitely',
+			});
+			if (canceled) return;
+
+			const expiresAt = period === 'indefinitely' ? null
+				: period === 'tenMinutes' ? Date.now() + (1000 * 60 * 10)
+				: period === 'oneHour' ? Date.now() + (1000 * 60 * 60)
+				: period === 'oneDay' ? Date.now() + (1000 * 60 * 60 * 24)
+				: period === 'oneWeek' ? Date.now() + (1000 * 60 * 60 * 24 * 7)
+				: null;
+
+			os.apiWithDialog('mute/create', {
+				userId: user.id,
+				expiresAt,
+			}).then(() => {
+				user.isMuted = true;
+			});
+		}
 	}
 
 	async function toggleBlock() {
@@ -94,7 +128,7 @@ export function getUserMenu(user) {
 	}
 
 	function reportAbuse() {
-		os.popup(import('@/components/abuse-report-window.vue'), {
+		os.popup(defineAsyncComponent(() => import('@/components/abuse-report-window.vue')), {
 			user: user,
 		}, {}, 'closed');
 	}
@@ -135,7 +169,7 @@ export function getUserMenu(user) {
 		action: () => {
 			os.post({ specified: user });
 		}
-	}, meId != user.id ? {
+	}, meId !== user.id ? {
 		type: 'link',
 		icon: 'fas fa-comments',
 		text: i18n.ts.startMessaging,
@@ -144,13 +178,13 @@ export function getUserMenu(user) {
 		icon: 'fas fa-list-ul',
 		text: i18n.ts.addToList,
 		action: pushList
-	}, meId != user.id ? {
+	}, meId !== user.id ? {
 		icon: 'fas fa-users',
 		text: i18n.ts.inviteToGroup,
 		action: inviteGroup
 	} : undefined] as any;
 
-	if ($i && meId != user.id) {
+	if ($i && meId !== user.id) {
 		menu = menu.concat([null, {
 			icon: user.isMuted ? 'fas fa-eye' : 'fas fa-eye-slash',
 			text: user.isMuted ? i18n.ts.unmute : i18n.ts.mute,

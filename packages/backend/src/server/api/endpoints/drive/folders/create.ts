@@ -1,8 +1,8 @@
-import { publishDriveStream } from '@/services/stream';
-import define from '../../../define';
-import { ApiError } from '../../../error';
-import { DriveFolders } from '@/models/index';
-import { genId } from '@/misc/gen-id';
+import { publishDriveStream } from '@/services/stream.js';
+import define from '../../../define.js';
+import { ApiError } from '../../../error.js';
+import { DriveFolders } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
 
 export const meta = {
 	tags: ['drive'],
@@ -26,7 +26,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		name: { type: 'string', default: "Untitled", maxLength: 200 },
@@ -41,7 +41,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	let parent = null;
 	if (ps.parentId) {
 		// Fetch parent folder
-		parent = await DriveFolders.findOne({
+		parent = await DriveFolders.findOneBy({
 			id: ps.parentId,
 			userId: user.id,
 		});
@@ -58,7 +58,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		name: ps.name,
 		parentId: parent !== null ? parent.id : null,
 		userId: user.id,
-	}).then(x => DriveFolders.findOneOrFail(x.identifiers[0]));
+	}).then(x => DriveFolders.findOneByOrFail(x.identifiers[0]));
 
 	const folderObj = await DriveFolders.pack(folder);
 

@@ -1,17 +1,17 @@
-import * as Bull from 'bull';
+import Bull from 'bull';
 
-import { queueLogger } from '../../logger';
-import { deleteFileSync } from '@/services/drive/delete-file';
-import { Users, DriveFiles } from '@/models/index';
+import { queueLogger } from '../../logger.js';
+import { deleteFileSync } from '@/services/drive/delete-file.js';
+import { Users, DriveFiles } from '@/models/index.js';
 import { MoreThan } from 'typeorm';
-import { DbUserJobData } from '@/queue/types';
+import { DbUserJobData } from '@/queue/types.js';
 
 const logger = queueLogger.createSubLogger('delete-drive-files');
 
 export async function deleteDriveFiles(job: Bull.Job<DbUserJobData>, done: any): Promise<void> {
 	logger.info(`Deleting drive files of ${job.data.user.id} ...`);
 
-	const user = await Users.findOne(job.data.user.id);
+	const user = await Users.findOneBy({ id: job.data.user.id });
 	if (user == null) {
 		done();
 		return;
@@ -44,7 +44,7 @@ export async function deleteDriveFiles(job: Bull.Job<DbUserJobData>, done: any):
 			deletedCount++;
 		}
 
-		const total = await DriveFiles.count({
+		const total = await DriveFiles.countBy({
 			userId: user.id,
 		});
 

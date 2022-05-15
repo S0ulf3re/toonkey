@@ -1,24 +1,25 @@
-import { IObject, isCreate, isDelete, isUpdate, isRead, isFollow, isAccept, isReject, isAdd, isRemove, isAnnounce, isLike, isUndo, isBlock, isCollectionOrOrderedCollection, isCollection, isFlag } from '../type';
-import { IRemoteUser } from '@/models/entities/user';
-import create from './create/index';
-import performDeleteActivity from './delete/index';
-import performUpdateActivity from './update/index';
-import { performReadActivity } from './read';
-import follow from './follow';
-import undo from './undo/index';
-import like from './like';
-import announce from './announce/index';
-import accept from './accept/index';
-import reject from './reject/index';
-import add from './add/index';
-import remove from './remove/index';
-import block from './block/index';
-import flag from './flag/index';
-import { apLogger } from '../logger';
-import Resolver from '../resolver';
-import { toArray } from '@/prelude/array';
+import { IObject, isCreate, isDelete, isUpdate, isRead, isFollow, isAccept, isReject, isAdd, isRemove, isAnnounce, isLike, isUndo, isBlock, isCollectionOrOrderedCollection, isCollection, isFlag } from '../type.js';
+import { CacheableRemoteUser } from '@/models/entities/user.js';
+import create from './create/index.js';
+import performDeleteActivity from './delete/index.js';
+import performUpdateActivity from './update/index.js';
+import { performReadActivity } from './read.js';
+import follow from './follow.js';
+import undo from './undo/index.js';
+import like from './like.js';
+import announce from './announce/index.js';
+import accept from './accept/index.js';
+import reject from './reject/index.js';
+import add from './add/index.js';
+import remove from './remove/index.js';
+import block from './block/index.js';
+import flag from './flag/index.js';
+import { apLogger } from '../logger.js';
+import Resolver from '../resolver.js';
+import { toArray } from '@/prelude/array.js';
+import { Users } from '@/models/index.js';
 
-export async function performActivity(actor: IRemoteUser, activity: IObject) {
+export async function performActivity(actor: CacheableRemoteUser, activity: IObject) {
 	if (isCollectionOrOrderedCollection(activity)) {
 		const resolver = new Resolver();
 		for (const item of toArray(isCollection(activity) ? activity.items : activity.orderedItems)) {
@@ -36,7 +37,7 @@ export async function performActivity(actor: IRemoteUser, activity: IObject) {
 	}
 }
 
-async function performOneActivity(actor: IRemoteUser, activity: IObject): Promise<void> {
+async function performOneActivity(actor: CacheableRemoteUser, activity: IObject): Promise<void> {
 	if (actor.isSuspended) return;
 
 	if (isCreate(activity)) {

@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn, Index, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { User } from './user';
-import { App } from './app';
-import { id } from '../id';
+import { User } from './user.js';
+import { App } from './app.js';
+import { id } from '../id.js';
 
 @Entity()
 export class AuthSession {
@@ -23,7 +23,7 @@ export class AuthSession {
 		...id(),
 		nullable: true,
 	})
-	public userId: User['id'];
+	public userId: User['id'] | null;
 
 	@ManyToOne(type => User, {
 		onDelete: 'CASCADE',

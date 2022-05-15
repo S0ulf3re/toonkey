@@ -1,7 +1,7 @@
-import define from '../define';
-import { publishMainStream } from '@/services/stream';
-import { Users, Pages } from '@/models/index';
-import { ApiError } from '../error';
+import define from '../define.js';
+import { publishMainStream } from '@/services/stream.js';
+import { Users, Pages } from '@/models/index.js';
+import { ApiError } from '../error.js';
 
 export const meta = {
 	requireCredential: true,
@@ -16,7 +16,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		pageId: { type: 'string', format: 'misskey:id' },
@@ -28,7 +28,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const page = await Pages.findOne(ps.pageId);
+	const page = await Pages.findOneBy({ id: ps.pageId });
 	if (page == null) {
 		throw new ApiError(meta.errors.noSuchPage);
 	}

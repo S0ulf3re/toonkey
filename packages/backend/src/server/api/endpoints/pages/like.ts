@@ -1,7 +1,7 @@
-import define from '../../define';
-import { ApiError } from '../../error';
-import { Pages, PageLikes } from '@/models/index';
-import { genId } from '@/misc/gen-id';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
+import { Pages, PageLikes } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
 
 export const meta = {
 	tags: ['pages'],
@@ -31,7 +31,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		pageId: { type: 'string', format: 'misskey:id' },
@@ -41,7 +41,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const page = await Pages.findOne(ps.pageId);
+	const page = await Pages.findOneBy({ id: ps.pageId });
 	if (page == null) {
 		throw new ApiError(meta.errors.noSuchPage);
 	}
@@ -51,7 +51,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	}
 
 	// if already liked
-	const exist = await PageLikes.findOne({
+	const exist = await PageLikes.findOneBy({
 		pageId: page.id,
 		userId: user.id,
 	});

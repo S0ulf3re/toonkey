@@ -1,6 +1,6 @@
-import define from '../../../define';
-import { DriveFiles } from '@/models/index';
-import { makePaginationQuery } from '../../../common/make-pagination-query';
+import define from '../../../define.js';
+import { DriveFiles } from '@/models/index.js';
+import { makePaginationQuery } from '../../../common/make-pagination-query.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -19,7 +19,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
@@ -27,7 +27,12 @@ const paramDef = {
 		untilId: { type: 'string', format: 'misskey:id' },
 		type: { type: 'string', nullable: true, pattern: /^[a-zA-Z0-9\/\-*]+$/.toString().slice(1, -1) },
 		origin: { type: 'string', enum: ['combined', 'local', 'remote'], default: "local" },
-		hostname: { type: 'string', nullable: true, default: null },
+		hostname: {
+			type: 'string',
+			nullable: true,
+			default: null,
+			description: 'The local host is represented with `null`.',
+		},
 	},
 	required: [],
 } as const;

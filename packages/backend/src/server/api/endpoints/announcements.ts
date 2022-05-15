@@ -1,6 +1,6 @@
-import define from '../define';
-import { Announcements, AnnouncementReads } from '@/models/index';
-import { makePaginationQuery } from '../common/make-pagination-query';
+import define from '../define.js';
+import { Announcements, AnnouncementReads } from '@/models/index.js';
+import { makePaginationQuery } from '../common/make-pagination-query.js';
 
 export const meta = {
 	tags: ['meta'],
@@ -51,7 +51,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
@@ -69,7 +69,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	const announcements = await query.take(ps.limit).getMany();
 
 	if (user) {
-		const reads = (await AnnouncementReads.find({
+		const reads = (await AnnouncementReads.findBy({
 			userId: user.id,
 		})).map(x => x.announcementId);
 

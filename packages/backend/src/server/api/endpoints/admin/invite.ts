@@ -1,7 +1,7 @@
 import rndstr from 'rndstr';
-import define from '../../define';
-import { RegistrationTickets } from '@/models/index';
-import { genId } from '@/misc/gen-id';
+import define from '../../define.js';
+import { RegistrationTickets } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -24,7 +24,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],

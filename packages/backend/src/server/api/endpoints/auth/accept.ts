@@ -1,9 +1,9 @@
-import * as crypto from 'crypto';
-import define from '../../define';
-import { ApiError } from '../../error';
-import { AuthSessions, AccessTokens, Apps } from '@/models/index';
-import { genId } from '@/misc/gen-id';
-import { secureRndstr } from '@/misc/secure-rndstr';
+import * as crypto from 'node:crypto';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
+import { AuthSessions, AccessTokens, Apps } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
+import { secureRndstr } from '@/misc/secure-rndstr.js';
 
 export const meta = {
 	tags: ['auth'],
@@ -21,7 +21,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		token: { type: 'string' },
@@ -33,7 +33,7 @@ const paramDef = {
 export default define(meta, paramDef, async (ps, user) => {
 	// Fetch token
 	const session = await AuthSessions
-		.findOne({ token: ps.token });
+		.findOneBy({ token: ps.token });
 
 	if (session == null) {
 		throw new ApiError(meta.errors.noSuchSession);
@@ -43,14 +43,14 @@ export default define(meta, paramDef, async (ps, user) => {
 	const accessToken = secureRndstr(32, true);
 
 	// Fetch exist access token
-	const exist = await AccessTokens.findOne({
+	const exist = await AccessTokens.findOneBy({
 		appId: session.appId,
 		userId: user.id,
 	});
 
 	if (exist == null) {
 		// Lookup app
-		const app = await Apps.findOneOrFail(session.appId);
+		const app = await Apps.findOneByOrFail({ id: session.appId });
 
 		// Generate Hash
 		const sha256 = crypto.createHash('sha256');

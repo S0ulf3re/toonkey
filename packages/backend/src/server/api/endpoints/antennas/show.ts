@@ -1,6 +1,6 @@
-import define from '../../define';
-import { ApiError } from '../../error';
-import { Antennas } from '@/models/index';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
+import { Antennas } from '@/models/index.js';
 
 export const meta = {
 	tags: ['antennas', 'account'],
@@ -24,7 +24,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		antennaId: { type: 'string', format: 'misskey:id' },
@@ -35,7 +35,7 @@ const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
 	// Fetch the antenna
-	const antenna = await Antennas.findOne({
+	const antenna = await Antennas.findOneBy({
 		id: ps.antennaId,
 		userId: me.id,
 	});

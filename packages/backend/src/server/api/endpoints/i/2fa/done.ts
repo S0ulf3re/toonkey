@@ -1,6 +1,6 @@
 import * as speakeasy from 'speakeasy';
-import define from '../../../define';
-import { UserProfiles } from '@/models/index';
+import define from '../../../define.js';
+import { UserProfiles } from '@/models/index.js';
 
 export const meta = {
 	requireCredential: true,
@@ -8,7 +8,7 @@ export const meta = {
 	secure: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		token: { type: 'string' },
@@ -20,7 +20,7 @@ const paramDef = {
 export default define(meta, paramDef, async (ps, user) => {
 	const token = ps.token.replace(/\s/g, '');
 
-	const profile = await UserProfiles.findOneOrFail(user.id);
+	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
 	if (profile.twoFactorTempSecret == null) {
 		throw new Error('二段階認証の設定が開始されていません');

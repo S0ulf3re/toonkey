@@ -1,6 +1,6 @@
-import define from '../../define';
-import { getJsonSchema } from '@/services/chart/core';
-import { usersChart } from '@/services/chart/index';
+import define from '../../define.js';
+import { getJsonSchema } from '@/services/chart/core.js';
+import { usersChart } from '@/services/chart/index.js';
 
 export const meta = {
 	tags: ['charts', 'users'],
@@ -8,7 +8,7 @@ export const meta = {
 	res: getJsonSchema(usersChart.schema),
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		span: { type: 'string', enum: ['day', 'hour'] },

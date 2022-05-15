@@ -1,10 +1,12 @@
-import { publishMainStream } from '@/services/stream';
-import define from '../../define';
-import { Notifications } from '@/models/index';
-import { readNotification } from '../../common/read-notification';
-import { ApiError } from '../../error';
+import define from '../../define.js';
+import { readNotification } from '../../common/read-notification.js';
 
 export const meta = {
+	desc: {
+		'ja-JP': '通知を既読にします。',
+		'en-US': 'Mark a notification as read.'
+	},
+
 	tags: ['notifications', 'account'],
 
 	requireCredential: true,
@@ -20,24 +22,27 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
-	type: 'object',
-	properties: {
-		notificationId: { type: 'string', format: 'misskey:id' },
-	},
-	required: ['notificationId'],
+export const paramDef = {
+	oneOf: [
+		{
+			type: 'object',
+			properties: {
+				notificationId: { type: 'string', format: 'misskey:id' },
+			},
+			required: ['notificationId'],
+		},
+		{
+			type: 'object',
+			properties: {
+				notificationIds: { type: 'array', items: { type: 'string', format: 'misskey:id' } },
+			},
+			required: ['notificationIds'],
+		},
+	],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const notification = await Notifications.findOne({
-		notifieeId: user.id,
-		id: ps.notificationId,
-	});
-
-	if (notification == null) {
-		throw new ApiError(meta.errors.noSuchNotification);
-	}
-
-	readNotification(user.id, [notification.id]);
+	if ('notificationId' in ps) return readNotification(user.id, [ps.notificationId]);
+	return readNotification(user.id, ps.notificationIds);
 });

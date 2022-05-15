@@ -1,8 +1,8 @@
-import define from '../../define';
-import { ClipNotes, Clips } from '@/models/index';
-import { ApiError } from '../../error';
-import { genId } from '@/misc/gen-id';
-import { getNote } from '../../common/getters';
+import define from '../../define.js';
+import { ClipNotes, Clips } from '@/models/index.js';
+import { ApiError } from '../../error.js';
+import { genId } from '@/misc/gen-id.js';
+import { getNote } from '../../common/getters.js';
 
 export const meta = {
 	tags: ['account', 'notes', 'clips'],
@@ -32,7 +32,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		clipId: { type: 'string', format: 'misskey:id' },
@@ -43,7 +43,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const clip = await Clips.findOne({
+	const clip = await Clips.findOneBy({
 		id: ps.clipId,
 		userId: user.id,
 	});
@@ -57,7 +57,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		throw e;
 	});
 
-	const exist = await ClipNotes.findOne({
+	const exist = await ClipNotes.findOneBy({
 		noteId: note.id,
 		clipId: clip.id,
 	});

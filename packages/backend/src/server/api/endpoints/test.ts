@@ -1,10 +1,10 @@
-import define from '../define';
+import define from '../define.js';
 
 export const meta = {
 	requireCredential: false,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		required: { type: 'boolean' },

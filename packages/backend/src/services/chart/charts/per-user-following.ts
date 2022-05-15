@@ -1,9 +1,8 @@
-import autobind from 'autobind-decorator';
-import Chart, { KVs } from '../core';
-import { Followings, Users } from '@/models/index';
+import Chart, { KVs } from '../core.js';
+import { Followings, Users } from '@/models/index.js';
 import { Not, IsNull } from 'typeorm';
-import { User } from '@/models/entities/user';
-import { name, schema } from './entities/per-user-following';
+import { User } from '@/models/entities/user.js';
+import { name, schema } from './entities/per-user-following.js';
 
 /**
  * ユーザーごとのフォローに関するチャート
@@ -14,7 +13,6 @@ export default class PerUserFollowingChart extends Chart<typeof schema> {
 		super(name, schema, true);
 	}
 
-	@autobind
 	protected async tickMajor(group: string): Promise<Partial<KVs<typeof schema>>> {
 		const [
 			localFollowingsCount,
@@ -22,10 +20,10 @@ export default class PerUserFollowingChart extends Chart<typeof schema> {
 			remoteFollowingsCount,
 			remoteFollowersCount,
 		] = await Promise.all([
-			Followings.count({ followerId: group, followeeHost: null }),
-			Followings.count({ followeeId: group, followerHost: null }),
-			Followings.count({ followerId: group, followeeHost: Not(IsNull()) }),
-			Followings.count({ followeeId: group, followerHost: Not(IsNull()) }),
+			Followings.countBy({ followerId: group, followeeHost: IsNull() }),
+			Followings.countBy({ followeeId: group, followerHost: IsNull() }),
+			Followings.countBy({ followerId: group, followeeHost: Not(IsNull()) }),
+			Followings.countBy({ followeeId: group, followerHost: Not(IsNull()) }),
 		]);
 
 		return {
@@ -36,12 +34,10 @@ export default class PerUserFollowingChart extends Chart<typeof schema> {
 		};
 	}
 
-	@autobind
 	protected async tickMinor(): Promise<Partial<KVs<typeof schema>>> {
 		return {};
 	}
 
-	@autobind
 	public async update(follower: { id: User['id']; host: User['host']; }, followee: { id: User['id']; host: User['host']; }, isFollow: boolean): Promise<void> {
 		const prefixFollower = Users.isLocalUser(follower) ? 'local' : 'remote';
 		const prefixFollowee = Users.isLocalUser(followee) ? 'local' : 'remote';

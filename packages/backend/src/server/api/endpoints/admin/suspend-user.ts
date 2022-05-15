@@ -1,10 +1,10 @@
-import define from '../../define';
-import deleteFollowing from '@/services/following/delete';
-import { Users, Followings, Notifications } from '@/models/index';
-import { User } from '@/models/entities/user';
-import { insertModerationLog } from '@/services/insert-moderation-log';
-import { doPostSuspend } from '@/services/suspend-user';
-import { publishUserEvent } from '@/services/stream';
+import define from '../../define.js';
+import deleteFollowing from '@/services/following/delete.js';
+import { Users, Followings, Notifications } from '@/models/index.js';
+import { User } from '@/models/entities/user.js';
+import { insertModerationLog } from '@/services/insert-moderation-log.js';
+import { doPostSuspend } from '@/services/suspend-user.js';
+import { publishUserEvent } from '@/services/stream.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -13,7 +13,7 @@ export const meta = {
 	requireModerator: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		userId: { type: 'string', format: 'misskey:id' },
@@ -23,7 +23,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const user = await Users.findOne(ps.userId as string);
+	const user = await Users.findOneBy({ id: ps.userId });
 
 	if (user == null) {
 		throw new Error('user not found');
@@ -58,12 +58,12 @@ export default define(meta, paramDef, async (ps, me) => {
 });
 
 async function unFollowAll(follower: User) {
-	const followings = await Followings.find({
+	const followings = await Followings.findBy({
 		followerId: follower.id,
 	});
 
 	for (const following of followings) {
-		const followee = await Users.findOne({
+		const followee = await Users.findOneBy({
 			id: following.followeeId,
 		});
 

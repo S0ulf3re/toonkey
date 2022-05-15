@@ -1,8 +1,8 @@
-import define from '../../define';
-import { ApiError } from '../../error';
-import { getNote } from '../../common/getters';
-import { Note } from '@/models/entities/note';
-import { Notes } from '@/models/index';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
+import { getNote } from '../../common/getters.js';
+import { Note } from '@/models/entities/note.js';
+import { Notes } from '@/models/index.js';
 
 export const meta = {
 	tags: ['notes'],
@@ -28,7 +28,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },
@@ -50,14 +50,14 @@ export default define(meta, paramDef, async (ps, user) => {
 
 	async function get(id: any) {
 		i++;
-		const p = await Notes.findOne(id);
+		const p = await Notes.findOneBy({ id });
 		if (p == null) return;
 
 		if (i > ps.offset!) {
 			conversation.push(p);
 		}
 
-		if (conversation.length == ps.limit) {
+		if (conversation.length === ps.limit) {
 			return;
 		}
 

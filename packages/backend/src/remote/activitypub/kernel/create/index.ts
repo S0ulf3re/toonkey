@@ -1,13 +1,13 @@
-import Resolver from '../../resolver';
-import { IRemoteUser } from '@/models/entities/user';
-import createNote from './note';
-import { ICreate, getApId, isPost, getApType } from '../../type';
-import { apLogger } from '../../logger';
-import { toArray, concat, unique } from '@/prelude/array';
+import Resolver from '../../resolver.js';
+import { CacheableRemoteUser } from '@/models/entities/user.js';
+import createNote from './note.js';
+import { ICreate, getApId, isPost, getApType } from '../../type.js';
+import { apLogger } from '../../logger.js';
+import { toArray, concat, unique } from '@/prelude/array.js';
 
 const logger = apLogger;
 
-export default async (actor: IRemoteUser, activity: ICreate): Promise<void> => {
+export default async (actor: CacheableRemoteUser, activity: ICreate): Promise<void> => {
 	const uri = getApId(activity);
 
 	logger.info(`Create: ${uri}`);

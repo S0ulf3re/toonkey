@@ -1,7 +1,7 @@
-import define from '../../define';
-import { Users } from '@/models/index';
-import { insertModerationLog } from '@/services/insert-moderation-log';
-import { doPostUnsuspend } from '@/services/unsuspend-user';
+import define from '../../define.js';
+import { Users } from '@/models/index.js';
+import { insertModerationLog } from '@/services/insert-moderation-log.js';
+import { doPostUnsuspend } from '@/services/unsuspend-user.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -10,7 +10,7 @@ export const meta = {
 	requireModerator: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		userId: { type: 'string', format: 'misskey:id' },
@@ -20,7 +20,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const user = await Users.findOne(ps.userId as string);
+	const user = await Users.findOneBy({ id: ps.userId });
 
 	if (user == null) {
 		throw new Error('user not found');

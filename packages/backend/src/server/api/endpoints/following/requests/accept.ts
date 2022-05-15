@@ -1,7 +1,7 @@
-import acceptFollowRequest from '@/services/following/requests/accept';
-import define from '../../../define';
-import { ApiError } from '../../../error';
-import { getUser } from '../../../common/getters';
+import acceptFollowRequest from '@/services/following/requests/accept.js';
+import define from '../../../define.js';
+import { ApiError } from '../../../error.js';
+import { getUser } from '../../../common/getters.js';
 
 export const meta = {
 	tags: ['following', 'account'],
@@ -24,7 +24,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		userId: { type: 'string', format: 'misskey:id' },

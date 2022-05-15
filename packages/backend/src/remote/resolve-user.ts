@@ -1,21 +1,22 @@
-import { URL } from 'url';
-import webFinger from './webfinger';
-import config from '@/config/index';
-import { createPerson, updatePerson } from './activitypub/models/person';
-import { remoteLogger } from './logger';
-import * as chalk from 'chalk';
-import { User, IRemoteUser } from '@/models/entities/user';
-import { Users } from '@/models/index';
-import { toPuny } from '@/misc/convert-host';
+import { URL } from 'node:url';
+import webFinger from './webfinger.js';
+import config from '@/config/index.js';
+import { createPerson, updatePerson } from './activitypub/models/person.js';
+import { remoteLogger } from './logger.js';
+import chalk from 'chalk';
+import { User, IRemoteUser } from '@/models/entities/user.js';
+import { Users } from '@/models/index.js';
+import { toPuny } from '@/misc/convert-host.js';
+import { IsNull } from 'typeorm';
 
 const logger = remoteLogger.createSubLogger('resolve-user');
 
-export async function resolveUser(username: string, host: string | null, option?: any, resync = false): Promise<User> {
+export async function resolveUser(username: string, host: string | null): Promise<User> {
 	const usernameLower = username.toLowerCase();
 
 	if (host == null) {
 		logger.info(`return local user: ${usernameLower}`);
-		return await Users.findOne({ usernameLower, host: null }).then(u => {
+		return await Users.findOneBy({ usernameLower, host: IsNull() }).then(u => {
 			if (u == null) {
 				throw new Error('user not found');
 			} else {
@@ -26,9 +27,9 @@ export async function resolveUser(username: string, host: string | null, option?
 
 	host = toPuny(host);
 
-	if (config.host == host) {
+	if (config.host === host) {
 		logger.info(`return local user: ${usernameLower}`);
-		return await Users.findOne({ usernameLower, host: null }).then(u => {
+		return await Users.findOneBy({ usernameLower, host: IsNull() }).then(u => {
 			if (u == null) {
 				throw new Error('user not found');
 			} else {
@@ -37,7 +38,7 @@ export async function resolveUser(username: string, host: string | null, option?
 		});
 	}
 
-	const user = await Users.findOne({ usernameLower, host }, option) as IRemoteUser | null;
+	const user = await Users.findOneBy({ usernameLower, host }) as IRemoteUser | null;
 
 	const acctLower = `${usernameLower}@${host}`;
 
@@ -48,8 +49,8 @@ export async function resolveUser(username: string, host: string | null, option?
 		return await createPerson(self.href);
 	}
 
-	// resyncオプション OR ユーザー情報が古い場合は、WebFilgerからやりなおして返す
-	if (resync || user.lastFetchedAt == null || Date.now() - user.lastFetchedAt.getTime() > 1000 * 60 * 60 * 24) {
+	// ユーザー情報が古い場合は、WebFilgerからやりなおして返す
+	if (user.lastFetchedAt == null || Date.now() - user.lastFetchedAt.getTime() > 1000 * 60 * 60 * 24) {
 		// 繋がらないインスタンスに何回も試行するのを防ぐ, 後続の同様処理の連続試行を防ぐ ため 試行前にも更新する
 		await Users.update(user.id, {
 			lastFetchedAt: new Date(),
@@ -82,7 +83,7 @@ export async function resolveUser(username: string, host: string | null, option?
 		await updatePerson(self.href);
 
 		logger.info(`return resynced remote user: ${acctLower}`);
-		return await Users.findOne({ uri: self.href }).then(u => {
+		return await Users.findOneBy({ uri: self.href }).then(u => {
 			if (u == null) {
 				throw new Error('user not found');
 			} else {

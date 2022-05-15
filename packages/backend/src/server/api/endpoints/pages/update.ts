@@ -1,7 +1,7 @@
 import ms from 'ms';
-import define from '../../define';
-import { ApiError } from '../../error';
-import { Pages, DriveFiles } from '@/models/index';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
+import { Pages, DriveFiles } from '@/models/index.js';
 import { Not } from 'typeorm';
 
 export const meta = {
@@ -42,7 +42,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		pageId: { type: 'string', format: 'misskey:id' },
@@ -66,7 +66,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const page = await Pages.findOne(ps.pageId);
+	const page = await Pages.findOneBy({ id: ps.pageId });
 	if (page == null) {
 		throw new ApiError(meta.errors.noSuchPage);
 	}
@@ -76,7 +76,7 @@ export default define(meta, paramDef, async (ps, user) => {
 
 	let eyeCatchingImage = null;
 	if (ps.eyeCatchingImageId != null) {
-		eyeCatchingImage = await DriveFiles.findOne({
+		eyeCatchingImage = await DriveFiles.findOneBy({
 			id: ps.eyeCatchingImageId,
 			userId: user.id,
 		});
@@ -86,7 +86,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		}
 	}
 
-	await Pages.find({
+	await Pages.findBy({
 		id: Not(ps.pageId),
 		userId: user.id,
 		name: ps.name,

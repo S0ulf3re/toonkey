@@ -1,5 +1,5 @@
-import define from '../../define';
-import { Users } from '@/models/index';
+import { Users } from '@/models/index.js';
+import define from '../../define.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -18,16 +18,21 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
 		offset: { type: 'integer', default: 0 },
 		sort: { type: 'string', enum: ['+follower', '-follower', '+createdAt', '-createdAt', '+updatedAt', '-updatedAt'] },
-		state: { type: 'string', enum: ['all', 'available', 'admin', 'moderator', 'adminOrModerator', 'silenced', 'suspended'], default: "all" },
-		origin: { type: 'string', enum: ['combined', 'local', 'remote'], default: "local" },
-		username: { type: 'string', default: null },
-		hostname: { type: 'string', default: null },
+		state: { type: 'string', enum: ['all', 'alive', 'available', 'admin', 'moderator', 'adminOrModerator', 'silenced', 'suspended'], default: 'all' },
+		origin: { type: 'string', enum: ['combined', 'local', 'remote'], default: 'local' },
+		username: { type: 'string', nullable: true, default: null },
+		hostname: {
+			type: 'string',
+			nullable: true,
+			default: null,
+			description: 'The local host is represented with `null`.',
+		},
 	},
 	required: [],
 } as const;

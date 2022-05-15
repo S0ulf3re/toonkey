@@ -1,6 +1,6 @@
-import define from '../../define';
-import { UserProfiles, Users } from '@/models/index';
-import { User } from '@/models/entities/user';
+import define from '../../define.js';
+import { UserProfiles, Users } from '@/models/index.js';
+import { User } from '@/models/entities/user.js';
 import { Brackets } from 'typeorm';
 
 export const meta = {
@@ -19,7 +19,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		query: { type: 'string' },
@@ -61,7 +61,14 @@ export default define(meta, paramDef, async (ps, me) => {
 			.getMany();
 	} else {
 		const nameQuery = Users.createQueryBuilder('user')
-			.where('user.name ILIKE :query', { query: '%' + ps.query + '%' })
+			.where(new Brackets(qb => { 
+				qb.where('user.name ILIKE :query', { query: '%' + ps.query + '%' });
+
+				// Also search username if it qualifies as username
+				if (Users.validateLocalUsername(ps.query)) {
+					qb.orWhere('user.usernameLower LIKE :username', { username: '%' + ps.query.toLowerCase() + '%' });
+				}
+			}))
 			.andWhere(new Brackets(qb => { qb
 				.where('user.updatedAt IS NULL')
 				.orWhere('user.updatedAt > :activeThreshold', { activeThreshold: activeThreshold });

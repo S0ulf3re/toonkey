@@ -1,7 +1,8 @@
-import define from '../../../define';
-import { Emojis } from '@/models/index';
-import { getConnection, In } from 'typeorm';
-import { ApiError } from '../../../error';
+import define from '../../../define.js';
+import { Emojis } from '@/models/index.js';
+import { In } from 'typeorm';
+import { ApiError } from '../../../error.js';
+import { db } from '@/db/postgre.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -10,7 +11,7 @@ export const meta = {
 	requireModerator: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		ids: { type: 'array', items: {
@@ -25,7 +26,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps) => {
-	const emojis = await Emojis.find({
+	const emojis = await Emojis.findBy({
 		id: In(ps.ids),
 	});
 
@@ -36,5 +37,5 @@ export default define(meta, paramDef, async (ps) => {
 		});
 	}
 
-	await getConnection().queryResultCache!.remove(['meta_emojis']);
+	await db.queryResultCache!.remove(['meta_emojis']);
 });

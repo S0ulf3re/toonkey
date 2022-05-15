@@ -1,11 +1,11 @@
 import { DOMWindow, JSDOM } from 'jsdom';
 import fetch from 'node-fetch';
-import { getJson, getHtml, getAgentByUrl } from '@/misc/fetch';
-import { Instance } from '@/models/entities/instance';
-import { Instances } from '@/models/index';
-import { getFetchInstanceMetadataLock } from '@/misc/app-lock';
-import Logger from './logger';
-import { URL } from 'url';
+import { getJson, getHtml, getAgentByUrl } from '@/misc/fetch.js';
+import { Instance } from '@/models/entities/instance.js';
+import { Instances } from '@/models/index.js';
+import { getFetchInstanceMetadataLock } from '@/misc/app-lock.js';
+import Logger from './logger.js';
+import { URL } from 'node:url';
 
 const logger = new Logger('metadata', 'cyan');
 
@@ -13,7 +13,7 @@ export async function fetchInstanceMetadata(instance: Instance, force = false): 
 	const unlock = await getFetchInstanceMetadataLock(instance.host);
 
 	if (!force) {
-		const _instance = await Instances.findOne({ host: instance.host });
+		const _instance = await Instances.findOneBy({ host: instance.host });
 		const now = Date.now();
 		if (_instance && _instance.infoUpdatedAt && (now - _instance.infoUpdatedAt.getTime() < 1000 * 60 * 60 * 24)) {
 			unlock();
@@ -97,7 +97,7 @@ async function fetchNodeinfo(instance: Instance): Promise<NodeInfo> {
 				} else {
 					throw e.statusCode || e.message;
 				}
-			});
+			}) as Record<string, unknown>;
 
 		if (wellknown.links == null || !Array.isArray(wellknown.links)) {
 			throw 'No wellknown links';
@@ -121,7 +121,7 @@ async function fetchNodeinfo(instance: Instance): Promise<NodeInfo> {
 
 		logger.succ(`Successfuly fetched nodeinfo of ${instance.host}`);
 
-		return info;
+		return info as NodeInfo;
 	} catch (e) {
 		logger.error(`Failed to fetch nodeinfo of ${instance.host}: ${e}`);
 
@@ -142,12 +142,12 @@ async function fetchDom(instance: Instance): Promise<DOMWindow['document']> {
 	return doc;
 }
 
-async function fetchManifest(instance: Instance): Promise<Record<string, any> | null> {
+async function fetchManifest(instance: Instance): Promise<Record<string, unknown> | null> {
 	const url = 'https://' + instance.host;
 
 	const manifestUrl = url + '/manifest.json';
 
-	const manifest = await getJson(manifestUrl);
+	const manifest = await getJson(manifestUrl) as Record<string, unknown>;
 
 	return manifest;
 }
@@ -156,7 +156,8 @@ async function fetchFaviconUrl(instance: Instance, doc: DOMWindow['document'] | 
 	const url = 'https://' + instance.host;
 
 	if (doc) {
-		const href = doc.querySelector('link[rel="icon"]')?.getAttribute('href');
+		// https://github.com/misskey-dev/misskey/pull/8220#issuecomment-1025104043
+		const href = Array.from(doc.getElementsByTagName('link')).reverse().find(link => link.relList.contains('icon'))?.href;
 
 		if (href) {
 			return (new URL(href, url)).href;
@@ -166,7 +167,8 @@ async function fetchFaviconUrl(instance: Instance, doc: DOMWindow['document'] | 
 	const faviconUrl = url + '/favicon.ico';
 
 	const favicon = await fetch(faviconUrl, {
-		timeout: 10000,
+		// TODO
+		//timeout: 10000,
 		agent: getAgentByUrl,
 	});
 
@@ -186,11 +188,16 @@ async function fetchIconUrl(instance: Instance, doc: DOMWindow['document'] | nul
 	if (doc) {
 		const url = 'https://' + instance.host;
 
-		const hrefAppleTouchIconPrecomposed = doc.querySelector('link[rel="apple-touch-icon-precomposed"]')?.getAttribute('href');
-		const hrefAppleTouchIcon = doc.querySelector('link[rel="apple-touch-icon"]')?.getAttribute('href');
-		const hrefIcon = doc.querySelector('link[rel="icon"]')?.getAttribute('href');
-
-		const href = hrefAppleTouchIconPrecomposed || hrefAppleTouchIcon || hrefIcon;
+		// https://github.com/misskey-dev/misskey/pull/8220#issuecomment-1025104043
+		const links = Array.from(doc.getElementsByTagName('link')).reverse();
+		// https://github.com/misskey-dev/misskey/pull/8220/files/0ec4eba22a914e31b86874f12448f88b3e58dd5a#r796487559
+		const href = 
+			[
+				links.find(link => link.relList.contains('apple-touch-icon-precomposed'))?.href,
+				links.find(link => link.relList.contains('apple-touch-icon'))?.href,
+				links.find(link => link.relList.contains('icon'))?.href,
+			]
+			.find(href => href);
 
 		if (href) {
 			return (new URL(href, url)).href;

@@ -1,8 +1,8 @@
-import define from '../../../define';
+import define from '../../../define.js';
 import ms from 'ms';
-import { ApiError } from '../../../error';
-import { MessagingMessages } from '@/models/index';
-import { deleteMessage } from '@/services/messages/delete';
+import { ApiError } from '../../../error.js';
+import { MessagingMessages } from '@/models/index.js';
+import { deleteMessage } from '@/services/messages/delete.js';
 
 export const meta = {
 	tags: ['messaging'],
@@ -26,7 +26,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		messageId: { type: 'string', format: 'misskey:id' },
@@ -36,7 +36,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const message = await MessagingMessages.findOne({
+	const message = await MessagingMessages.findOneBy({
 		id: ps.messageId,
 		userId: user.id,
 	});

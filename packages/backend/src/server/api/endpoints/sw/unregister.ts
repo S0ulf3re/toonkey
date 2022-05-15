@@ -1,5 +1,5 @@
-import define from '../../define';
-import { SwSubscriptions } from '../../../../models';
+import define from '../../define.js';
+import { SwSubscriptions } from '@/models/index.js';
 
 export const meta = {
 	tags: ['account'],
@@ -7,7 +7,7 @@ export const meta = {
 	requireCredential: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		endpoint: { type: 'string' },

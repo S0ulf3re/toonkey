@@ -1,7 +1,7 @@
-import define from '../../define';
-import { ClipNotes, Clips } from '@/models/index';
-import { getNote } from '../../common/getters';
-import { ApiError } from '../../error';
+import define from '../../define.js';
+import { ClipNotes, Clips } from '@/models/index.js';
+import { getNote } from '../../common/getters.js';
+import { ApiError } from '../../error.js';
 import { In } from 'typeorm';
 
 export const meta = {
@@ -28,7 +28,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },
@@ -43,11 +43,11 @@ export default define(meta, paramDef, async (ps, me) => {
 		throw e;
 	});
 
-	const clipNotes = await ClipNotes.find({
+	const clipNotes = await ClipNotes.findBy({
 		noteId: note.id,
 	});
 
-	const clips = await Clips.find({
+	const clips = await Clips.findBy({
 		id: In(clipNotes.map(x => x.clipId)),
 		isPublic: true,
 	});

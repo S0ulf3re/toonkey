@@ -1,4 +1,4 @@
-import define from '../define';
+import define from '../define.js';
 
 export const meta = {
 	requireCredential: false,
@@ -17,7 +17,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],

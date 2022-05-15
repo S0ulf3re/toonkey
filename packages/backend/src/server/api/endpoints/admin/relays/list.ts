@@ -1,5 +1,5 @@
-import define from '../../../define';
-import { listRelay } from '@/services/relay';
+import define from '../../../define.js';
+import { listRelay } from '@/services/relay.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -39,7 +39,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],

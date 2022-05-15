@@ -1,8 +1,8 @@
-import define from '../../define';
-import { ApiError } from '../../error';
-import { getUser } from '../../common/getters';
-import { Mutings } from '@/models/index';
-import { publishUserEvent } from '@/services/stream';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
+import { getUser } from '../../common/getters.js';
+import { Mutings } from '@/models/index.js';
+import { publishUserEvent } from '@/services/stream.js';
 
 export const meta = {
 	tags: ['account'],
@@ -32,7 +32,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		userId: { type: 'string', format: 'misskey:id' },
@@ -56,7 +56,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	});
 
 	// Check not muting
-	const exist = await Mutings.findOne({
+	const exist = await Mutings.findOneBy({
 		muterId: muter.id,
 		muteeId: mutee.id,
 	});

@@ -1,5 +1,5 @@
-import define from '../../define';
-import { Hashtags } from '@/models/index';
+import define from '../../define.js';
+import { Hashtags } from '@/models/index.js';
 
 export const meta = {
 	tags: ['hashtags'],
@@ -17,7 +17,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },

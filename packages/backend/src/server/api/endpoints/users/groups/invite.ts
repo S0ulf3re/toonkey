@@ -1,10 +1,10 @@
-import define from '../../../define';
-import { ApiError } from '../../../error';
-import { getUser } from '../../../common/getters';
-import { UserGroups, UserGroupJoinings, UserGroupInvitations } from '@/models/index';
-import { genId } from '@/misc/gen-id';
-import { UserGroupInvitation } from '@/models/entities/user-group-invitation';
-import { createNotification } from '@/services/create-notification';
+import define from '../../../define.js';
+import { ApiError } from '../../../error.js';
+import { getUser } from '../../../common/getters.js';
+import { UserGroups, UserGroupJoinings, UserGroupInvitations } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
+import { UserGroupInvitation } from '@/models/entities/user-group-invitation.js';
+import { createNotification } from '@/services/create-notification.js';
 
 export const meta = {
 	tags: ['groups', 'users'],
@@ -40,7 +40,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		groupId: { type: 'string', format: 'misskey:id' },
@@ -52,7 +52,7 @@ const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
 	// Fetch the group
-	const userGroup = await UserGroups.findOne({
+	const userGroup = await UserGroups.findOneBy({
 		id: ps.groupId,
 		userId: me.id,
 	});
@@ -67,7 +67,7 @@ export default define(meta, paramDef, async (ps, me) => {
 		throw e;
 	});
 
-	const joining = await UserGroupJoinings.findOne({
+	const joining = await UserGroupJoinings.findOneBy({
 		userGroupId: userGroup.id,
 		userId: user.id,
 	});
@@ -76,7 +76,7 @@ export default define(meta, paramDef, async (ps, me) => {
 		throw new ApiError(meta.errors.alreadyAdded);
 	}
 
-	const existInvitation = await UserGroupInvitations.findOne({
+	const existInvitation = await UserGroupInvitations.findOneBy({
 		userGroupId: userGroup.id,
 		userId: user.id,
 	});
@@ -90,7 +90,7 @@ export default define(meta, paramDef, async (ps, me) => {
 		createdAt: new Date(),
 		userId: user.id,
 		userGroupId: userGroup.id,
-	} as UserGroupInvitation).then(x => UserGroupInvitations.findOneOrFail(x.identifiers[0]));
+	} as UserGroupInvitation).then(x => UserGroupInvitations.findOneByOrFail(x.identifiers[0]));
 
 	// 通知を作成
 	createNotification(user.id, 'groupInvited', {

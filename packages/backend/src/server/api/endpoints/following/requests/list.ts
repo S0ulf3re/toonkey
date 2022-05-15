@@ -1,5 +1,5 @@
-import define from '../../../define';
-import { FollowRequests } from '@/models/index';
+import define from '../../../define.js';
+import { FollowRequests } from '@/models/index.js';
 
 export const meta = {
 	tags: ['following', 'account'],
@@ -35,7 +35,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],
@@ -43,7 +43,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const reqs = await FollowRequests.find({
+	const reqs = await FollowRequests.findBy({
 		followeeId: user.id,
 	});
 

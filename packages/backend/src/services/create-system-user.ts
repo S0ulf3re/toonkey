@@ -1,13 +1,14 @@
-import * as bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 import { v4 as uuid } from 'uuid';
-import generateNativeUserToken from '../server/api/common/generate-native-user-token';
-import { genRsaKeyPair } from '@/misc/gen-key-pair';
-import { User } from '@/models/entities/user';
-import { UserProfile } from '@/models/entities/user-profile';
-import { getConnection } from 'typeorm';
-import { genId } from '@/misc/gen-id';
-import { UserKeypair } from '@/models/entities/user-keypair';
-import { UsedUsername } from '@/models/entities/used-username';
+import generateNativeUserToken from '../server/api/common/generate-native-user-token.js';
+import { genRsaKeyPair } from '@/misc/gen-key-pair.js';
+import { User } from '@/models/entities/user.js';
+import { UserProfile } from '@/models/entities/user-profile.js';
+import { IsNull } from 'typeorm';
+import { genId } from '@/misc/gen-id.js';
+import { UserKeypair } from '@/models/entities/user-keypair.js';
+import { UsedUsername } from '@/models/entities/used-username.js';
+import { db } from '@/db/postgre.js';
 
 export async function createSystemUser(username: string) {
 	const password = uuid();
@@ -24,10 +25,10 @@ export async function createSystemUser(username: string) {
 	let account!: User;
 
 	// Start transaction
-	await getConnection().transaction(async transactionalEntityManager => {
-		const exist = await transactionalEntityManager.findOne(User, {
+	await db.transaction(async transactionalEntityManager => {
+		const exist = await transactionalEntityManager.findOneBy(User, {
 			usernameLower: username.toLowerCase(),
-			host: null,
+			host: IsNull(),
 		});
 
 		if (exist) throw new Error('the user is already exists');
@@ -43,7 +44,7 @@ export async function createSystemUser(username: string) {
 			isLocked: true,
 			isExplorable: false,
 			isBot: true,
-		}).then(x => transactionalEntityManager.findOneOrFail(User, x.identifiers[0]));
+		}).then(x => transactionalEntityManager.findOneByOrFail(User, x.identifiers[0]));
 
 		await transactionalEntityManager.insert(UserKeypair, {
 			publicKey: keyPair.publicKey,

@@ -1,6 +1,6 @@
-import define from '../../../define';
-import { Announcements } from '@/models/index';
-import { genId } from '@/misc/gen-id';
+import define from '../../../define.js';
+import { Announcements } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -44,7 +44,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		title: { type: 'string', minLength: 1 },
@@ -63,7 +63,7 @@ export default define(meta, paramDef, async (ps) => {
 		title: ps.title,
 		text: ps.text,
 		imageUrl: ps.imageUrl,
-	}).then(x => Announcements.findOneOrFail(x.identifiers[0]));
+	}).then(x => Announcements.findOneByOrFail(x.identifiers[0]));
 
-	return announcement;
+	return Object.assign({}, announcement, { createdAt: announcement.createdAt.toISOString(), updatedAt: null });
 });

@@ -1,8 +1,8 @@
-import define from '../../../define';
-import { ApiError } from '../../../error';
-import { getNote } from '../../../common/getters';
-import { NoteFavorites } from '@/models/index';
-import { genId } from '@/misc/gen-id';
+import define from '../../../define.js';
+import { ApiError } from '../../../error.js';
+import { getNote } from '../../../common/getters.js';
+import { NoteFavorites } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
 
 export const meta = {
 	tags: ['notes', 'favorites'],
@@ -26,7 +26,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },
@@ -43,7 +43,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	});
 
 	// if already favorited
-	const exist = await NoteFavorites.findOne({
+	const exist = await NoteFavorites.findOneBy({
 		noteId: note.id,
 		userId: user.id,
 	});

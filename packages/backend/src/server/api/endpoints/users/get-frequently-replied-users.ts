@@ -1,9 +1,9 @@
-import define from '../../define';
-import { maximum } from '@/prelude/array';
-import { ApiError } from '../../error';
-import { getUser } from '../../common/getters';
+import define from '../../define.js';
+import { maximum } from '@/prelude/array.js';
+import { ApiError } from '../../error.js';
+import { getUser } from '../../common/getters.js';
 import { Not, In, IsNull } from 'typeorm';
-import { Notes, Users } from '@/models/index';
+import { Notes, Users } from '@/models/index.js';
 
 export const meta = {
 	tags: ['users'],
@@ -39,7 +39,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		userId: { type: 'string', format: 'misskey:id' },

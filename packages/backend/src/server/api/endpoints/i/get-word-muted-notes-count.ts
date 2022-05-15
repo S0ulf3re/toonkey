@@ -1,5 +1,5 @@
-import define from '../../define';
-import { MutedNotes } from '@/models/index';
+import define from '../../define.js';
+import { MutedNotes } from '@/models/index.js';
 
 export const meta = {
 	tags: ['account'],
@@ -20,7 +20,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],
@@ -29,7 +29,7 @@ const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
 	return {
-		count: await MutedNotes.count({
+		count: await MutedNotes.countBy({
 			userId: user.id,
 			reason: 'word',
 		}),

@@ -2,14 +2,13 @@
  * Config loader
  */
 
-import * as fs from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import * as fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 import * as yaml from 'js-yaml';
-import { Source, Mixin } from './types';
+import { Source, Mixin } from './types.js';
 
-//const _filename = fileURLToPath(import.meta.url);
-const _filename = __filename;
+const _filename = fileURLToPath(import.meta.url);
 const _dirname = dirname(_filename);
 
 /**
@@ -26,6 +25,7 @@ const path = process.env.NODE_ENV === 'test'
 
 export default function load() {
 	const meta = JSON.parse(fs.readFileSync(`${_dirname}/../../../../built/meta.json`, 'utf-8'));
+	const clientManifest = JSON.parse(fs.readFileSync(`${_dirname}/../../../../built/_client_dist_/manifest.json`, 'utf-8'));
 	const config = yaml.load(fs.readFileSync(path, 'utf-8')) as Source;
 
 	const mixin = {} as Mixin;
@@ -46,6 +46,7 @@ export default function load() {
 	mixin.authUrl = `${mixin.scheme}://${mixin.host}/auth`;
 	mixin.driveUrl = `${mixin.scheme}://${mixin.host}/files`;
 	mixin.userAgent = `Misskey/${meta.version} (${config.url})`;
+	mixin.clientEntry = clientManifest['src/init.ts'].file.replace(/^_client_dist_\//, '');
 
 	if (!config.redis.prefix) config.redis.prefix = mixin.host;
 

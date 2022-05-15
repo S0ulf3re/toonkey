@@ -1,5 +1,5 @@
-import define from '../define';
-import endpoints from '../endpoints';
+import define from '../define.js';
+import endpoints from '../endpoints.js';
 
 export const meta = {
 	requireCredential: false,
@@ -7,7 +7,7 @@ export const meta = {
 	tags: ['meta'],
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		endpoint: { type: 'string' },
@@ -20,9 +20,9 @@ export default define(meta, paramDef, async (ps) => {
 	const ep = endpoints.find(x => x.name === ps.endpoint);
 	if (ep == null) return null;
 	return {
-		params: Object.entries(ep.meta.params || {}).map(([k, v]) => ({
+		params: Object.entries(ep.params.properties || {}).map(([k, v]) => ({
 			name: k,
-			type: v.validator.name === 'ID' ? 'String' : v.validator.name,
+			type: v.type.charAt(0).toUpperCase() + v.type.slice(1),
 		})),
 	};
 });

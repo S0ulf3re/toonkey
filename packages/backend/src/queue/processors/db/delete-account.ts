@@ -1,19 +1,19 @@
-import * as Bull from 'bull';
-import { queueLogger } from '../../logger';
-import { DriveFiles, Notes, UserProfiles, Users } from '@/models/index';
-import { DbUserDeleteJobData } from '@/queue/types';
-import { Note } from '@/models/entities/note';
-import { DriveFile } from '@/models/entities/drive-file';
+import Bull from 'bull';
+import { queueLogger } from '../../logger.js';
+import { DriveFiles, Notes, UserProfiles, Users } from '@/models/index.js';
+import { DbUserDeleteJobData } from '@/queue/types.js';
+import { Note } from '@/models/entities/note.js';
+import { DriveFile } from '@/models/entities/drive-file.js';
 import { MoreThan } from 'typeorm';
-import { deleteFileSync } from '@/services/drive/delete-file';
-import { sendEmail } from '@/services/send-email';
+import { deleteFileSync } from '@/services/drive/delete-file.js';
+import { sendEmail } from '@/services/send-email.js';
 
 const logger = queueLogger.createSubLogger('delete-account');
 
 export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise<string | void> {
 	logger.info(`Deleting account of ${job.data.user.id} ...`);
 
-	const user = await Users.findOne(job.data.user.id);
+	const user = await Users.findOneBy({ id: job.data.user.id });
 	if (user == null) {
 		return;
 	}
@@ -75,7 +75,7 @@ export async function deleteAccount(job: Bull.Job<DbUserDeleteJobData>): Promise
 	}
 
 	{ // Send email notification
-		const profile = await UserProfiles.findOneOrFail(user.id);
+		const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 		if (profile.email && profile.emailVerified) {
 			sendEmail(profile.email, 'Account deleted',
 				`Your account has been deleted.`,

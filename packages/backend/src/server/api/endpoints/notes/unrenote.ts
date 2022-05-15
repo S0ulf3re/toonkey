@@ -1,9 +1,9 @@
-import deleteNote from '@/services/note/delete';
-import define from '../../define';
+import deleteNote from '@/services/note/delete.js';
+import define from '../../define.js';
 import ms from 'ms';
-import { getNote } from '../../common/getters';
-import { ApiError } from '../../error';
-import { Notes, Users } from '@/models/index';
+import { getNote } from '../../common/getters.js';
+import { ApiError } from '../../error.js';
+import { Notes, Users } from '@/models/index.js';
 
 export const meta = {
 	tags: ['notes'],
@@ -27,7 +27,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },
@@ -42,12 +42,12 @@ export default define(meta, paramDef, async (ps, user) => {
 		throw e;
 	});
 
-	const renotes = await Notes.find({
+	const renotes = await Notes.findBy({
 		userId: user.id,
 		renoteId: note.id,
 	});
 
 	for (const note of renotes) {
-		deleteNote(await Users.findOneOrFail(user.id), note);
+		deleteNote(await Users.findOneByOrFail({ id: user.id }), note);
 	}
 });

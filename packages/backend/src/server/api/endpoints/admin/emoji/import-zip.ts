@@ -1,5 +1,5 @@
-import define from '../../../define';
-import { createImportCustomEmojisJob } from '@/queue/index';
+import define from '../../../define.js';
+import { createImportCustomEmojisJob } from '@/queue/index.js';
 import ms from 'ms';
 
 export const meta = {
@@ -8,7 +8,7 @@ export const meta = {
 	requireModerator: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		fileId: { type: 'string', format: 'misskey:id' },

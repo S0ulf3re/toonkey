@@ -1,6 +1,6 @@
 import { PrimaryColumn, Entity, Index, JoinColumn, Column, ManyToOne } from 'typeorm';
-import { User } from './user';
-import { id } from '../id';
+import { User } from './user.js';
+import { id } from '../id.js';
 
 @Entity()
 export class Clip {
@@ -37,7 +37,7 @@ export class Clip {
 	public isPublic: boolean;
 
 	@Column('varchar', {
-		length: 2048, nullable: true, default: null,
+		length: 2048, nullable: true,
 		comment: 'The description of the Clip.',
 	})
 	public description: string | null;

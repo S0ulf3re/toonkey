@@ -1,10 +1,10 @@
-import * as bcrypt from 'bcryptjs';
-import define from '../../../define';
-import { UserProfiles, AttestationChallenges } from '@/models/index';
-import { promisify } from 'util';
-import * as crypto from 'crypto';
-import { genId } from '@/misc/gen-id';
-import { hash } from '../../../2fa';
+import bcrypt from 'bcryptjs';
+import define from '../../../define.js';
+import { UserProfiles, AttestationChallenges } from '@/models/index.js';
+import { promisify } from 'node:util';
+import * as crypto from 'node:crypto';
+import { genId } from '@/misc/gen-id.js';
+import { hash } from '../../../2fa.js';
 
 const randomBytes = promisify(crypto.randomBytes);
 
@@ -14,7 +14,7 @@ export const meta = {
 	secure: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		password: { type: 'string' },
@@ -24,7 +24,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const profile = await UserProfiles.findOneOrFail(user.id);
+	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
 
 	// Compare password
 	const same = await bcrypt.compare(ps.password, profile.password!);

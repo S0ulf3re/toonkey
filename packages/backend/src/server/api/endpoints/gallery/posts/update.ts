@@ -1,9 +1,9 @@
 import ms from 'ms';
-import define from '../../../define';
-import { DriveFiles, GalleryPosts } from '@/models/index';
-import { GalleryPost } from '@/models/entities/gallery-post';
-import { ApiError } from '../../../error';
-import { DriveFile } from '@/models/entities/drive-file';
+import define from '../../../define.js';
+import { DriveFiles, GalleryPosts } from '@/models/index.js';
+import { GalleryPost } from '@/models/entities/gallery-post.js';
+import { ApiError } from '../../../error.js';
+import { DriveFile } from '@/models/entities/drive-file.js';
 
 export const meta = {
 	tags: ['gallery'],
@@ -28,7 +28,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		postId: { type: 'string', format: 'misskey:id' },
@@ -45,7 +45,7 @@ const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
 	const files = (await Promise.all(ps.fileIds.map(fileId =>
-		DriveFiles.findOne({
+		DriveFiles.findOneBy({
 			id: fileId,
 			userId: user.id,
 		})
@@ -66,7 +66,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		fileIds: files.map(file => file.id),
 	});
 
-	const post = await GalleryPosts.findOneOrFail(ps.postId);
+	const post = await GalleryPosts.findOneByOrFail({ id: ps.postId });
 
 	return await GalleryPosts.pack(post, user);
 });

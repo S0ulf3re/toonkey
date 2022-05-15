@@ -1,8 +1,8 @@
-import define from '../../define';
-import { genId } from '@/misc/gen-id';
-import { Antennas, UserLists, UserGroupJoinings } from '@/models/index';
-import { ApiError } from '../../error';
-import { publishInternalEvent } from '@/services/stream';
+import define from '../../define.js';
+import { genId } from '@/misc/gen-id.js';
+import { Antennas, UserLists, UserGroupJoinings } from '@/models/index.js';
+import { ApiError } from '../../error.js';
+import { publishInternalEvent } from '@/services/stream.js';
 
 export const meta = {
 	tags: ['antennas'],
@@ -32,7 +32,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		name: { type: 'string', minLength: 1, maxLength: 100 },
@@ -66,7 +66,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	let userGroupJoining;
 
 	if (ps.src === 'list' && ps.userListId) {
-		userList = await UserLists.findOne({
+		userList = await UserLists.findOneBy({
 			id: ps.userListId,
 			userId: user.id,
 		});
@@ -75,7 +75,7 @@ export default define(meta, paramDef, async (ps, user) => {
 			throw new ApiError(meta.errors.noSuchUserList);
 		}
 	} else if (ps.src === 'group' && ps.userGroupId) {
-		userGroupJoining = await UserGroupJoinings.findOne({
+		userGroupJoining = await UserGroupJoinings.findOneBy({
 			userGroupId: ps.userGroupId,
 			userId: user.id,
 		});
@@ -100,7 +100,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		withReplies: ps.withReplies,
 		withFile: ps.withFile,
 		notify: ps.notify,
-	}).then(x => Antennas.findOneOrFail(x.identifiers[0]));
+	}).then(x => Antennas.findOneByOrFail(x.identifiers[0]));
 
 	publishInternalEvent('antennaCreated', antenna);
 

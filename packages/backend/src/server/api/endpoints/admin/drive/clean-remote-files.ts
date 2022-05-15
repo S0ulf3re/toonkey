@@ -1,5 +1,5 @@
-import define from '../../../define';
-import { createCleanRemoteFilesJob } from '@/queue/index';
+import define from '../../../define.js';
+import { createCleanRemoteFilesJob } from '@/queue/index.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -8,7 +8,7 @@ export const meta = {
 	requireModerator: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],

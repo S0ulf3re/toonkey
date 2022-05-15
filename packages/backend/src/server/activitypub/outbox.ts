@@ -1,44 +1,44 @@
-import * as Router from '@koa/router';
-import config from '@/config/index';
-import $ from 'cafy';
-import { ID } from '@/misc/cafy-id';
-import { renderActivity } from '@/remote/activitypub/renderer/index';
-import renderOrderedCollection from '@/remote/activitypub/renderer/ordered-collection';
-import renderOrderedCollectionPage from '@/remote/activitypub/renderer/ordered-collection-page';
-import { setResponseType } from '../activitypub';
-import renderNote from '@/remote/activitypub/renderer/note';
-import renderCreate from '@/remote/activitypub/renderer/create';
-import renderAnnounce from '@/remote/activitypub/renderer/announce';
-import { countIf } from '@/prelude/array';
-import * as url from '@/prelude/url';
-import { Users, Notes } from '@/models/index';
-import { makePaginationQuery } from '../api/common/make-pagination-query';
-import { Brackets } from 'typeorm';
-import { Note } from '@/models/entities/note';
+import Router from '@koa/router';
+import { Brackets, IsNull } from 'typeorm';
+import config from '@/config/index.js';
+import { renderActivity } from '@/remote/activitypub/renderer/index.js';
+import renderOrderedCollection from '@/remote/activitypub/renderer/ordered-collection.js';
+import renderOrderedCollectionPage from '@/remote/activitypub/renderer/ordered-collection-page.js';
+import renderNote from '@/remote/activitypub/renderer/note.js';
+import renderCreate from '@/remote/activitypub/renderer/create.js';
+import renderAnnounce from '@/remote/activitypub/renderer/announce.js';
+import { countIf } from '@/prelude/array.js';
+import * as url from '@/prelude/url.js';
+import { Users, Notes } from '@/models/index.js';
+import { Note } from '@/models/entities/note.js';
+import { makePaginationQuery } from '../api/common/make-pagination-query.js';
+import { setResponseType } from '../activitypub.js';
 
 export default async (ctx: Router.RouterContext) => {
 	const userId = ctx.params.user;
 
-	// Get 'sinceId' parameter
-	const [sinceId, sinceIdErr] = $.optional.type(ID).get(ctx.request.query.since_id);
-
-	// Get 'untilId' parameter
-	const [untilId, untilIdErr] = $.optional.type(ID).get(ctx.request.query.until_id);
-
-	// Get 'page' parameter
-	const pageErr = !$.optional.str.or(['true', 'false']).ok(ctx.request.query.page);
-	const page: boolean = ctx.request.query.page === 'true';
-
-	// Validate parameters
-	if (sinceIdErr || untilIdErr || pageErr || countIf(x => x != null, [sinceId, untilId]) > 1) {
+	const sinceId = ctx.request.query.since_id;
+	if (sinceId != null && typeof sinceId !== 'string') {
 		ctx.status = 400;
 		return;
 	}
 
-	// Verify user
-	const user = await Users.findOne({
+	const untilId = ctx.request.query.until_id;
+	if (untilId != null && typeof untilId !== 'string') {
+		ctx.status = 400;
+		return;
+	}
+
+	const page = ctx.request.query.page === 'true';
+
+	if (countIf(x => x != null, [sinceId, untilId]) > 1) {
+		ctx.status = 400;
+		return;
+	}
+
+	const user = await Users.findOneBy({
 		id: userId,
-		host: null,
+		host: IsNull(),
 	});
 
 	if (user == null) {
@@ -53,8 +53,8 @@ export default async (ctx: Router.RouterContext) => {
 		const query = makePaginationQuery(Notes.createQueryBuilder('note'), sinceId, untilId)
 			.andWhere('note.userId = :userId', { userId: user.id })
 			.andWhere(new Brackets(qb => { qb
-				.where(`note.visibility = 'public'`)
-				.orWhere(`note.visibility = 'home'`);
+				.where('note.visibility = \'public\'')
+				.orWhere('note.visibility = \'home\'');
 			}))
 			.andWhere('note.localOnly = FALSE');
 
@@ -77,7 +77,7 @@ export default async (ctx: Router.RouterContext) => {
 			notes.length ? `${partOf}?${url.query({
 				page: 'true',
 				until_id: notes[notes.length - 1].id,
-			})}` : undefined
+			})}` : undefined,
 		);
 
 		ctx.body = renderActivity(rendered);
@@ -86,7 +86,7 @@ export default async (ctx: Router.RouterContext) => {
 		// index page
 		const rendered = renderOrderedCollection(partOf, user.notesCount,
 			`${partOf}?page=true`,
-			`${partOf}?page=true&since_id=000000000000000000000000`
+			`${partOf}?page=true&since_id=000000000000000000000000`,
 		);
 		ctx.body = renderActivity(rendered);
 		ctx.set('Cache-Control', 'public, max-age=180');
@@ -100,7 +100,7 @@ export default async (ctx: Router.RouterContext) => {
  */
 export async function packActivity(note: Note): Promise<any> {
 	if (note.renoteId && note.text == null && !note.hasPoll && (note.fileIds == null || note.fileIds.length === 0)) {
-		const renote = await Notes.findOneOrFail(note.renoteId);
+		const renote = await Notes.findOneByOrFail({ id: note.renoteId });
 		return renderAnnounce(renote.uri ? renote.uri : `${config.url}/notes/${renote.id}`, note);
 	}
 

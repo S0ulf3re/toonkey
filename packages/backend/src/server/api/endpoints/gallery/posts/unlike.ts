@@ -1,6 +1,6 @@
-import define from '../../../define';
-import { ApiError } from '../../../error';
-import { GalleryPosts, GalleryLikes } from '@/models/index';
+import define from '../../../define.js';
+import { ApiError } from '../../../error.js';
+import { GalleryPosts, GalleryLikes } from '@/models/index.js';
 
 export const meta = {
 	tags: ['gallery'],
@@ -24,7 +24,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		postId: { type: 'string', format: 'misskey:id' },
@@ -34,12 +34,12 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const post = await GalleryPosts.findOne(ps.postId);
+	const post = await GalleryPosts.findOneBy({ id: ps.postId });
 	if (post == null) {
 		throw new ApiError(meta.errors.noSuchPost);
 	}
 
-	const exist = await GalleryLikes.findOne({
+	const exist = await GalleryLikes.findOneBy({
 		postId: post.id,
 		userId: user.id,
 	});

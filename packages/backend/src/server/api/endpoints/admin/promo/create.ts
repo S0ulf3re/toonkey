@@ -1,7 +1,7 @@
-import define from '../../../define';
-import { ApiError } from '../../../error';
-import { getNote } from '../../../common/getters';
-import { PromoNotes } from '@/models/index';
+import define from '../../../define.js';
+import { ApiError } from '../../../error.js';
+import { getNote } from '../../../common/getters.js';
+import { PromoNotes } from '@/models/index.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -24,7 +24,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },
@@ -40,7 +40,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		throw e;
 	});
 
-	const exist = await PromoNotes.findOne(note.id);
+	const exist = await PromoNotes.findOneBy({ noteId: note.id });
 
 	if (exist != null) {
 		throw new ApiError(meta.errors.alreadyPromoted);

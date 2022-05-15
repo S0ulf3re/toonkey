@@ -1,11 +1,11 @@
-import define from '../../../define';
-import { Emojis } from '@/models/index';
-import { genId } from '@/misc/gen-id';
-import { getConnection } from 'typeorm';
-import { ApiError } from '../../../error';
-import { DriveFile } from '@/models/entities/drive-file';
-import { uploadFromUrl } from '@/services/drive/upload-from-url';
-import { publishBroadcastStream } from '@/services/stream';
+import define from '../../../define.js';
+import { Emojis } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
+import { ApiError } from '../../../error.js';
+import { DriveFile } from '@/models/entities/drive-file.js';
+import { uploadFromUrl } from '@/services/drive/upload-from-url.js';
+import { publishBroadcastStream } from '@/services/stream.js';
+import { db } from '@/db/postgre.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -34,7 +34,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		emojiId: { type: 'string', format: 'misskey:id' },
@@ -44,7 +44,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const emoji = await Emojis.findOne(ps.emojiId);
+	const emoji = await Emojis.findOneBy({ id: ps.emojiId });
 
 	if (emoji == null) {
 		throw new ApiError(meta.errors.noSuchEmoji);
@@ -68,9 +68,9 @@ export default define(meta, paramDef, async (ps, me) => {
 		originalUrl: driveFile.url,
 		publicUrl: driveFile.webpublicUrl ?? driveFile.url,
 		type: driveFile.webpublicType ?? driveFile.type,
-	}).then(x => Emojis.findOneOrFail(x.identifiers[0]));
+	}).then(x => Emojis.findOneByOrFail(x.identifiers[0]));
 
-	await getConnection().queryResultCache!.remove(['meta_emojis']);
+	await db.queryResultCache!.remove(['meta_emojis']);
 
 	publishBroadcastStream('emojiAdded', {
 		emoji: await Emojis.pack(copied.id),

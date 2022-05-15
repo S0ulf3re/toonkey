@@ -1,17 +1,17 @@
-import define from '../../define';
-import { fetchMeta } from '@/misc/fetch-meta';
-import { ApiError } from '../../error';
-import { makePaginationQuery } from '../../common/make-pagination-query';
-import { Followings, Notes } from '@/models/index';
+import define from '../../define.js';
+import { fetchMeta } from '@/misc/fetch-meta.js';
+import { ApiError } from '../../error.js';
+import { makePaginationQuery } from '../../common/make-pagination-query.js';
+import { Followings, Notes, Users } from '@/models/index.js';
 import { Brackets } from 'typeorm';
-import { generateVisibilityQuery } from '../../common/generate-visibility-query';
-import { generateMutedUserQuery } from '../../common/generate-muted-user-query';
-import { generateMutedInstanceQuery } from '../../common/generate-muted-instance-query';
-import { activeUsersChart } from '@/services/chart/index';
-import { generateRepliesQuery } from '../../common/generate-replies-query';
-import { generateMutedNoteQuery } from '../../common/generate-muted-note-query';
-import { generateChannelQuery } from '../../common/generate-channel-query';
-import { generateBlockedUserQuery } from '../../common/generate-block-query';
+import { generateVisibilityQuery } from '../../common/generate-visibility-query.js';
+import { generateMutedUserQuery } from '../../common/generate-muted-user-query.js';
+import { generateMutedInstanceQuery } from '../../common/generate-muted-instance-query.js';
+import { activeUsersChart } from '@/services/chart/index.js';
+import { generateRepliesQuery } from '../../common/generate-replies-query.js';
+import { generateMutedNoteQuery } from '../../common/generate-muted-note-query.js';
+import { generateChannelQuery } from '../../common/generate-channel-query.js';
+import { generateBlockedUserQuery } from '../../common/generate-block-query.js';
 
 export const meta = {
 	tags: ['notes'],
@@ -37,7 +37,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
@@ -48,7 +48,11 @@ const paramDef = {
 		includeMyRenotes: { type: 'boolean', default: true },
 		includeRenotedMyNotes: { type: 'boolean', default: true },
 		includeLocalRenotes: { type: 'boolean', default: true },
-		withFiles: { type: 'boolean' },
+		withFiles: {
+			type: 'boolean',
+			default: false,
+			description: 'Only show notes that have attached files.',
+		},
 	},
 	required: [],
 } as const;
@@ -56,7 +60,7 @@ const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
 	const m = await fetchMeta();
-	if (m.disableLocalTimeline && !user.isAdmin && !user.isModerator) {
+	if (m.disableLocalTimeline && (!user.isAdmin && !user.isModerator)) {
 		throw new ApiError(meta.errors.stlDisabled);
 	}
 
@@ -72,10 +76,16 @@ export default define(meta, paramDef, async (ps, user) => {
 				.orWhere('(note.visibility = \'public\') AND (note.userHost IS NULL)');
 		}))
 		.innerJoinAndSelect('note.user', 'user')
+		.leftJoinAndSelect('user.avatar', 'avatar')
+		.leftJoinAndSelect('user.banner', 'banner')
 		.leftJoinAndSelect('note.reply', 'reply')
 		.leftJoinAndSelect('note.renote', 'renote')
 		.leftJoinAndSelect('reply.user', 'replyUser')
+		.leftJoinAndSelect('replyUser.avatar', 'replyUserAvatar')
+		.leftJoinAndSelect('replyUser.banner', 'replyUserBanner')
 		.leftJoinAndSelect('renote.user', 'renoteUser')
+		.leftJoinAndSelect('renoteUser.avatar', 'renoteUserAvatar')
+		.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner')
 		.setParameters(followingQuery.getParameters());
 
 	generateChannelQuery(query, user);

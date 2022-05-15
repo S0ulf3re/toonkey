@@ -1,7 +1,7 @@
-import * as Koa from 'koa';
-import { Users, UserPendings, UserProfiles } from '@/models/index';
-import { signup } from '../common/signup';
-import signin from '../common/signin';
+import Koa from 'koa';
+import { Users, UserPendings, UserProfiles } from '@/models/index.js';
+import { signup } from '../common/signup.js';
+import signin from '../common/signin.js';
 
 export default async (ctx: Koa.Context) => {
 	const body = ctx.request.body;
@@ -9,7 +9,7 @@ export default async (ctx: Koa.Context) => {
 	const code = body['code'];
 
 	try {
-		const pendingUser = await UserPendings.findOneOrFail({ code });
+		const pendingUser = await UserPendings.findOneByOrFail({ code });
 
 		const { account, secret } = await signup({
 			username: pendingUser.username,
@@ -20,7 +20,7 @@ export default async (ctx: Koa.Context) => {
 			id: pendingUser.id,
 		});
 
-		const profile = await UserProfiles.findOneOrFail(account.id);
+		const profile = await UserProfiles.findOneByOrFail({ userId: account.id });
 
 		await UserProfiles.update({ userId: profile.userId }, {
 			email: pendingUser.email,

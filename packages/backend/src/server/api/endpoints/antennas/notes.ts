@@ -1,11 +1,11 @@
-import define from '../../define';
-import readNote from '@/services/note/read';
-import { Antennas, Notes, AntennaNotes } from '@/models/index';
-import { makePaginationQuery } from '../../common/make-pagination-query';
-import { generateVisibilityQuery } from '../../common/generate-visibility-query';
-import { generateMutedUserQuery } from '../../common/generate-muted-user-query';
-import { ApiError } from '../../error';
-import { generateBlockedUserQuery } from '../../common/generate-block-query';
+import define from '../../define.js';
+import readNote from '@/services/note/read.js';
+import { Antennas, Notes, AntennaNotes } from '@/models/index.js';
+import { makePaginationQuery } from '../../common/make-pagination-query.js';
+import { generateVisibilityQuery } from '../../common/generate-visibility-query.js';
+import { generateMutedUserQuery } from '../../common/generate-muted-user-query.js';
+import { ApiError } from '../../error.js';
+import { generateBlockedUserQuery } from '../../common/generate-block-query.js';
 
 export const meta = {
 	tags: ['antennas', 'account', 'notes'],
@@ -33,7 +33,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		antennaId: { type: 'string', format: 'misskey:id' },
@@ -48,7 +48,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const antenna = await Antennas.findOne({
+	const antenna = await Antennas.findOneBy({
 		id: ps.antennaId,
 		userId: user.id,
 	});
@@ -57,19 +57,21 @@ export default define(meta, paramDef, async (ps, user) => {
 		throw new ApiError(meta.errors.noSuchAntenna);
 	}
 
-	const antennaQuery = AntennaNotes.createQueryBuilder('joining')
-		.select('joining.noteId')
-		.where('joining.antennaId = :antennaId', { antennaId: antenna.id });
-
 	const query = makePaginationQuery(Notes.createQueryBuilder('note'),
 			ps.sinceId, ps.untilId, ps.sinceDate, ps.untilDate)
-		.andWhere(`note.id IN (${ antennaQuery.getQuery() })`)
+		.innerJoin(AntennaNotes.metadata.targetName, 'antennaNote', 'antennaNote.noteId = note.id')
 		.innerJoinAndSelect('note.user', 'user')
+		.leftJoinAndSelect('user.avatar', 'avatar')
+		.leftJoinAndSelect('user.banner', 'banner')
 		.leftJoinAndSelect('note.reply', 'reply')
 		.leftJoinAndSelect('note.renote', 'renote')
 		.leftJoinAndSelect('reply.user', 'replyUser')
+		.leftJoinAndSelect('replyUser.avatar', 'replyUserAvatar')
+		.leftJoinAndSelect('replyUser.banner', 'replyUserBanner')
 		.leftJoinAndSelect('renote.user', 'renoteUser')
-		.setParameters(antennaQuery.getParameters());
+		.leftJoinAndSelect('renoteUser.avatar', 'renoteUserAvatar')
+		.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner')
+		.andWhere('antennaNote.antennaId = :antennaId', { antennaId: antenna.id });
 
 	generateVisibilityQuery(query, user);
 	generateMutedUserQuery(query, user);

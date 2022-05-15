@@ -1,5 +1,5 @@
 import { Entity, PrimaryColumn, Index, Column } from 'typeorm';
-import { id } from '../id';
+import { id } from '../id.js';
 
 @Entity()
 export class Instance {
@@ -60,22 +60,6 @@ export class Instance {
 	public followersCount: number;
 
 	/**
-	 * ドライブ使用量
-	 */
-	@Column('bigint', {
-		default: 0,
-	})
-	public driveUsage: number;
-
-	/**
-	 * ドライブのファイル数
-	 */
-	@Column('integer', {
-		default: 0,
-	})
-	public driveFiles: number;
-
-	/**
 	 * 直近のリクエスト送信日時
 	 */
 	@Column('timestamp with time zone', {
@@ -123,53 +107,53 @@ export class Instance {
 	public isSuspended: boolean;
 
 	@Column('varchar', {
-		length: 64, nullable: true, default: null,
+		length: 64, nullable: true,
 		comment: 'The software of the Instance.',
 	})
 	public softwareName: string | null;
 
 	@Column('varchar', {
-		length: 64, nullable: true, default: null,
+		length: 64, nullable: true,
 	})
 	public softwareVersion: string | null;
 
 	@Column('boolean', {
-		nullable: true, default: null,
+		nullable: true,
 	})
 	public openRegistrations: boolean | null;
 
 	@Column('varchar', {
-		length: 256, nullable: true, default: null,
+		length: 256, nullable: true,
 	})
 	public name: string | null;
 
 	@Column('varchar', {
-		length: 4096, nullable: true, default: null,
+		length: 4096, nullable: true,
 	})
 	public description: string | null;
 
 	@Column('varchar', {
-		length: 128, nullable: true, default: null,
+		length: 128, nullable: true,
 	})
 	public maintainerName: string | null;
 
 	@Column('varchar', {
-		length: 256, nullable: true, default: null,
+		length: 256, nullable: true,
 	})
 	public maintainerEmail: string | null;
 
 	@Column('varchar', {
-		length: 256, nullable: true, default: null,
+		length: 256, nullable: true,
 	})
 	public iconUrl: string | null;
 
 	@Column('varchar', {
-		length: 256, nullable: true, default: null,
+		length: 256, nullable: true,
 	})
 	public faviconUrl: string | null;
 
 	@Column('varchar', {
-		length: 64, nullable: true, default: null,
+		length: 64, nullable: true,
 	})
 	public themeColor: string | null;
 

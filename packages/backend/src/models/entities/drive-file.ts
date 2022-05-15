@@ -1,7 +1,7 @@
 import { PrimaryColumn, Entity, Index, JoinColumn, Column, ManyToOne } from 'typeorm';
-import { User } from './user';
-import { DriveFolder } from './drive-folder';
-import { id } from '../id';
+import { User } from './user.js';
+import { DriveFolder } from './drive-folder.js';
+import { id } from '../id.js';
 
 @Entity()
 @Index(['userId', 'folderId', 'id'])
@@ -79,7 +79,6 @@ export class DriveFile {
 	})
 	public properties: { width?: number; height?: number; orientation?: number; avgColor?: string };
 
-	@Index()
 	@Column('boolean')
 	public storedInternal: boolean;
 

@@ -1,9 +1,9 @@
-import * as bcrypt from 'bcryptjs';
-import define from '../../define';
-import { UserProfiles, Users } from '@/models/index';
-import { doPostSuspend } from '@/services/suspend-user';
-import { publishUserEvent } from '@/services/stream';
-import { createDeleteAccountJob } from '@/queue';
+import bcrypt from 'bcryptjs';
+import define from '../../define.js';
+import { UserProfiles, Users } from '@/models/index.js';
+import { doPostSuspend } from '@/services/suspend-user.js';
+import { publishUserEvent } from '@/services/stream.js';
+import { createDeleteAccountJob } from '@/queue/index.js';
 
 export const meta = {
 	requireCredential: true,
@@ -11,7 +11,7 @@ export const meta = {
 	secure: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		password: { type: 'string' },
@@ -21,8 +21,8 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const profile = await UserProfiles.findOneOrFail(user.id);
-	const userDetailed = await Users.findOneOrFail(user.id);
+	const profile = await UserProfiles.findOneByOrFail({ userId: user.id });
+	const userDetailed = await Users.findOneByOrFail({ id: user.id });
 	if (userDetailed.isDeleted) {
 		return;
 	}

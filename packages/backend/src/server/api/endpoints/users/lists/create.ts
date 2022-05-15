@@ -1,7 +1,7 @@
-import define from '../../../define';
-import { UserLists } from '@/models/index';
-import { genId } from '@/misc/gen-id';
-import { UserList } from '@/models/entities/user-list';
+import define from '../../../define.js';
+import { UserLists } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
+import { UserList } from '@/models/entities/user-list.js';
 
 export const meta = {
 	tags: ['lists'],
@@ -17,7 +17,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		name: { type: 'string', minLength: 1, maxLength: 100 },
@@ -32,7 +32,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		createdAt: new Date(),
 		userId: user.id,
 		name: ps.name,
-	} as UserList).then(x => UserLists.findOneOrFail(x.identifiers[0]));
+	} as UserList).then(x => UserLists.findOneByOrFail(x.identifiers[0]));
 
 	return await UserLists.pack(userList);
 });

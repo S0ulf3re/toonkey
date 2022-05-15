@@ -1,10 +1,10 @@
-import define from '../../define';
-import { ApiError } from '../../error';
-import { getUser } from '../../common/getters';
-import { MessagingMessages, UserGroups, UserGroupJoinings, Users } from '@/models/index';
-import { makePaginationQuery } from '../../common/make-pagination-query';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
+import { getUser } from '../../common/getters.js';
+import { MessagingMessages, UserGroups, UserGroupJoinings, Users } from '@/models/index.js';
+import { makePaginationQuery } from '../../common/make-pagination-query.js';
 import { Brackets } from 'typeorm';
-import { readUserMessagingMessage, readGroupMessagingMessage, deliverReadActivity } from '../../common/read-messaging-message';
+import { readUserMessagingMessage, readGroupMessagingMessage, deliverReadActivity } from '../../common/read-messaging-message.js';
 
 export const meta = {
 	tags: ['messaging'],
@@ -44,17 +44,28 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
-		userId: { type: 'string', format: 'misskey:id' },
-		groupId: { type: 'string', format: 'misskey:id' },
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
 		sinceId: { type: 'string', format: 'misskey:id' },
 		untilId: { type: 'string', format: 'misskey:id' },
 		markAsRead: { type: 'boolean', default: true },
 	},
-	required: [],
+	anyOf: [
+		{
+			properties: {
+				userId: { type: 'string', format: 'misskey:id' },
+			},
+			required: ['userId'],
+		},
+		{
+			properties: {
+				groupId: { type: 'string', format: 'misskey:id' },
+			},
+			required: ['groupId'],
+		},
+	],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
@@ -97,14 +108,14 @@ export default define(meta, paramDef, async (ps, user) => {
 		})));
 	} else if (ps.groupId != null) {
 		// Fetch recipient (group)
-		const recipientGroup = await UserGroups.findOne(ps.groupId);
+		const recipientGroup = await UserGroups.findOneBy({ id: ps.groupId });
 
 		if (recipientGroup == null) {
 			throw new ApiError(meta.errors.noSuchGroup);
 		}
 
 		// check joined
-		const joining = await UserGroupJoinings.findOne({
+		const joining = await UserGroupJoinings.findOneBy({
 			userId: user.id,
 			userGroupId: recipientGroup.id,
 		});
@@ -126,7 +137,5 @@ export default define(meta, paramDef, async (ps, user) => {
 		return await Promise.all(messages.map(message => MessagingMessages.pack(message, user, {
 			populateGroup: false,
 		})));
-	} else {
-		throw new Error();
 	}
 });

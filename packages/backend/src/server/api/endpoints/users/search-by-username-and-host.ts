@@ -1,8 +1,8 @@
-import define from '../../define';
-import { Followings, Users } from '@/models/index';
+import define from '../../define.js';
+import { Followings, Users } from '@/models/index.js';
 import { Brackets } from 'typeorm';
-import { USER_ACTIVE_THRESHOLD } from '@/const';
-import { User } from '@/models/entities/user';
+import { USER_ACTIVE_THRESHOLD } from '@/const.js';
+import { User } from '@/models/entities/user.js';
 
 export const meta = {
 	tags: ['users'],
@@ -20,7 +20,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		username: { type: 'string', nullable: true },
@@ -28,8 +28,13 @@ const paramDef = {
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
 		detail: { type: 'boolean', default: true },
 	},
-	required: [],
+	anyOf: [
+		{ required: ['username'] },
+		{ required: ['host'] },
+	],
 } as const;
+
+// TODO: avatar,bannerをJOINしたいけどエラーになる
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {

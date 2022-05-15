@@ -1,6 +1,6 @@
 import { Entity, Column, Index, OneToOne, JoinColumn, PrimaryColumn } from 'typeorm';
-import { DriveFile } from './drive-file';
-import { id } from '../id';
+import { id } from '../id.js';
+import { DriveFile } from './drive-file.js';
 
 @Entity()
 @Index(['usernameLower', 'host'], { unique: true })
@@ -106,26 +106,6 @@ export class User {
 	})
 	public tags: string[];
 
-	@Column('varchar', {
-		length: 512, nullable: true,
-	})
-	public avatarUrl: string | null;
-
-	@Column('varchar', {
-		length: 512, nullable: true,
-	})
-	public bannerUrl: string | null;
-
-	@Column('varchar', {
-		length: 128, nullable: true,
-	})
-	public avatarBlurhash: string | null;
-
-	@Column('varchar', {
-		length: 128, nullable: true,
-	})
-	public bannerBlurhash: string | null;
-
 	@Column('boolean', {
 		default: false,
 		comment: 'Whether the User is suspended.',
@@ -227,7 +207,7 @@ export class User {
 
 	@Column('boolean', {
 		default: false,
-		comment: 'Whether to show users replying to other users in the timeline'
+		comment: 'Whether to show users replying to other users in the timeline.',
 	})
 	public showTimelineReplies: boolean;
 
@@ -254,3 +234,9 @@ export interface ILocalUser extends User {
 export interface IRemoteUser extends User {
 	host: string;
 }
+
+export type CacheableLocalUser = ILocalUser;
+
+export type CacheableRemoteUser = IRemoteUser;
+
+export type CacheableUser = CacheableLocalUser | CacheableRemoteUser;

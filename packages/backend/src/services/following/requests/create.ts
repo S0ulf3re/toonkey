@@ -1,22 +1,22 @@
-import { publishMainStream } from '@/services/stream';
-import { renderActivity } from '@/remote/activitypub/renderer/index';
-import renderFollow from '@/remote/activitypub/renderer/follow';
-import { deliver } from '@/queue/index';
-import { User } from '@/models/entities/user';
-import { Blockings, FollowRequests, Users } from '@/models/index';
-import { genId } from '@/misc/gen-id';
-import { createNotification } from '../../create-notification';
+import { publishMainStream } from '@/services/stream.js';
+import { renderActivity } from '@/remote/activitypub/renderer/index.js';
+import renderFollow from '@/remote/activitypub/renderer/follow.js';
+import { deliver } from '@/queue/index.js';
+import { User } from '@/models/entities/user.js';
+import { Blockings, FollowRequests, Users } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
+import { createNotification } from '../../create-notification.js';
 
 export default async function(follower: { id: User['id']; host: User['host']; uri: User['host']; inbox: User['inbox']; sharedInbox: User['sharedInbox']; }, followee: { id: User['id']; host: User['host']; uri: User['host']; inbox: User['inbox']; sharedInbox: User['sharedInbox']; }, requestId?: string) {
 	if (follower.id === followee.id) return;
 
 	// check blocking
 	const [blocking, blocked] = await Promise.all([
-		Blockings.findOne({
+		Blockings.findOneBy({
 			blockerId: follower.id,
 			blockeeId: followee.id,
 		}),
-		Blockings.findOne({
+		Blockings.findOneBy({
 			blockerId: followee.id,
 			blockeeId: follower.id,
 		}),
@@ -39,7 +39,7 @@ export default async function(follower: { id: User['id']; host: User['host']; ur
 		followeeHost: followee.host,
 		followeeInbox: Users.isRemoteUser(followee) ? followee.inbox : undefined,
 		followeeSharedInbox: Users.isRemoteUser(followee) ? followee.sharedInbox : undefined,
-	}).then(x => FollowRequests.findOneOrFail(x.identifiers[0]));
+	}).then(x => FollowRequests.findOneByOrFail(x.identifiers[0]));
 
 	// Publish receiveRequest event
 	if (Users.isLocalUser(followee)) {

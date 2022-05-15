@@ -1,7 +1,7 @@
-import define from '../../define';
-import { AccessTokens } from '@/models/index';
-import { genId } from '@/misc/gen-id';
-import { secureRndstr } from '@/misc/secure-rndstr';
+import define from '../../define.js';
+import { AccessTokens } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
+import { secureRndstr } from '@/misc/secure-rndstr.js';
 
 export const meta = {
 	tags: ['auth'],
@@ -22,7 +22,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		session: { type: 'string', nullable: true },

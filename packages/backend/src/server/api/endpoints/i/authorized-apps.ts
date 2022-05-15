@@ -1,5 +1,5 @@
-import define from '../../define';
-import { AccessTokens, Apps } from '@/models/index';
+import define from '../../define.js';
+import { AccessTokens, Apps } from '@/models/index.js';
 
 export const meta = {
 	requireCredential: true,
@@ -7,7 +7,7 @@ export const meta = {
 	secure: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
@@ -27,7 +27,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		take: ps.limit,
 		skip: ps.offset,
 		order: {
-			id: ps.sort == 'asc' ? 1 : -1,
+			id: ps.sort === 'asc' ? 1 : -1,
 		},
 	});
 

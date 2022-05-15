@@ -1,6 +1,6 @@
-import define from '../../define';
-import { getRemoteUser } from '../../common/getters';
-import { updatePerson } from '@/remote/activitypub/models/person';
+import define from '../../define.js';
+import { getRemoteUser } from '../../common/getters.js';
+import { updatePerson } from '@/remote/activitypub/models/person.js';
 
 export const meta = {
 	tags: ['federation'],
@@ -8,7 +8,7 @@ export const meta = {
 	requireCredential: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		userId: { type: 'string', format: 'misskey:id' },

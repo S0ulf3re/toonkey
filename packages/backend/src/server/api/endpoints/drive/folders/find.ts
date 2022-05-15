@@ -1,5 +1,6 @@
-import define from '../../../define';
-import { DriveFolders } from '@/models/index';
+import define from '../../../define.js';
+import { DriveFolders } from '@/models/index.js';
+import { IsNull } from 'typeorm';
 
 export const meta = {
 	tags: ['drive'],
@@ -19,7 +20,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		name: { type: 'string' },
@@ -30,10 +31,10 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const folders = await DriveFolders.find({
+	const folders = await DriveFolders.findBy({
 		name: ps.name,
 		userId: user.id,
-		parentId: ps.parentId,
+		parentId: ps.parentId ?? IsNull(),
 	});
 
 	return await Promise.all(folders.map(folder => DriveFolders.pack(folder)));

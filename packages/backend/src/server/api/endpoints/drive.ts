@@ -1,6 +1,6 @@
-import define from '../define';
-import { fetchMeta } from '@/misc/fetch-meta';
-import { DriveFiles } from '@/models/index';
+import define from '../define.js';
+import { fetchMeta } from '@/misc/fetch-meta.js';
+import { DriveFiles } from '@/models/index.js';
 
 export const meta = {
 	tags: ['drive', 'account'],
@@ -25,7 +25,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],

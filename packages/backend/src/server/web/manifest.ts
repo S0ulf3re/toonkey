@@ -1,16 +1,16 @@
-import * as Koa from 'koa';
-import * as manifest from './manifest.json';
-import { fetchMeta } from '@/misc/fetch-meta';
+import Koa from 'koa';
+import { fetchMeta } from '@/misc/fetch-meta.js';
+import manifest from './manifest.json' assert { type: 'json' };
 
-module.exports = async (ctx: Koa.Context) => {
-	const json = JSON.parse(JSON.stringify(manifest));
+export const manifestHandler = async (ctx: Koa.Context) => {
+	const res = structuredClone(manifest);
 
 	const instance = await fetchMeta(true);
 
-	json.short_name = instance.name || 'Misskey';
-	json.name = instance.name || 'Misskey';
-	if (instance.themeColor) json.theme_color = instance.themeColor;
+	res.short_name = instance.name || 'Misskey';
+	res.name = instance.name || 'Misskey';
+	if (instance.themeColor) res.theme_color = instance.themeColor;
 
 	ctx.set('Cache-Control', 'max-age=300');
-	ctx.body = json;
+	ctx.body = res;
 };

@@ -1,5 +1,5 @@
-import define from '../../../define';
-import { UserGroups, UserGroupJoinings } from '@/models/index';
+import define from '../../../define.js';
+import { UserGroups, UserGroupJoinings } from '@/models/index.js';
 import { Not, In } from 'typeorm';
 
 export const meta = {
@@ -20,7 +20,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],
@@ -28,11 +28,11 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const ownedGroups = await UserGroups.find({
+	const ownedGroups = await UserGroups.findBy({
 		userId: me.id,
 	});
 
-	const joinings = await UserGroupJoinings.find({
+	const joinings = await UserGroupJoinings.findBy({
 		userId: me.id,
 		...(ownedGroups.length > 0 ? {
 			userGroupId: Not(In(ownedGroups.map(x => x.id))),

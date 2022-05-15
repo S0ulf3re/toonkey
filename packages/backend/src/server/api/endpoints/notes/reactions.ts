@@ -1,9 +1,8 @@
-import define from '../../define';
-import { getNote } from '../../common/getters';
-import { ApiError } from '../../error';
-import { NoteReactions } from '@/models/index';
-import { DeepPartial } from 'typeorm';
-import { NoteReaction } from '@/models/entities/note-reaction';
+import { DeepPartial, FindOptionsWhere } from 'typeorm';
+import { NoteReactions } from '@/models/index.js';
+import { NoteReaction } from '@/models/entities/note-reaction.js';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
 
 export const meta = {
 	tags: ['notes', 'reactions'],
@@ -29,7 +28,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },
@@ -44,14 +43,9 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const note = await getNote(ps.noteId).catch(e => {
-		if (e.id === '9725d0ce-ba28-4dde-95a7-2cbb2c15de24') throw new ApiError(meta.errors.noSuchNote);
-		throw e;
-	});
-
 	const query = {
-		noteId: note.id,
-	} as DeepPartial<NoteReaction>;
+		noteId: ps.noteId,
+	} as FindOptionsWhere<NoteReaction>;
 
 	if (ps.type) {
 		// ローカルリアクションはホスト名が . とされているが
@@ -68,6 +62,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		order: {
 			id: -1,
 		},
+		relations: ['user', 'user.avatar', 'user.banner', 'note'],
 	});
 
 	return await Promise.all(reactions.map(reaction => NoteReactions.pack(reaction, user)));

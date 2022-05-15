@@ -1,9 +1,9 @@
-import config from '@/config/index';
-import Resolver from '../resolver';
-import { IObject, IQuestion, isQuestion  } from '../type';
-import { apLogger } from '../logger';
-import { Notes, Polls } from '@/models/index';
-import { IPoll } from '@/models/entities/poll';
+import config from '@/config/index.js';
+import Resolver from '../resolver.js';
+import { IObject, IQuestion, isQuestion  } from '../type.js';
+import { apLogger } from '../logger.js';
+import { Notes, Polls } from '@/models/index.js';
+import { IPoll } from '@/models/entities/poll.js';
 
 export async function extractPollFromQuestion(source: string | IObject, resolver?: Resolver): Promise<IPoll> {
 	if (resolver == null) resolver = new Resolver();
@@ -47,10 +47,10 @@ export async function updateQuestion(value: any) {
 	if (uri.startsWith(config.url + '/')) throw new Error('uri points local');
 
 	//#region このサーバーに既に登録されているか
-	const note = await Notes.findOne({ uri });
+	const note = await Notes.findOneBy({ uri });
 	if (note == null) throw new Error('Question is not registed');
 
-	const poll = await Polls.findOne({ noteId: note.id });
+	const poll = await Polls.findOneBy({ noteId: note.id });
 	if (poll == null) throw new Error('Question is not registed');
 	//#endregion
 
@@ -69,7 +69,7 @@ export async function updateQuestion(value: any) {
 		const oldCount = poll.votes[poll.choices.indexOf(choice)];
 		const newCount = apChoices!.filter(ap => ap.name === choice)[0].replies!.totalItems;
 
-		if (oldCount != newCount) {
+		if (oldCount !== newCount) {
 			changed = true;
 			poll.votes[poll.choices.indexOf(choice)] = newCount;
 		}

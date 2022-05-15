@@ -1,8 +1,9 @@
 /* eslint-disable key-spacing */
-import { emojiRegex } from './emoji-regex';
-import { fetchMeta } from './fetch-meta';
-import { Emojis } from '@/models/index';
-import { toPunyNullable } from './convert-host';
+import { emojiRegex } from './emoji-regex.js';
+import { fetchMeta } from './fetch-meta.js';
+import { Emojis } from '@/models/index.js';
+import { toPunyNullable } from './convert-host.js';
+import { IsNull } from 'typeorm';
 
 const legacies: Record<string, string> = {
 	'like':     '👍',
@@ -74,8 +75,8 @@ export async function toDbReaction(reaction?: string | null, reacterHost?: strin
 	const custom = reaction.match(/^:([\w+-]+)(?:@\.)?:$/);
 	if (custom) {
 		const name = custom[1];
-		const emoji = await Emojis.findOne({
-			host: reacterHost || null,
+		const emoji = await Emojis.findOneBy({
+			host: reacterHost ?? IsNull(),
 			name,
 		});
 

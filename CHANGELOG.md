@@ -2,7 +2,6 @@
 ## 12.x.x (unreleased)
 
 ### Improvements
-- 
 
 ### Bugfixes
 - 
@@ -11,12 +10,108 @@ You should also include the user name that made the change.
 -->
 
 ## 12.x.x (unreleased)
+### NOTE
+- From this version, Node 18.0.0 or later is required.
 
 ### Improvements
-- 
+- enhance: ドライブに画像ファイルをアップロードするときオリジナル画像を破棄してwebpublicのみ保持するオプション @tamaina
+- enhance: API: notifications/readは配列でも受け付けるように #7667 @tamaina
+- enhance: プッシュ通知を複数アカウント対応に #7667 @tamaina
+- enhance: プッシュ通知にクリックやactionを設定 #7667 @tamaina
+
+### Bugfixes
+- Client: fix settings page @tamaina
+- Client: fix profile tabs @futchitwo
+- Server: await promises when following or unfollowing users @Johann150
+- Client: fix abuse reports page to be able to show all reports @Johann150
+- Federation: Add rel attribute to host-meta @mei23
+
+## 12.110.1 (2022/04/23)
+
+### Bugfixes
+- Fix GOP rendering @syuilo
+- Improve performance of antenna, clip, and list @xianonn
+
+## 12.110.0 (2022/04/11)
+
+### Improvements
+- Improve webhook @syuilo
+- Client: Show loading icon on splash screen @syuilo
+
+### Bugfixes
+- API: parameter validation of users/show was wrong
+- Federation: リモートインスタンスへのダイレクト投稿が届かない問題を修正 @syuilo
+
+## 12.109.2 (2022/04/03)
+
+### Bugfixes
+- API: admin/update-meta was not working @syuilo
+- Client: テーマを切り替えたり読み込んだりするとmeta[name="theme-color"]のcontentがundefinedになる問題を修正 @tamaina
+
+## 12.109.1 (2022/04/02)
+
+### Bugfixes
+- API: Renoteが行えない問題を修正
+
+## 12.109.0 (2022/04/02)
+
+### Improvements
+- Webhooks @syuilo
+- Bull Dashboardを組み込み、ジョブキューの確認や操作を行えるように @syuilo
+  - Bull Dashboardを開くには、最初だけ一旦ログアウトしてから再度管理者権限を持つアカウントでログインする必要があります
+- Check that installed Node.js version fulfills version requirement @ThatOneCalculator
+- Server: overall performance improvements @syuilo
+- Federation: avoid duplicate activity delivery @Johann150
+- Federation: limit federation of reactions on direct notes @Johann150
+- Client: タッチパッド・タッチスクリーンでのデッキの操作性を向上 @tamaina
+
+### Bugfixes
+- email address validation was not working @ybw2016v
+- API: fix endpoint endpoint @Johann150
+- API: fix admin/meta endpoint @syuilo
+- API: improved validation and documentation for endpoints that accept different variants of input @Johann150
+- API: `notes/create`: The `mediaIds` property is now deprecated. @Johann150
+  - Use `fileIds` instead, it has the same behaviour.
+- Client: URIエンコーディングが異常でdecodeURIComponentが失敗するとURLが表示できなくなる問題を修正 @tamaina
+
+## 12.108.1 (2022/03/12)
+
+### Bugfixes
+- リレーが動作しない問題を修正 @xianonn
+- ulidを使用していると動作しない問題を修正 @syuilo
+- 外部からOGPが正しく取得できない問題を修正 @syuilo
+- instance can not get the files from other instance when there are items in allowedPrivateNetworks in .config/default.yml @ybw2016v
+
+## 12.108.0 (2022/03/09)
+
+### NOTE
+このバージョンからNode v16.14.0以降が必要です
+
+### Changes
+- ノートの最大文字数を設定できる機能が廃止され、デフォルトで一律3000文字になりました @syuilo
+- Misskey can no longer terminate HTTPS connections. @Johann150
+  - If you did not use a reverse proxy (e.g. nginx) before, you will probably need to adjust
+    your configuration file and set up a reverse proxy. The `https` configuration key is no
+    longer recognized!
+
+### Improvements
+- インスタンスデフォルトテーマを設定できるように @syuilo
+- ミュートに期限を設定できるように @syuilo
+- アンケートが終了したときに通知が作成されるように @syuilo
+- プロフィールの追加情報を最大16まで保存できるように @syuilo
+- 連合チャートにPub&Subを追加 @syuilo
+- 連合チャートにActiveを追加 @syuilo
+- デフォルトで10秒以上時間がかかるデータベースへのクエリは中断されるように @syuilo
+	- 設定ファイルの`db.extra`に`statement_timeout`を設定することでタイムアウト時間を変更できます
+- Client: スプラッシュスクリーンにインスタンスのアイコンを表示するように @syuilo
 
 ### Bugfixes
 - Client: リアクションピッカーの高さが低くなったまま戻らないことがあるのを修正 @syuilo
+- Client: ユーザー名オートコンプリートが正しく動作しない問題を修正 @syuilo
+- Client: タッチ操作だとウィジェットの編集がしにくいのを修正 @xianonn
+- Client: register_note_view_interruptor()が動かないのを修正 @syuilo
+- Client: iPhone X以降(?)でページの内容が全て表示しきれないのを修正 @tamaina
+- Client: fix image caption on mobile @nullobsi
 
 ## 12.107.0 (2022/02/12)
 

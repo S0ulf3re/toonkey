@@ -1,6 +1,6 @@
-import { publishMainStream } from '@/services/stream';
-import define from '../../define';
-import { NoteUnreads } from '@/models/index';
+import { publishMainStream } from '@/services/stream.js';
+import define from '../../define.js';
+import { NoteUnreads } from '@/models/index.js';
 
 export const meta = {
 	tags: ['account'],
@@ -10,7 +10,7 @@ export const meta = {
 	kind: 'write:account',
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],

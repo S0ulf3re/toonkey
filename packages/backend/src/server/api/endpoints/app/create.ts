@@ -1,8 +1,8 @@
-import define from '../../define';
-import { Apps } from '@/models/index';
-import { genId } from '@/misc/gen-id';
-import { unique } from '@/prelude/array';
-import { secureRndstr } from '@/misc/secure-rndstr';
+import define from '../../define.js';
+import { Apps } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
+import { unique } from '@/prelude/array.js';
+import { secureRndstr } from '@/misc/secure-rndstr.js';
 
 export const meta = {
 	tags: ['app'],
@@ -16,7 +16,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		name: { type: 'string' },
@@ -47,7 +47,7 @@ export default define(meta, paramDef, async (ps, user) => {
 		permission,
 		callbackUrl: ps.callbackUrl,
 		secret: secret,
-	}).then(x => Apps.findOneOrFail(x.identifiers[0]));
+	}).then(x => Apps.findOneByOrFail(x.identifiers[0]));
 
 	return await Apps.pack(app, null, {
 		detail: true,

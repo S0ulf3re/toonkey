@@ -1,17 +1,22 @@
-import { createSystemUser } from './create-system-user';
-import { renderFollowRelay } from '@/remote/activitypub/renderer/follow-relay';
-import { renderActivity, attachLdSignature } from '@/remote/activitypub/renderer/index';
-import renderUndo from '@/remote/activitypub/renderer/undo';
-import { deliver } from '@/queue/index';
-import { ILocalUser, User } from '@/models/entities/user';
-import { Users, Relays } from '@/models/index';
-import { genId } from '@/misc/gen-id';
+import { createSystemUser } from './create-system-user.js';
+import { renderFollowRelay } from '@/remote/activitypub/renderer/follow-relay.js';
+import { renderActivity, attachLdSignature } from '@/remote/activitypub/renderer/index.js';
+import renderUndo from '@/remote/activitypub/renderer/undo.js';
+import { deliver } from '@/queue/index.js';
+import { ILocalUser, User } from '@/models/entities/user.js';
+import { Users, Relays } from '@/models/index.js';
+import { genId } from '@/misc/gen-id.js';
+import { Cache } from '@/misc/cache.js';
+import { Relay } from '@/models/entities/relay.js';
+import { IsNull } from 'typeorm';
 
 const ACTOR_USERNAME = 'relay.actor' as const;
 
+const relaysCache = new Cache<Relay[]>(1000 * 60 * 10);
+
 export async function getRelayActor(): Promise<ILocalUser> {
-	const user = await Users.findOne({
-		host: null,
+	const user = await Users.findOneBy({
+		host: IsNull(),
 		username: ACTOR_USERNAME,
 	});
 
@@ -26,7 +31,7 @@ export async function addRelay(inbox: string) {
 		id: genId(),
 		inbox,
 		status: 'requesting',
-	}).then(x => Relays.findOneOrFail(x.identifiers[0]));
+	}).then(x => Relays.findOneByOrFail(x.identifiers[0]));
 
 	const relayActor = await getRelayActor();
 	const follow = await renderFollowRelay(relay, relayActor);
@@ -37,7 +42,7 @@ export async function addRelay(inbox: string) {
 }
 
 export async function removeRelay(inbox: string) {
-	const relay = await Relays.findOne({
+	const relay = await Relays.findOneBy({
 		inbox,
 	});
 
@@ -78,12 +83,12 @@ export async function relayRejected(id: string) {
 export async function deliverToRelays(user: { id: User['id']; host: null; }, activity: any) {
 	if (activity == null) return;
 
-	const relays = await Relays.find({
+	const relays = await relaysCache.fetch(null, () => Relays.findBy({
 		status: 'accepted',
-	});
+	}));
 	if (relays.length === 0) return;
 
-	const copy = JSON.parse(JSON.stringify(activity));
+	const copy = structuredClone(activity);
 	if (!copy.to) copy.to = ['https://www.w3.org/ns/activitystreams#Public'];
 
 	const signed = await attachLdSignature(copy, user);

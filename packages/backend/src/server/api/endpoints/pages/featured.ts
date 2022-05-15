@@ -1,5 +1,5 @@
-import define from '../../define';
-import { Pages } from '@/models/index';
+import define from '../../define.js';
+import { Pages } from '@/models/index.js';
 
 export const meta = {
 	tags: ['pages'],
@@ -17,7 +17,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],

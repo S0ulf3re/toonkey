@@ -1,5 +1,5 @@
-import define from '../../../define';
-import { RegistryItems } from '@/models/index';
+import define from '../../../define.js';
+import { RegistryItems } from '@/models/index.js';
 
 export const meta = {
 	requireCredential: true,
@@ -7,7 +7,7 @@ export const meta = {
 	secure: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],

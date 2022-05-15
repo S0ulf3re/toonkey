@@ -57,7 +57,7 @@ const lib = emojilist.filter(x => x.category !== 'flags');
 
 const char2file = (char: string) => {
 	let codes = Array.from(char).map(x => x.codePointAt(0)?.toString(16));
-	if (!codes.includes('200d')) codes = codes.filter(x => x != 'fe0f');
+	if (!codes.includes('200d')) codes = codes.filter(x => x !== 'fe0f');
 	return codes.filter(x => x && x.length).join('-');
 };
 
@@ -131,8 +131,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-	(e: 'done', v: { type: string; value: any }): void;
-	(e: 'closed'): void;
+	(event: 'done', value: { type: string; value: any }): void;
+	(event: 'closed'): void;
 }>();
 
 const suggests = ref<Element>();
@@ -152,7 +152,7 @@ function complete(type: string, value: any) {
 	emit('closed');
 	if (type === 'emoji') {
 		let recents = defaultStore.state.recentlyUsedEmojis;
-		recents = recents.filter((e: any) => e !== value);
+		recents = recents.filter((emoji: any) => emoji !== value);
 		recents.unshift(value);
 		defaultStore.set('recentlyUsedEmojis', recents.splice(0, 32));
 	}
@@ -192,8 +192,7 @@ function exec() {
 		const cache = sessionStorage.getItem(cacheKey);
 
 		if (cache) {
-			const users = JSON.parse(cache);
-			users.value = users;
+			users.value = JSON.parse(cache);
 			fetching.value = false;
 		} else {
 			os.api('users/search-by-username-and-host', {
@@ -208,7 +207,7 @@ function exec() {
 			});
 		}
 	} else if (props.type === 'hashtag') {
-		if (!props.q || props.q == '') {
+		if (!props.q || props.q === '') {
 			hashtags.value = JSON.parse(localStorage.getItem('hashtags') || '[]');
 			fetching.value = false;
 		} else {
@@ -231,9 +230,9 @@ function exec() {
 			}
 		}
 	} else if (props.type === 'emoji') {
-		if (!props.q || props.q == '') {
+		if (!props.q || props.q === '') {
 			// 最近使った絵文字をサジェスト
-			emojis.value = defaultStore.state.recentlyUsedEmojis.map(emoji => emojiDb.find(e => e.emoji == emoji)).filter(x => x) as EmojiDef[];
+			emojis.value = defaultStore.state.recentlyUsedEmojis.map(emoji => emojiDb.find(dbEmoji => dbEmoji.emoji === emoji)).filter(x => x) as EmojiDef[];
 			return;
 		}
 
@@ -241,46 +240,46 @@ function exec() {
 		const max = 30;
 
 		emojiDb.some(x => {
-			if (x.name.startsWith(props.q || '') && !x.aliasOf && !matched.some(y => y.emoji == x.emoji)) matched.push(x);
-			return matched.length == max;
+			if (x.name.startsWith(props.q ?? '') && !x.aliasOf && !matched.some(y => y.emoji === x.emoji)) matched.push(x);
+			return matched.length === max;
 		});
 
 		if (matched.length < max) {
 			emojiDb.some(x => {
-				if (x.name.startsWith(props.q || '') && !matched.some(y => y.emoji == x.emoji)) matched.push(x);
-				return matched.length == max;
+				if (x.name.startsWith(props.q ?? '') && !matched.some(y => y.emoji === x.emoji)) matched.push(x);
+				return matched.length === max;
 			});
 		}
 
 		if (matched.length < max) {
 			emojiDb.some(x => {
-				if (x.name.includes(props.q || '') && !matched.some(y => y.emoji == x.emoji)) matched.push(x);
-				return matched.length == max;
+				if (x.name.includes(props.q ?? '') && !matched.some(y => y.emoji === x.emoji)) matched.push(x);
+				return matched.length === max;
 			});
 		}
 
 		emojis.value = matched;
 	} else if (props.type === 'mfmTag') {
-		if (!props.q || props.q == '') {
+		if (!props.q || props.q === '') {
 			mfmTags.value = MFM_TAGS;
 			return;
 		}
 
-		mfmTags.value = MFM_TAGS.filter(tag => tag.startsWith(props.q || ''));
+		mfmTags.value = MFM_TAGS.filter(tag => tag.startsWith(props.q ?? ''));
 	}
 }
 
-function onMousedown(e: Event) {
-	if (!contains(rootEl.value, e.target) && (rootEl.value != e.target)) props.close();
+function onMousedown(event: Event) {
+	if (!contains(rootEl.value, event.target) && (rootEl.value !== event.target)) props.close();
 }
 
-function onKeydown(e: KeyboardEvent) {
+function onKeydown(event: KeyboardEvent) {
 	const cancel = () => {
-		e.preventDefault();
-		e.stopPropagation();
+		event.preventDefault();
+		event.stopPropagation();
 	};
 
-	switch (e.key) {
+	switch (event.key) {
 		case 'Enter':
 			if (select.value !== -1) {
 				cancel();
@@ -311,7 +310,7 @@ function onKeydown(e: KeyboardEvent) {
 			break;
 
 		default:
-			e.stopPropagation();
+			event.stopPropagation();
 			props.textarea.focus();
 	}
 }
@@ -348,7 +347,7 @@ function chooseUser() {
 
 onUpdated(() => {
 	setPosition();
-	items.value = suggests.value?.children || [];
+	items.value = suggests.value?.children ?? [];
 });
 
 onMounted(() => {

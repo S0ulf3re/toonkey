@@ -1,6 +1,7 @@
-import define from '../../../define';
-import { Users } from '@/models/index';
-import { signup } from '../../../common/signup';
+import define from '../../../define.js';
+import { Users } from '@/models/index.js';
+import { signup } from '../../../common/signup.js';
+import { IsNull } from 'typeorm';
 
 export const meta = {
 	tags: ['admin'],
@@ -18,7 +19,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		username: Users.localUsernameSchema,
@@ -29,9 +30,9 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, _me) => {
-	const me = _me ? await Users.findOneOrFail(_me.id) : null;
-	const noUsers = (await Users.count({
-		host: null,
+	const me = _me ? await Users.findOneByOrFail({ id: _me.id }) : null;
+	const noUsers = (await Users.countBy({
+		host: IsNull(),
 	})) === 0;
 	if (!noUsers && !me?.isAdmin) throw new Error('access denied');
 

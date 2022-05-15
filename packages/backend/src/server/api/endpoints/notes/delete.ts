@@ -1,9 +1,9 @@
-import deleteNote from '@/services/note/delete';
-import define from '../../define';
+import deleteNote from '@/services/note/delete.js';
+import define from '../../define.js';
 import ms from 'ms';
-import { getNote } from '../../common/getters';
-import { ApiError } from '../../error';
-import { Users } from '@/models/index';
+import { getNote } from '../../common/getters.js';
+import { ApiError } from '../../error.js';
+import { Users } from '@/models/index.js';
 
 export const meta = {
 	tags: ['notes'],
@@ -33,7 +33,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },
@@ -48,10 +48,10 @@ export default define(meta, paramDef, async (ps, user) => {
 		throw e;
 	});
 
-	if (!user.isAdmin && !user.isModerator && (note.userId !== user.id)) {
+	if ((!user.isAdmin && !user.isModerator) && (note.userId !== user.id)) {
 		throw new ApiError(meta.errors.accessDenied);
 	}
 
 	// この操作を行うのが投稿者とは限らない(例えばモデレーター)ため
-	await deleteNote(await Users.findOneOrFail(note.userId), note);
+	await deleteNote(await Users.findOneByOrFail({ id: note.userId }), note);
 });

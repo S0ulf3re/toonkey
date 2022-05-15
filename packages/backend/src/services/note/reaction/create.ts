@@ -1,24 +1,24 @@
-import { publishNoteStream } from '@/services/stream';
-import { renderLike } from '@/remote/activitypub/renderer/like';
-import DeliverManager from '@/remote/activitypub/deliver-manager';
-import { renderActivity } from '@/remote/activitypub/renderer/index';
-import { toDbReaction, decodeReaction } from '@/misc/reaction-lib';
-import { User, IRemoteUser } from '@/models/entities/user';
-import { Note } from '@/models/entities/note';
-import { NoteReactions, Users, NoteWatchings, Notes, Emojis, Blockings } from '@/models/index';
-import { Not } from 'typeorm';
-import { perUserReactionsChart } from '@/services/chart/index';
-import { genId } from '@/misc/gen-id';
-import { createNotification } from '../../create-notification';
-import deleteReaction from './delete';
-import { isDuplicateKeyValueError } from '@/misc/is-duplicate-key-value-error';
-import { NoteReaction } from '@/models/entities/note-reaction';
-import { IdentifiableError } from '@/misc/identifiable-error';
+import { publishNoteStream } from '@/services/stream.js';
+import { renderLike } from '@/remote/activitypub/renderer/like.js';
+import DeliverManager from '@/remote/activitypub/deliver-manager.js';
+import { renderActivity } from '@/remote/activitypub/renderer/index.js';
+import { toDbReaction, decodeReaction } from '@/misc/reaction-lib.js';
+import { User, IRemoteUser } from '@/models/entities/user.js';
+import { Note } from '@/models/entities/note.js';
+import { NoteReactions, Users, NoteWatchings, Notes, Emojis, Blockings } from '@/models/index.js';
+import { IsNull, Not } from 'typeorm';
+import { perUserReactionsChart } from '@/services/chart/index.js';
+import { genId } from '@/misc/gen-id.js';
+import { createNotification } from '../../create-notification.js';
+import deleteReaction from './delete.js';
+import { isDuplicateKeyValueError } from '@/misc/is-duplicate-key-value-error.js';
+import { NoteReaction } from '@/models/entities/note-reaction.js';
+import { IdentifiableError } from '@/misc/identifiable-error.js';
 
 export default async (user: { id: User['id']; host: User['host']; }, note: Note, reaction?: string) => {
 	// Check blocking
 	if (note.userId !== user.id) {
-		const block = await Blockings.findOne({
+		const block = await Blockings.findOneBy({
 			blockerId: note.userId,
 			blockeeId: user.id,
 		});
@@ -43,7 +43,7 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 		await NoteReactions.insert(record);
 	} catch (e) {
 		if (isDuplicateKeyValueError(e)) {
-			const exists = await NoteReactions.findOneOrFail({
+			const exists = await NoteReactions.findOneByOrFail({
 				noteId: note.id,
 				userId: user.id,
 			});
@@ -79,7 +79,7 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 	const emoji = await Emojis.findOne({
 		where: {
 			name: decodedReaction.name,
-			host: decodedReaction.host,
+			host: decodedReaction.host ?? IsNull(),
 		},
 		select: ['name', 'host', 'originalUrl', 'publicUrl'],
 	});
@@ -103,7 +103,7 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 	}
 
 	// Fetch watchers
-	NoteWatchings.find({
+	NoteWatchings.findBy({
 		noteId: note.id,
 		userId: Not(user.id),
 	}).then(watchers => {
@@ -121,10 +121,19 @@ export default async (user: { id: User['id']; host: User['host']; }, note: Note,
 		const content = renderActivity(await renderLike(record, note));
 		const dm = new DeliverManager(user, content);
 		if (note.userHost !== null) {
-			const reactee = await Users.findOne(note.userId);
+			const reactee = await Users.findOneBy({ id: note.userId });
 			dm.addDirectRecipe(reactee as IRemoteUser);
 		}
-		dm.addFollowersRecipe();
+
+		if (['public', 'home', 'followers'].includes(note.visibility)) {
+			dm.addFollowersRecipe();
+		} else if (note.visibility === 'specified') {
+			const visibleUsers = await Promise.all(note.visibleUserIds.map(id => Users.findOneBy({ id })));
+			for (const u of visibleUsers.filter(u => u && Users.isRemoteUser(u))) {
+				dm.addDirectRecipe(u as IRemoteUser);
+			}
+		}
+
 		dm.execute();
 	}
 	//#endregion

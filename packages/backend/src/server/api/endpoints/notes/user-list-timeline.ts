@@ -1,9 +1,9 @@
-import define from '../../define';
-import { ApiError } from '../../error';
-import { UserLists, UserListJoinings, Notes } from '@/models/index';
-import { makePaginationQuery } from '../../common/make-pagination-query';
-import { generateVisibilityQuery } from '../../common/generate-visibility-query';
-import { activeUsersChart } from '@/services/chart/index';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
+import { UserLists, UserListJoinings, Notes } from '@/models/index.js';
+import { makePaginationQuery } from '../../common/make-pagination-query.js';
+import { generateVisibilityQuery } from '../../common/generate-visibility-query.js';
+import { activeUsersChart } from '@/services/chart/index.js';
 import { Brackets } from 'typeorm';
 
 export const meta = {
@@ -30,7 +30,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		listId: { type: 'string', format: 'misskey:id' },
@@ -42,14 +42,18 @@ const paramDef = {
 		includeMyRenotes: { type: 'boolean', default: true },
 		includeRenotedMyNotes: { type: 'boolean', default: true },
 		includeLocalRenotes: { type: 'boolean', default: true },
-		withFiles: { type: 'boolean' },
+		withFiles: {
+			type: 'boolean',
+			default: false,
+			description: 'Only show notes that have attached files.',
+		},
 	},
 	required: ['listId'],
 } as const;
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
-	const list = await UserLists.findOne({
+	const list = await UserLists.findOneBy({
 		id: ps.listId,
 		userId: user.id,
 	});
@@ -59,18 +63,20 @@ export default define(meta, paramDef, async (ps, user) => {
 	}
 
 	//#region Construct query
-	const listQuery = UserListJoinings.createQueryBuilder('joining')
-		.select('joining.userId')
-		.where('joining.userListId = :userListId', { userListId: list.id });
-
 	const query = makePaginationQuery(Notes.createQueryBuilder('note'), ps.sinceId, ps.untilId)
-		.andWhere(`note.userId IN (${ listQuery.getQuery() })`)
+		.innerJoin(UserListJoinings.metadata.targetName, 'userListJoining', 'userListJoining.userId = note.userId')
 		.innerJoinAndSelect('note.user', 'user')
+		.leftJoinAndSelect('user.avatar', 'avatar')
+		.leftJoinAndSelect('user.banner', 'banner')
 		.leftJoinAndSelect('note.reply', 'reply')
 		.leftJoinAndSelect('note.renote', 'renote')
 		.leftJoinAndSelect('reply.user', 'replyUser')
+		.leftJoinAndSelect('replyUser.avatar', 'replyUserAvatar')
+		.leftJoinAndSelect('replyUser.banner', 'replyUserBanner')
 		.leftJoinAndSelect('renote.user', 'renoteUser')
-		.setParameters(listQuery.getParameters());
+		.leftJoinAndSelect('renoteUser.avatar', 'renoteUserAvatar')
+		.leftJoinAndSelect('renoteUser.banner', 'renoteUserBanner')
+		.andWhere('userListJoining.userListId = :userListId', { userListId: list.id });
 
 	generateVisibilityQuery(query, user);
 

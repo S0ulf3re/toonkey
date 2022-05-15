@@ -1,9 +1,10 @@
-import config from '@/config/index';
-import define from '../define';
-import { fetchMeta } from '@/misc/fetch-meta';
-import { Ads, Emojis, Users } from '@/models/index';
-import { DB_MAX_NOTE_TEXT_LENGTH } from '@/misc/hard-limits';
-import { MoreThan } from 'typeorm';
+import config from '@/config/index.js';
+import define from '../define.js';
+import { fetchMeta } from '@/misc/fetch-meta.js';
+import { Ads, Emojis, Users } from '@/models/index.js';
+import { DB_MAX_NOTE_TEXT_LENGTH } from '@/misc/hard-limits.js';
+import { IsNull, MoreThan } from 'typeorm';
+import { MAX_NOTE_TEXT_LENGTH } from '@/const.js';
 
 export const meta = {
 	tags: ['meta'],
@@ -63,10 +64,13 @@ export const meta = {
 				optional: false, nullable: false,
 				default: 'https://github.com/misskey-dev/misskey/issues/new',
 			},
-			secure: {
-				type: 'boolean',
-				optional: false, nullable: false,
-				default: false,
+			defaultDarkTheme: {
+				type: 'string',
+				optional: false, nullable: true,
+			},
+			defaultLightTheme: {
+				type: 'string',
+				optional: false, nullable: true,
 			},
 			disableRegistration: {
 				type: 'boolean',
@@ -89,10 +93,6 @@ export const meta = {
 				optional: false, nullable: false,
 			},
 			cacheRemoteFiles: {
-				type: 'boolean',
-				optional: false, nullable: false,
-			},
-			proxyRemoteFiles: {
 				type: 'boolean',
 				optional: false, nullable: false,
 			},
@@ -141,7 +141,6 @@ export const meta = {
 			maxNoteTextLength: {
 				type: 'number',
 				optional: false, nullable: false,
-				default: 500,
 			},
 			emojis: {
 				type: 'array',
@@ -170,6 +169,7 @@ export const meta = {
 						host: {
 							type: 'string',
 							optional: false, nullable: true,
+							description: 'The local host is represented with `null`.',
 						},
 						url: {
 							type: 'string',
@@ -291,156 +291,11 @@ export const meta = {
 					},
 				},
 			},
-			userStarForReactionFallback: {
-				type: 'boolean',
-				optional: true, nullable: false,
-			},
-			pinnedUsers: {
-				type: 'array',
-				optional: true, nullable: false,
-				items: {
-					type: 'string',
-					optional: false, nullable: false,
-				},
-			},
-			hiddenTags: {
-				type: 'array',
-				optional: true, nullable: false,
-				items: {
-					type: 'string',
-					optional: false, nullable: false,
-				},
-			},
-			blockedHosts: {
-				type: 'array',
-				optional: true, nullable: false,
-				items: {
-					type: 'string',
-					optional: false, nullable: false,
-				},
-			},
-			hcaptchaSecretKey: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			recaptchaSecretKey: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			proxyAccountId: {
-				type: 'string',
-				optional: true, nullable: true,
-				format: 'id',
-			},
-			twitterConsumerKey: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			twitterConsumerSecret: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			githubClientId: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			githubClientSecret: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			discordClientId: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			discordClientSecret: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			summaryProxy: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			email: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			smtpSecure: {
-				type: 'boolean',
-				optional: true, nullable: false,
-			},
-			smtpHost: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			smtpPort: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			smtpUser: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			smtpPass: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			swPrivateKey: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			useObjectStorage: {
-				type: 'boolean',
-				optional: true, nullable: false,
-			},
-			objectStorageBaseUrl: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			objectStorageBucket: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			objectStoragePrefix: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			objectStorageEndpoint: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			objectStorageRegion: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			objectStoragePort: {
-				type: 'number',
-				optional: true, nullable: true,
-			},
-			objectStorageAccessKey: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			objectStorageSecretKey: {
-				type: 'string',
-				optional: true, nullable: true,
-			},
-			objectStorageUseSSL: {
-				type: 'boolean',
-				optional: true, nullable: false,
-			},
-			objectStorageUseProxy: {
-				type: 'boolean',
-				optional: true, nullable: false,
-			},
-			objectStorageSetPublicRead: {
-				type: 'boolean',
-				optional: true, nullable: false,
-			},
 		},
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		detail: { type: 'boolean', default: true },
@@ -454,7 +309,7 @@ export default define(meta, paramDef, async (ps, me) => {
 
 	const emojis = await Emojis.find({
 		where: {
-			host: null,
+			host: IsNull(),
 		},
 		order: {
 			category: 'ASC',
@@ -485,9 +340,6 @@ export default define(meta, paramDef, async (ps, me) => {
 		tosUrl: instance.ToSUrl,
 		repositoryUrl: instance.repositoryUrl,
 		feedbackUrl: instance.feedbackUrl,
-
-		secure: config.https != null,
-
 		disableRegistration: instance.disableRegistration,
 		disableLocalTimeline: instance.disableLocalTimeline,
 		disableGlobalTimeline: instance.disableGlobalTimeline,
@@ -506,8 +358,10 @@ export default define(meta, paramDef, async (ps, me) => {
 		iconUrl: instance.iconUrl,
 		backgroundImageUrl: instance.backgroundImageUrl,
 		logoImageUrl: instance.logoImageUrl,
-		maxNoteTextLength: Math.min(instance.maxNoteTextLength, DB_MAX_NOTE_TEXT_LENGTH),
+		maxNoteTextLength: MAX_NOTE_TEXT_LENGTH, // 後方互換性のため
 		emojis: await Emojis.packMany(emojis),
+		defaultLightTheme: instance.defaultLightTheme,
+		defaultDarkTheme: instance.defaultDarkTheme,
 		ads: ads.map(ad => ({
 			id: ad.id,
 			url: ad.url,
@@ -529,9 +383,8 @@ export default define(meta, paramDef, async (ps, me) => {
 			pinnedPages: instance.pinnedPages,
 			pinnedClipId: instance.pinnedClipId,
 			cacheRemoteFiles: instance.cacheRemoteFiles,
-			proxyRemoteFiles: instance.proxyRemoteFiles,
-			requireSetup: (await Users.count({
-				host: null,
+			requireSetup: (await Users.countBy({
+				host: IsNull(),
 			})) === 0,
 		} : {}),
 	};
@@ -555,45 +408,6 @@ export default define(meta, paramDef, async (ps, me) => {
 			serviceWorker: instance.enableServiceWorker,
 			miauth: true,
 		};
-
-		if (me && me.isAdmin) {
-			response.useStarForReactionFallback = instance.useStarForReactionFallback;
-			response.pinnedUsers = instance.pinnedUsers;
-			response.hiddenTags = instance.hiddenTags;
-			response.blockedHosts = instance.blockedHosts;
-			response.hcaptchaSecretKey = instance.hcaptchaSecretKey;
-			response.recaptchaSecretKey = instance.recaptchaSecretKey;
-			response.proxyAccountId = instance.proxyAccountId;
-			response.twitterConsumerKey = instance.twitterConsumerKey;
-			response.twitterConsumerSecret = instance.twitterConsumerSecret;
-			response.githubClientId = instance.githubClientId;
-			response.githubClientSecret = instance.githubClientSecret;
-			response.discordClientId = instance.discordClientId;
-			response.discordClientSecret = instance.discordClientSecret;
-			response.summalyProxy = instance.summalyProxy;
-			response.email = instance.email;
-			response.smtpSecure = instance.smtpSecure;
-			response.smtpHost = instance.smtpHost;
-			response.smtpPort = instance.smtpPort;
-			response.smtpUser = instance.smtpUser;
-			response.smtpPass = instance.smtpPass;
-			response.swPrivateKey = instance.swPrivateKey;
-			response.useObjectStorage = instance.useObjectStorage;
-			response.objectStorageBaseUrl = instance.objectStorageBaseUrl;
-			response.objectStorageBucket = instance.objectStorageBucket;
-			response.objectStoragePrefix = instance.objectStoragePrefix;
-			response.objectStorageEndpoint = instance.objectStorageEndpoint;
-			response.objectStorageRegion = instance.objectStorageRegion;
-			response.objectStoragePort = instance.objectStoragePort;
-			response.objectStorageAccessKey = instance.objectStorageAccessKey;
-			response.objectStorageSecretKey = instance.objectStorageSecretKey;
-			response.objectStorageUseSSL = instance.objectStorageUseSSL;
-			response.objectStorageUseProxy = instance.objectStorageUseProxy;
-			response.objectStorageSetPublicRead = instance.objectStorageSetPublicRead;
-			response.objectStorageS3ForcePathStyle = instance.objectStorageS3ForcePathStyle;
-			response.deeplAuthKey = instance.deeplAuthKey;
-			response.deeplIsPro = instance.deeplIsPro;
-		}
 	}
 
 	return response;

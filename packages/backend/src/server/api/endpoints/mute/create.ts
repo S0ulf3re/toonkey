@@ -1,10 +1,10 @@
-import define from '../../define';
-import { ApiError } from '../../error';
-import { getUser } from '../../common/getters';
-import { genId } from '@/misc/gen-id';
-import { Mutings, NoteWatchings } from '@/models/index';
-import { Muting } from '@/models/entities/muting';
-import { publishUserEvent } from '@/services/stream';
+import define from '../../define.js';
+import { ApiError } from '../../error.js';
+import { getUser } from '../../common/getters.js';
+import { genId } from '@/misc/gen-id.js';
+import { Mutings, NoteWatchings } from '@/models/index.js';
+import { Muting } from '@/models/entities/muting.js';
+import { publishUserEvent } from '@/services/stream.js';
 
 export const meta = {
 	tags: ['account'],
@@ -34,10 +34,15 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		userId: { type: 'string', format: 'misskey:id' },
+		expiresAt: {
+			type: 'integer',
+			nullable: true,
+			description: 'A Unix Epoch timestamp that must lie in the future. `null` means an indefinite mute.',
+		},
 	},
 	required: ['userId'],
 } as const;
@@ -58,7 +63,7 @@ export default define(meta, paramDef, async (ps, user) => {
 	});
 
 	// Check if already muting
-	const exist = await Mutings.findOne({
+	const exist = await Mutings.findOneBy({
 		muterId: muter.id,
 		muteeId: mutee.id,
 	});
@@ -67,10 +72,15 @@ export default define(meta, paramDef, async (ps, user) => {
 		throw new ApiError(meta.errors.alreadyMuting);
 	}
 
+	if (ps.expiresAt && ps.expiresAt <= Date.now()) {
+		return;
+	}
+
 	// Create mute
 	await Mutings.insert({
 		id: genId(),
 		createdAt: new Date(),
+		expiresAt: ps.expiresAt ? new Date(ps.expiresAt) : null,
 		muterId: muter.id,
 		muteeId: mutee.id,
 	} as Muting);

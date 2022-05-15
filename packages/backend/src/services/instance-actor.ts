@@ -1,7 +1,8 @@
-import { createSystemUser } from './create-system-user';
-import { ILocalUser } from '@/models/entities/user';
-import { Users } from '@/models/index';
-import { Cache } from '@/misc/cache';
+import { createSystemUser } from './create-system-user.js';
+import { ILocalUser } from '@/models/entities/user.js';
+import { Users } from '@/models/index.js';
+import { Cache } from '@/misc/cache.js';
+import { IsNull } from 'typeorm';
 
 const ACTOR_USERNAME = 'instance.actor' as const;
 
@@ -11,8 +12,8 @@ export async function getInstanceActor(): Promise<ILocalUser> {
 	const cached = cache.get(null);
 	if (cached) return cached;
 
-	const user = await Users.findOne({
-		host: null,
+	const user = await Users.findOneBy({
+		host: IsNull(),
 		username: ACTOR_USERNAME,
 	}) as ILocalUser | undefined;
 

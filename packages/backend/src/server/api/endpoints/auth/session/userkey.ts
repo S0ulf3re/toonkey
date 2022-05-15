@@ -1,6 +1,6 @@
-import define from '../../../define';
-import { ApiError } from '../../../error';
-import { Apps, AuthSessions, AccessTokens, Users } from '@/models/index';
+import define from '../../../define.js';
+import { ApiError } from '../../../error.js';
+import { Apps, AuthSessions, AccessTokens, Users } from '@/models/index.js';
 
 export const meta = {
 	tags: ['auth'],
@@ -45,7 +45,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		appSecret: { type: 'string' },
@@ -57,7 +57,7 @@ const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps) => {
 	// Lookup app
-	const app = await Apps.findOne({
+	const app = await Apps.findOneBy({
 		secret: ps.appSecret,
 	});
 
@@ -66,7 +66,7 @@ export default define(meta, paramDef, async (ps) => {
 	}
 
 	// Fetch token
-	const session = await AuthSessions.findOne({
+	const session = await AuthSessions.findOneBy({
 		token: ps.token,
 		appId: app.id,
 	});
@@ -80,7 +80,7 @@ export default define(meta, paramDef, async (ps) => {
 	}
 
 	// Lookup access token
-	const accessToken = await AccessTokens.findOneOrFail({
+	const accessToken = await AccessTokens.findOneByOrFail({
 		appId: app.id,
 		userId: session.userId,
 	});

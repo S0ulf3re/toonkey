@@ -1,5 +1,5 @@
-import define from '../../../define';
-import { Polls, Mutings, Notes, PollVotes } from '@/models/index';
+import define from '../../../define.js';
+import { Polls, Mutings, Notes, PollVotes } from '@/models/index.js';
 import { Brackets, In } from 'typeorm';
 
 export const meta = {
@@ -18,7 +18,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
@@ -64,7 +64,7 @@ export default define(meta, paramDef, async (ps, user) => {
 
 	if (polls.length === 0) return [];
 
-	const notes = await Notes.find({
+	const notes = await Notes.findBy({
 		id: In(polls.map(poll => poll.noteId)),
 	});
 

@@ -1,18 +1,18 @@
-import * as Router from '@koa/router';
-import config from '@/config/index';
-import { renderActivity } from '@/remote/activitypub/renderer/index';
-import renderOrderedCollection from '@/remote/activitypub/renderer/ordered-collection';
-import { setResponseType } from '../activitypub';
-import renderNote from '@/remote/activitypub/renderer/note';
-import { Users, Notes, UserNotePinings } from '@/models/index';
+import Router from '@koa/router';
+import config from '@/config/index.js';
+import { renderActivity } from '@/remote/activitypub/renderer/index.js';
+import renderOrderedCollection from '@/remote/activitypub/renderer/ordered-collection.js';
+import { setResponseType } from '../activitypub.js';
+import renderNote from '@/remote/activitypub/renderer/note.js';
+import { Users, Notes, UserNotePinings } from '@/models/index.js';
+import { IsNull } from 'typeorm';
 
 export default async (ctx: Router.RouterContext) => {
 	const userId = ctx.params.user;
 
-	// Verify user
-	const user = await Users.findOne({
+	const user = await Users.findOneBy({
 		id: userId,
-		host: null,
+		host: IsNull(),
 	});
 
 	if (user == null) {
@@ -26,7 +26,7 @@ export default async (ctx: Router.RouterContext) => {
 	});
 
 	const pinnedNotes = await Promise.all(pinings.map(pining =>
-		Notes.findOneOrFail(pining.noteId)));
+		Notes.findOneByOrFail({ id: pining.noteId })));
 
 	const renderedNotes = await Promise.all(pinnedNotes.map(note => renderNote(note)));
 

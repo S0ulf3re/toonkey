@@ -1,7 +1,7 @@
 import { IsNull } from 'typeorm';
-import define from '../../../define';
-import { deleteFile } from '@/services/drive/delete-file';
-import { DriveFiles } from '@/models/index';
+import define from '../../../define.js';
+import { deleteFile } from '@/services/drive/delete-file.js';
+import { DriveFiles } from '@/models/index.js';
 
 export const meta = {
 	tags: ['admin'],
@@ -10,7 +10,7 @@ export const meta = {
 	requireModerator: true,
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {},
 	required: [],
@@ -18,7 +18,7 @@ const paramDef = {
 
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, me) => {
-	const files = await DriveFiles.find({
+	const files = await DriveFiles.findBy({
 		userId: IsNull(),
 	});
 

@@ -1,5 +1,5 @@
 import { PrimaryColumn, Entity, Index, Column } from 'typeorm';
-import { id } from '../id';
+import { id } from '../id.js';
 
 @Entity()
 @Index(['name', 'host'], { unique: true })
@@ -36,6 +36,7 @@ export class Emoji {
 
 	@Column('varchar', {
 		length: 512,
+		default: '',
 	})
 	public publicUrl: string;
 

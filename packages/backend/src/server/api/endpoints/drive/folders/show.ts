@@ -1,6 +1,6 @@
-import define from '../../../define';
-import { ApiError } from '../../../error';
-import { DriveFolders } from '@/models/index';
+import define from '../../../define.js';
+import { ApiError } from '../../../error.js';
+import { DriveFolders } from '@/models/index.js';
 
 export const meta = {
 	tags: ['drive'],
@@ -24,7 +24,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		folderId: { type: 'string', format: 'misskey:id' },
@@ -35,7 +35,7 @@ const paramDef = {
 // eslint-disable-next-line import/no-default-export
 export default define(meta, paramDef, async (ps, user) => {
 	// Get folder
-	const folder = await DriveFolders.findOne({
+	const folder = await DriveFolders.findOneBy({
 		id: ps.folderId,
 		userId: user.id,
 	});

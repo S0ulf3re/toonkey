@@ -1,7 +1,8 @@
-const config = require('./built/config').default;
-const entities = require('./built/db/postgre').entities;
+import { DataSource } from 'typeorm';
+import config from './built/config/index.js';
+import { entities } from './built/db/postgre.js';
 
-module.exports = {
+export default new DataSource({
 	type: 'postgres',
 	host: config.db.host,
 	port: config.db.port,
@@ -11,7 +12,4 @@ module.exports = {
 	extra: config.db.extra,
 	entities: entities,
 	migrations: ['migration/*.js'],
-	cli: {
-		migrationsDir: 'migration'
-	}
-};
+});

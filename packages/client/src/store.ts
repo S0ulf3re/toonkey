@@ -17,7 +17,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	keepCw: {
 		where: 'account',
-		default: false
+		default: true
 	},
 	showFullAcct: {
 		where: 'account',
@@ -68,11 +68,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'deviceAccount',
 		default: [
 			'notifications',
-			'messaging',
+			'favorites',
 			'drive',
 			'followRequests',
 			'-',
-			'gallery',
 			'featured',
 			'explore',
 			'announcements',
@@ -192,7 +191,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	reactionPickerHeight: {
 		where: 'device',
-		default: 1
+		default: 2
 	},
 	reactionPickerUseDrawerForMobile: {
 		where: 'device',
@@ -230,6 +229,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: ''
 	},
+	themeInitial: {
+		where: 'device',
+		default: true,
+	},
 	aiChanMode: {
 		where: 'device',
 		default: false
@@ -252,10 +255,13 @@ type Plugin = {
 /**
  * 常にメモリにロードしておく必要がないような設定情報を保管するストレージ(非リアクティブ)
  */
+import lightTheme from '@/themes/l-light.json5';
+import darkTheme from '@/themes/d-dark.json5'
+
 export class ColdDeviceStorage {
 	public static default = {
-		lightTheme: require('@/themes/l-light.json5') as Theme,
-		darkTheme: require('@/themes/d-dark.json5') as Theme,
+		lightTheme,
+		darkTheme,
 		syncDeviceDarkMode: true,
 		plugins: [] as Plugin[],
 		mediaVolume: 0.5,

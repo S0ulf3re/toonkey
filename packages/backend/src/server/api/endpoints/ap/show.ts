@@ -1,17 +1,17 @@
-import define from '../../define';
-import config from '@/config/index';
-import { createPerson } from '@/remote/activitypub/models/person';
-import { createNote } from '@/remote/activitypub/models/note';
-import Resolver from '@/remote/activitypub/resolver';
-import { ApiError } from '../../error';
-import { extractDbHost } from '@/misc/convert-host';
-import { Users, Notes } from '@/models/index';
-import { Note } from '@/models/entities/note';
-import { User } from '@/models/entities/user';
-import { fetchMeta } from '@/misc/fetch-meta';
-import { isActor, isPost, getApId } from '@/remote/activitypub/type';
+import define from '../../define.js';
+import config from '@/config/index.js';
+import { createPerson } from '@/remote/activitypub/models/person.js';
+import { createNote } from '@/remote/activitypub/models/note.js';
+import Resolver from '@/remote/activitypub/resolver.js';
+import { ApiError } from '../../error.js';
+import { extractDbHost } from '@/misc/convert-host.js';
+import { Users, Notes } from '@/models/index.js';
+import { Note } from '@/models/entities/note.js';
+import { User } from '@/models/entities/user.js';
+import { fetchMeta } from '@/misc/fetch-meta.js';
+import { isActor, isPost, getApId } from '@/remote/activitypub/type.js';
 import ms from 'ms';
-import { SchemaType } from '@/misc/schema';
+import { SchemaType } from '@/misc/schema.js';
 
 export const meta = {
 	tags: ['federation'],
@@ -68,7 +68,7 @@ export const meta = {
 	},
 } as const;
 
-const paramDef = {
+export const paramDef = {
 	type: 'object',
 	properties: {
 		uri: { type: 'string' },
@@ -97,7 +97,7 @@ async function fetchAny(uri: string): Promise<SchemaType<typeof meta['res']> | n
 		const type = parts.pop();
 
 		if (type === 'notes') {
-			const note = await Notes.findOne(id);
+			const note = await Notes.findOneBy({ id });
 
 			if (note) {
 				return {
@@ -106,7 +106,7 @@ async function fetchAny(uri: string): Promise<SchemaType<typeof meta['res']> | n
 				};
 			}
 		} else if (type === 'users') {
-			const user = await Users.findOne(id);
+			const user = await Users.findOneBy({ id });
 
 			if (user) {
 				return {
@@ -124,8 +124,8 @@ async function fetchAny(uri: string): Promise<SchemaType<typeof meta['res']> | n
 	// URI(AP Object id)としてDB検索
 	{
 		const [user, note] = await Promise.all([
-			Users.findOne({ uri: uri }),
-			Notes.findOne({ uri: uri }),
+			Users.findOneBy({ uri: uri }),
+			Notes.findOneBy({ uri: uri }),
 		]);
 
 		const packed = await mergePack(user, note);
@@ -145,7 +145,7 @@ async function fetchAny(uri: string): Promise<SchemaType<typeof meta['res']> | n
 			const type = parts.pop();
 
 			if (type === 'notes') {
-				const note = await Notes.findOne(id);
+				const note = await Notes.findOneBy({ id });
 
 				if (note) {
 					return {
@@ -154,7 +154,7 @@ async function fetchAny(uri: string): Promise<SchemaType<typeof meta['res']> | n
 					};
 				}
 			} else if (type === 'users') {
-				const user = await Users.findOne(id);
+				const user = await Users.findOneBy({ id });
 
 				if (user) {
 					return {
@@ -166,8 +166,8 @@ async function fetchAny(uri: string): Promise<SchemaType<typeof meta['res']> | n
 		}
 
 		const [user, note] = await Promise.all([
-			Users.findOne({ uri: object.id }),
-			Notes.findOne({ uri: object.id }),
+			Users.findOneBy({ uri: object.id }),
+			Notes.findOneBy({ uri: object.id }),
 		]);
 
 		const packed = await mergePack(user, note);
