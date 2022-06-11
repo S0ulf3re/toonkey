@@ -54,7 +54,7 @@ function menu(account, ev) {
 		action: () => switchAccount(account),
 	}, {
 		text: i18n.ts.remove,
-		icon: 'fas fa-trash-alt',
+		icon: 'ti ti-trash',
 		danger: true,
 		action: () => removeAccount(account),
 	}], ev.currentTarget ?? ev.target);

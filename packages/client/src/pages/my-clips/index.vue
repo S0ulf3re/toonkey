@@ -64,7 +64,7 @@ function onClipDeleted() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.clip,
-		icon: 'fas fa-paperclip',
+		icon: 'ti ti-paperclip',
 		bg: 'var(--bg)',
 		action: {
 			icon: 'fas fa-plus',

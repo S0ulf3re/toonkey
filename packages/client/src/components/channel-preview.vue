@@ -13,7 +13,7 @@
 				</I18n>
 			</div>
 			<div>
-				<i class="fas fa-pencil-alt fa-fw"></i>
+				<i class="ti ti-pencil fa-fw"></i>
 				<I18n :src="i18n.ts._channel.notesCount" tag="span" style="margin-left: 4px;">
 					<template #n>
 						<b>{{ channel.notesCount }}</b>

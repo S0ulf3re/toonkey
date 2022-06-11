@@ -7,9 +7,9 @@
 		<div class="sub-icon" :class="notification.type">
 			<i v-if="notification.type === 'follow'" class="fas fa-plus"></i>
 			<i v-else-if="notification.type === 'receiveFollowRequest'" class="fas fa-clock"></i>
-			<i v-else-if="notification.type === 'followRequestAccepted'" class="fas fa-check"></i>
+			<i v-else-if="notification.type === 'followRequestAccepted'" class="ti ti-check"></i>
 			<i v-else-if="notification.type === 'groupInvited'" class="fas fa-id-card-alt"></i>
-			<i v-else-if="notification.type === 'renote'" class="fas fa-retweet"></i>
+			<i v-else-if="notification.type === 'renote'" class="ti ti-repeat"></i>
 			<i v-else-if="notification.type === 'reply'" class="fas fa-reply"></i>
 			<i v-else-if="notification.type === 'mention'" class="fas fa-at"></i>
 			<i v-else-if="notification.type === 'quote'" class="fas fa-quote-left"></i>

@@ -13,7 +13,7 @@
 	></textarea>
 	<div v-if="file" class="file" @click="file = null">{{ file.name }}</div>
 	<button class="send _button" :disabled="!canSend || sending" :title="$ts.send" @click="send">
-		<template v-if="!sending"><i class="fas fa-paper-plane"></i></template><template v-if="sending"><i class="fas fa-spinner fa-pulse fa-fw"></i></template>
+		<template v-if="!sending"><i class="ti ti-send"></i></template><template v-if="sending"><i class="fas fa-spinner fa-pulse fa-fw"></i></template>
 	</button>
 	<button class="_button" @click="chooseFile"><i class="fas fa-photo-video"></i></button>
 	<button class="_button" @click="insertEmoji"><i class="fas fa-laugh-squint"></i></button>

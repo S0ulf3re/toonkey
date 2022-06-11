@@ -31,7 +31,7 @@
 				<button v-else v-tooltip="action.text" class="_button button" :class="{ highlighted: action.highlighted }" @click.stop="action.handler" @touchstart="preventDrag"><i :class="action.icon"></i></button>
 			</template>
 		</template>
-		<button v-if="shouldShowMenu" v-tooltip="$ts.menu" class="_button button" @click.stop="showMenu" @touchstart="preventDrag"><i class="fas fa-ellipsis-h"></i></button>
+		<button v-if="shouldShowMenu" v-tooltip="$ts.menu" class="_button button" @click.stop="showMenu" @touchstart="preventDrag"><i class="ti ti-dots"></i></button>
 	</div>
 </div>
 </template>
@@ -105,7 +105,7 @@ export default defineComponent({
 				if (menu.length > 0) menu.push(null);
 				menu.push({
 					text: i18n.ts.share,
-					icon: 'fas fa-share-alt',
+					icon: 'ti ti-share',
 					action: share
 				});
 			}

@@ -117,7 +117,7 @@ export default defineComponent({
 				action: () => { this.rename(file); }
 			}, {
 				text: file.isSensitive ? this.$ts.unmarkAsSensitive : this.$ts.markAsSensitive,
-				icon: file.isSensitive ? 'fas fa-eye-slash' : 'fas fa-eye',
+				icon: file.isSensitive ? 'ti ti-eye-off' : 'ti ti-eye',
 				action: () => { this.toggleSensitive(file); }
 			}, {
 				text: this.$ts.describeFile,
@@ -125,7 +125,7 @@ export default defineComponent({
 				action: () => { this.describe(file); }
 			}, {
 				text: this.$ts.attachCancel,
-				icon: 'fas fa-times-circle',
+				icon: 'ti ti-x-circle',
 				action: () => { this.detachMedia(file.id); }
 			}], ev.currentTarget ?? ev.target).then(() => this.menu = null);
 		}

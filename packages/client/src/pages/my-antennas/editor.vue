@@ -39,7 +39,7 @@
 	</div>
 	<div class="actions">
 		<MkButton inline primary @click="saveAntenna()"><i class="fas fa-save"></i> {{ $ts.save }}</MkButton>
-		<MkButton v-if="antenna.id != null" inline danger @click="deleteAntenna()"><i class="fas fa-trash"></i> {{ $ts.delete }}</MkButton>
+		<MkButton v-if="antenna.id != null" inline danger @click="deleteAntenna()"><i class="ti ti-trash"></i> {{ $ts.delete }}</MkButton>
 	</div>
 </div>
 </template>

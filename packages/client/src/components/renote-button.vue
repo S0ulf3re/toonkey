@@ -4,7 +4,7 @@
 	class="eddddedb _button canRenote"
 	@click="renote()"
 >
-	<i class="fas fa-retweet"></i>
+	<i class="ti ti-repeat"></i>
 	<p v-if="count > 0" class="count">{{ count }}</p>
 </button>
 <button v-else class="eddddedb _button">
@@ -60,7 +60,7 @@ export default defineComponent({
 			pleaseLogin();
 			os.popupMenu([{
 				text: i18n.ts.renote,
-				icon: 'fas fa-retweet',
+				icon: 'ti ti-repeat',
 				action: () => {
 					os.api('notes/create', {
 						renoteId: props.note.id

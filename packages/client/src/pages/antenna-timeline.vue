@@ -45,7 +45,7 @@ export default defineComponent({
 					text: this.$ts.jumpToSpecifiedDate,
 					handler: this.timetravel
 				}, {
-					icon: 'fas fa-cog',
+					icon: 'ti ti-cog',
 					text: this.$ts.settings,
 					handler: this.settings
 				}],

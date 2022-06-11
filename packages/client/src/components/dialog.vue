@@ -5,8 +5,8 @@
 			<i :class="icon"></i>
 		</div>
 		<div v-else-if="!input && !select" class="icon" :class="type">
-			<i v-if="type === 'success'" class="fas fa-check"></i>
-			<i v-else-if="type === 'error'" class="fas fa-times-circle"></i>
+			<i v-if="type === 'success'" class="ti ti-check"></i>
+			<i v-else-if="type === 'error'" class="ti ti-x-circle"></i>
 			<i v-else-if="type === 'warning'" class="fas fa-exclamation-triangle"></i>
 			<i v-else-if="type === 'info'" class="fas fa-info-circle"></i>
 			<i v-else-if="type === 'question'" class="fas fa-question-circle"></i>

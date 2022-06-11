@@ -46,7 +46,7 @@
 
 	<FormSection>
 		<div style="display: flex; gap: var(--margin); flex-wrap: wrap;">
-			<FormButton inline @click="preview"><i class="fas fa-eye"></i> {{ $ts.preview }}</FormButton>
+			<FormButton inline @click="preview"><i class="ti ti-eye"></i> {{ $ts.preview }}</FormButton>
 			<FormButton inline danger @click="setDefault"><i class="fas fa-undo"></i> {{ $ts.default }}</FormButton>
 		</div>
 	</FormSection>
@@ -125,7 +125,7 @@ defineExpose({
 		title: i18n.ts.reaction,
 		icon: 'fas fa-laugh',
 		action: {
-			icon: 'fas fa-eye',
+			icon: 'ti ti-eye',
 			handler: preview,
 		},
 		bg: 'var(--bg)',

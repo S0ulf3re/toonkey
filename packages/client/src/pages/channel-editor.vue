@@ -13,7 +13,7 @@
 			<MkButton v-if="bannerId == null" @click="setBannerImage"><i class="fas fa-plus"></i> {{ $ts._channel.setBanner }}</MkButton>
 			<div v-else-if="bannerUrl">
 				<img :src="bannerUrl" style="width: 100%;"/>
-				<MkButton @click="removeBannerImage()"><i class="fas fa-trash-alt"></i> {{ $ts._channel.removeBanner }}</MkButton>
+				<MkButton @click="removeBannerImage()"><i class="ti ti-trash"></i> {{ $ts._channel.removeBanner }}</MkButton>
 			</div>
 		</div>
 		<div class="_formBlock">

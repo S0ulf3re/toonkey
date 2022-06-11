@@ -19,7 +19,7 @@
 	<template #headerRight>
 		<button v-tooltip="$ts.showInPage" class="_button" @click="expand()"><i class="fas fa-expand-alt"></i></button>
 		<button v-tooltip="$ts.popout" class="_button" @click="popout()"><i class="fas fa-external-link-alt"></i></button>
-		<button class="_button" @click="menu"><i class="fas fa-ellipsis-h"></i></button>
+		<button class="_button" @click="menu"><i class="ti ti-dots"></i></button>
 	</template>
 
 	<div class="yrolvcoq" :style="{ background: pageInfo?.bg }">
@@ -121,7 +121,7 @@ export default defineComponent({
 					this.$refs.window.close();
 				}
 			}, {
-				icon: 'fas fa-link',
+				icon: 'ti ti-link',
 				text: this.$ts.copyLink,
 				action: () => {
 					copyToClipboard(this.url);
@@ -155,7 +155,7 @@ export default defineComponent({
 					this.$refs.window.close();
 				}
 			}, {
-				icon: 'fas fa-link',
+				icon: 'ti ti-link',
 				text: this.$ts.copyLink,
 				action: () => {
 					copyToClipboard(this.url);

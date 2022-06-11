@@ -43,7 +43,7 @@ const nav = new MisskeyNavigator();
 
 const indexInfo = {
 	title: i18n.ts.controlPanel,
-	icon: 'fas fa-cog',
+	icon: 'ti ti-cog',
 	bg: 'var(--bg)',
 	hideHeader: true,
 };
@@ -74,7 +74,7 @@ const menuDef = $computed(() => [{
 	title: i18n.ts.quickAction,
 	items: [{
 		type: 'button',
-		icon: 'fas fa-search',
+		icon: 'ti ti-search',
 		text: i18n.ts.lookup,
 		action: lookup,
 	}, ...(instance.disableRegistration ? [{
@@ -101,7 +101,7 @@ const menuDef = $computed(() => [{
 		to: '/admin/emojis',
 		active: props.initialPage === 'emojis',
 	}, {
-		icon: 'fas fa-globe',
+		icon: 'ti ti-world',
 		text: i18n.ts.federation,
 		to: '/admin/federation',
 		active: props.initialPage === 'federation',
@@ -111,7 +111,7 @@ const menuDef = $computed(() => [{
 		to: '/admin/queue',
 		active: props.initialPage === 'queue',
 	}, {
-		icon: 'fas fa-cloud',
+		icon: 'ti ti-cloud',
 		text: i18n.ts.files,
 		to: '/admin/files',
 		active: props.initialPage === 'files',
@@ -134,7 +134,7 @@ const menuDef = $computed(() => [{
 }, {
 	title: i18n.ts.settings,
 	items: [{
-		icon: 'fas fa-cog',
+		icon: 'ti ti-cog',
 		text: i18n.ts.general,
 		to: '/admin/settings',
 		active: props.initialPage === 'settings',
@@ -144,7 +144,7 @@ const menuDef = $computed(() => [{
 		to: '/admin/email-settings',
 		active: props.initialPage === 'email-settings',
 	}, {
-		icon: 'fas fa-cloud',
+		icon: 'ti ti-cloud',
 		text: i18n.ts.objectStorage,
 		to: '/admin/object-storage',
 		active: props.initialPage === 'object-storage',
@@ -154,12 +154,12 @@ const menuDef = $computed(() => [{
 		to: '/admin/security',
 		active: props.initialPage === 'security',
 	}, {
-		icon: 'fas fa-globe',
+		icon: 'ti ti-world',
 		text: i18n.ts.relays,
 		to: '/admin/relays',
 		active: props.initialPage === 'relays',
 	}, {
-		icon: 'fas fa-share-alt',
+		icon: 'ti ti-share',
 		text: i18n.ts.integration,
 		to: '/admin/integrations',
 		active: props.initialPage === 'integrations',
@@ -174,7 +174,7 @@ const menuDef = $computed(() => [{
 		to: '/admin/proxy-account',
 		active: props.initialPage === 'proxy-account',
 	}, {
-		icon: 'fas fa-cogs',
+		icon: 'ti ti-cogs',
 		text: i18n.ts.other,
 		to: '/admin/other-settings',
 		active: props.initialPage === 'other-settings',
@@ -282,19 +282,19 @@ const lookup = (ev) => {
 		}
 	}, {
 		text: i18n.ts.note,
-		icon: 'fas fa-pencil-alt',
+		icon: 'ti ti-pencil',
 		action: () => {
 			alert('TODO');
 		}
 	}, {
 		text: i18n.ts.file,
-		icon: 'fas fa-cloud',
+		icon: 'ti ti-cloud',
 		action: () => {
 			alert('TODO');
 		}
 	}, {
 		text: i18n.ts.instance,
-		icon: 'fas fa-globe',
+		icon: 'ti ti-world',
 		action: () => {
 			alert('TODO');
 		}

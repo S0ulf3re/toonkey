@@ -48,7 +48,7 @@ async function init() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.integration,
-		icon: 'fas fa-share-alt',
+		icon: 'ti ti-share',
 		bg: 'var(--bg)',
 	}
 });

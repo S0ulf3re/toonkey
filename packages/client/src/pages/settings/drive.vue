@@ -97,7 +97,7 @@ function chooseUploadFolder() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.drive,
-		icon: 'fas fa-cloud',
+		icon: 'ti ti-cloud',
 		bg: 'var(--bg)',
 	}
 });

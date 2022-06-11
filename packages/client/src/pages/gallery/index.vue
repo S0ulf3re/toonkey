@@ -16,7 +16,7 @@
 			</MkPagination>
 		</MkFolder>
 		<MkFolder class="_gap">
-			<template #header><i class="fas fa-fire-alt"></i>{{ $ts.popularPosts }}</template>
+			<template #header><i class="ti ti-flame"></i>{{ $ts.popularPosts }}</template>
 			<MkPagination v-slot="{items}" :pagination="popularPostsPagination" :disable-auto-load="true">
 				<div class="vfpdbgtk">
 					<MkGalleryPostPreview v-for="post in items" :key="post.id" :post="post" class="post"/>

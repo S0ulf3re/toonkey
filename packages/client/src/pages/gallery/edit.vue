@@ -12,7 +12,7 @@
 		<FormGroup>
 			<div v-for="file in files" :key="file.id" class="_formGroup wqugxsfx" :style="{ backgroundImage: file ? `url(${ file.thumbnailUrl })` : null }">
 				<div class="name">{{ file.name }}</div>
-				<button v-tooltip="$ts.remove" class="remove _button" @click="remove(file)"><i class="fas fa-times"></i></button>
+				<button v-tooltip="$ts.remove" class="remove _button" @click="remove(file)"><i class="ti ti-x"></i></button>
 			</div>
 			<FormButton primary @click="selectFile"><i class="fas fa-plus"></i> {{ $ts.attachFile }}</FormButton>
 		</FormGroup>
@@ -22,7 +22,7 @@
 		<FormButton v-if="postId" primary @click="save"><i class="fas fa-save"></i> {{ $ts.save }}</FormButton>
 		<FormButton v-else primary @click="save"><i class="fas fa-save"></i> {{ $ts.publish }}</FormButton>
 
-		<FormButton v-if="postId" danger @click="del"><i class="fas fa-trash-alt"></i> {{ $ts.delete }}</FormButton>
+		<FormButton v-if="postId" danger @click="del"><i class="ti ti-trash"></i> {{ $ts.delete }}</FormButton>
 	</FormSuspense>
 </div>
 </template>
@@ -61,10 +61,10 @@ export default defineComponent({
 		return {
 			[symbols.PAGE_INFO]: computed(() => this.postId ? {
 				title: this.$ts.edit,
-				icon: 'fas fa-pencil-alt'
+				icon: 'ti ti-pencil'
 			} : {
 				title: this.$ts.postToGallery,
-				icon: 'fas fa-pencil-alt'
+				icon: 'ti ti-pencil'
 			}),
 			init: null,
 			files: [],

@@ -5,7 +5,7 @@
 			<MkAvatar :user="$i" class="avatar"/><MkAcct class="text" :user="$i"/>
 		</button>
 		<MkA v-click-anime class="item index" active-class="active" to="/" exact>
-			<i class="fas fa-home fa-fw"></i><span class="text">{{ $ts.timeline }}</span>
+			<i class="ti ti-home-2 fa-fw"></i><span class="text">{{ $ts.timeline }}</span>
 		</MkA>
 		<template v-for="item in menu">
 			<div v-if="item === '-'" class="divider"></div>
@@ -23,10 +23,10 @@
 			<span v-if="otherMenuItemIndicated" class="indicator"><i class="fas fa-circle"></i></span>
 		</button>
 		<MkA v-click-anime class="item" active-class="active" to="/settings">
-			<i class="fas fa-cog fa-fw"></i><span class="text">{{ $ts.settings }}</span>
+			<i class="ti ti-cog fa-fw"></i><span class="text">{{ $ts.settings }}</span>
 		</MkA>
 		<button class="item _button post" data-cy-open-post-form @click="post">
-			<i class="fas fa-pencil-alt fa-fw"></i><span class="text">{{ $ts.note }}</span>
+			<i class="ti ti-pencil fa-fw"></i><span class="text">{{ $ts.note }}</span>
 		</button>
 	</div>
 </div>

@@ -33,7 +33,7 @@
 				</div>
 
 				<MkFolder ref="tags" :foldable="true" :expanded="false" class="_gap">
-					<template #header><i class="fas fa-hashtag fa-fw" style="margin-right: 0.5em;"></i>{{ $ts.popularTags }}</template>
+					<template #header><i class="ti ti-hash fa-fw" style="margin-right: 0.5em;"></i>{{ $ts.popularTags }}</template>
 
 					<div class="vxjfqztj">
 						<MkA v-for="tag in tagsLocal" :key="'local:' + tag.tag" :to="`/explore/tags/${tag.tag}`" class="local">{{ tag.tag }}</MkA>
@@ -42,7 +42,7 @@
 				</MkFolder>
 
 				<MkFolder v-if="tag != null" :key="`${tag}`" class="_gap">
-					<template #header><i class="fas fa-hashtag fa-fw" style="margin-right: 0.5em;"></i>{{ tag }}</template>
+					<template #header><i class="ti ti-hash fa-fw" style="margin-right: 0.5em;"></i>{{ tag }}</template>
 					<XUserList :pagination="tagUsers"/>
 				</MkFolder>
 
@@ -64,7 +64,7 @@
 			<div v-else-if="tab === 'search'">
 				<div class="_isolated">
 					<MkInput v-model="searchQuery" :debounce="true" type="search">
-						<template #prefix><i class="fas fa-search"></i></template>
+						<template #prefix><i class="ti ti-search"></i></template>
 						<template #label>{{ $ts.searchUser }}</template>
 					</MkInput>
 					<MkRadios v-model="searchOrigin">
@@ -110,7 +110,7 @@ export default defineComponent({
 		return {
 			[symbols.PAGE_INFO]: computed(() => ({
 				title: this.$ts.explore,
-				icon: 'fas fa-hashtag',
+				icon: 'ti ti-hash',
 				bg: 'var(--bg)',
 				tabs: [{
 					active: this.tab === 'local',

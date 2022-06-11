@@ -22,7 +22,7 @@
 			<slot name="action"></slot>
 		</div>
 		<span class="header"><slot name="header"></slot></span>
-		<button v-if="func" v-tooltip="func.title" class="menu _button" @click.stop="func.handler"><i :class="func.icon || 'fas fa-cog'"></i></button>
+		<button v-if="func" v-tooltip="func.title" class="menu _button" @click.stop="func.handler"><i :class="func.icon || 'ti ti-cog'"></i></button>
 	</header>
 	<div v-show="active" ref="body">
 		<slot></slot>
@@ -111,7 +111,7 @@ function toggleActive() {
 
 function getMenu() {
 	const items = [{
-		icon: 'fas fa-pencil-alt',
+		icon: 'ti ti-pencil',
 		text: i18n.ts.edit,
 		action: async () => {
 			const { canceled, result } = await os.form(props.column.name, {
@@ -171,7 +171,7 @@ function getMenu() {
 			popRightColumn(props.column.id);
 		}
 	} : undefined, null, {
-		icon: 'fas fa-trash-alt',
+		icon: 'ti ti-trash',
 		text: i18n.ts.remove,
 		danger: true,
 		action: () => {

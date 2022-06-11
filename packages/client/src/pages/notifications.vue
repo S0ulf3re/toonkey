@@ -26,7 +26,7 @@ function setFilter(ev) {
 		}
 	}));
 	const items = includeTypes != null ? [{
-		icon: 'fas fa-times',
+		icon: 'ti ti-x',
 		text: i18n.ts.clear,
 		action: () => {
 			includeTypes = null;
@@ -38,7 +38,7 @@ function setFilter(ev) {
 defineExpose({
 	[symbols.PAGE_INFO]: computed(() => ({
 		title: i18n.ts.notifications,
-		icon: 'fas fa-bell',
+		icon: 'ti ti-bell-ringing-2',
 		bg: 'var(--bg)',
 		actions: [{
 			text: i18n.ts.filter,
@@ -47,7 +47,7 @@ defineExpose({
 			handler: setFilter,
 		}, {
 			text: i18n.ts.markAllAsRead,
-			icon: 'fas fa-check',
+			icon: 'ti ti-check',
 			handler: () => {
 				os.apiWithDialog('notifications/mark-all-as-read');
 			},

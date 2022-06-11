@@ -56,7 +56,7 @@ export default defineComponent({
 		return {
 			[symbols.PAGE_INFO]: {
 				title: this.$ts.messaging,
-				icon: 'fas fa-comments',
+				icon: 'ti ti-messages',
 				bg: 'var(--bg)',
 			},
 			fetching: true,

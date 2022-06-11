@@ -13,7 +13,7 @@
 	<MkNoteSub v-if="appearNote.reply" :note="appearNote.reply" class="reply-to"/>
 	<div v-if="isRenote" class="renote">
 		<MkAvatar class="avatar" :user="note.user"/>
-		<i class="fas fa-retweet"></i>
+		<i class="ti ti-repeat"></i>
 		<I18n :src="$ts.renotedBy" tag="span">
 			<template #user>
 				<MkA v-user-preview="note.userId" class="name" :to="userPage(note.user)">
@@ -23,11 +23,11 @@
 		</I18n>
 		<div class="info">
 			<button ref="renoteTime" class="_button time" @click="showRenoteMenu()">
-				<i v-if="isMyRenote" class="fas fa-ellipsis-h dropdownIcon"></i>
+				<i v-if="isMyRenote" class="ti ti-dots dropdownIcon"></i>
 				<MkTime :time="note.createdAt"/>
 			</button>
 			<span v-if="note.visibility !== 'public'" class="visibility">
-				<i v-if="note.visibility === 'home'" class="fas fa-home"></i>
+				<i v-if="note.visibility === 'home'" class="ti ti-home-2"></i>
 				<i v-else-if="note.visibility === 'followers'" class="fas fa-unlock"></i>
 				<i v-else-if="note.visibility === 'specified'" class="fas fa-envelope"></i>
 			</span>
@@ -44,7 +44,7 @@
 					</MkA>
 					<span v-if="appearNote.user.isBot" class="is-bot">bot</span>
 					<span v-if="appearNote.visibility !== 'public'" class="visibility">
-						<i v-if="appearNote.visibility === 'home'" class="fas fa-home"></i>
+						<i v-if="appearNote.visibility === 'home'" class="ti ti-home-2"></i>
 						<i v-else-if="appearNote.visibility === 'followers'" class="fas fa-unlock"></i>
 						<i v-else-if="appearNote.visibility === 'specified'" class="fas fa-envelope"></i>
 					</span>
@@ -100,10 +100,10 @@
 					<i class="fas fa-plus"></i>
 				</button>
 				<button v-if="appearNote.myReaction != null" ref="reactButton" class="button _button reacted" @click="undoReact(appearNote)">
-					<i class="fas fa-minus"></i>
+					<i class="ti ti-minus"></i>
 				</button>
 				<button ref="menuButton" class="button _button" @click="menu()">
-					<i class="fas fa-ellipsis-h"></i>
+					<i class="ti ti-dots"></i>
 				</button>
 			</footer>
 		</div>
@@ -265,7 +265,7 @@ function showRenoteMenu(viaKeyboard = false): void {
 	if (!isMyRenote) return;
 	os.popupMenu([{
 		text: i18n.ts.unrenote,
-		icon: 'fas fa-trash-alt',
+		icon: 'ti ti-trash',
 		danger: true,
 		action: () => {
 			os.api('notes/delete', {

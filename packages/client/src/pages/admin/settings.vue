@@ -11,7 +11,7 @@
 			</FormTextarea>
 
 			<FormInput v-model="tosUrl" class="_formBlock">
-				<template #prefix><i class="fas fa-link"></i></template>
+				<template #prefix><i class="ti ti-link"></i></template>
 				<template #label>{{ i18n.ts.tosUrl }}</template>
 			</FormInput>
 
@@ -51,17 +51,17 @@
 				<template #label>{{ i18n.ts.theme }}</template>
 
 				<FormInput v-model="iconUrl" class="_formBlock">
-					<template #prefix><i class="fas fa-link"></i></template>
+					<template #prefix><i class="ti ti-link"></i></template>
 					<template #label>{{ i18n.ts.iconUrl }}</template>
 				</FormInput>
 
 				<FormInput v-model="bannerUrl" class="_formBlock">
-					<template #prefix><i class="fas fa-link"></i></template>
+					<template #prefix><i class="ti ti-link"></i></template>
 					<template #label>{{ i18n.ts.bannerUrl }}</template>
 				</FormInput>
 
 				<FormInput v-model="backgroundImageUrl" class="_formBlock">
-					<template #prefix><i class="fas fa-link"></i></template>
+					<template #prefix><i class="ti ti-link"></i></template>
 					<template #label>{{ i18n.ts.backgroundImageUrl }}</template>
 				</FormInput>
 
@@ -243,11 +243,11 @@ function save() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.general,
-		icon: 'fas fa-cog',
+		icon: 'ti ti-cog',
 		bg: 'var(--bg)',
 		actions: [{
 			asFullButton: true,
-			icon: 'fas fa-check',
+			icon: 'ti ti-check',
 			text: i18n.ts.save,
 			handler: save,
 		}],

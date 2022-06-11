@@ -41,10 +41,10 @@ export default defineComponent({
 		return {
 			[symbols.PAGE_INFO]: computed(() => this.clip ? {
 				title: this.clip.name,
-				icon: 'fas fa-paperclip',
+				icon: 'ti ti-paperclip',
 				bg: 'var(--bg)',
 				actions: [{
-					icon: 'fas fa-ellipsis-h',
+					icon: 'ti ti-dots',
 					handler: this.menu
 				}],
 			} : null),
@@ -83,7 +83,7 @@ export default defineComponent({
 	methods: {
 		menu(ev) {
 			os.popupMenu([this.isOwned ? {
-				icon: 'fas fa-pencil-alt',
+				icon: 'ti ti-pencil',
 				text: this.$ts.edit,
 				action: async () => {
 					const { canceled, result } = await os.form(this.clip.name, {
@@ -113,7 +113,7 @@ export default defineComponent({
 					});
 				}
 			} : undefined, this.isOwned ? {
-				icon: 'fas fa-trash-alt',
+				icon: 'ti ti-trash',
 				text: this.$ts.delete,
 				danger: true,
 				action: async () => {

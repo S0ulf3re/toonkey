@@ -44,7 +44,7 @@ const props = defineProps<{
 
 const indexInfo = {
 	title: i18n.ts.settings,
-	icon: 'fas fa-cog',
+	icon: 'ti ti-cog',
 	bg: 'var(--bg)',
 	hideHeader: true,
 };
@@ -80,12 +80,12 @@ const menuDef = computed(() => [{
 		to: '/settings/reaction',
 		active: props.initialPage === 'reaction',
 	}, {
-		icon: 'fas fa-cloud',
+		icon: 'ti ti-cloud',
 		text: i18n.ts.drive,
 		to: '/settings/drive',
 		active: props.initialPage === 'drive',
 	}, {
-		icon: 'fas fa-bell',
+		icon: 'ti ti-bell-ringing-2',
 		text: i18n.ts.notifications,
 		to: '/settings/notifications',
 		active: props.initialPage === 'notifications',
@@ -95,7 +95,7 @@ const menuDef = computed(() => [{
 		to: '/settings/email',
 		active: props.initialPage === 'email',
 	}, {
-		icon: 'fas fa-share-alt',
+		icon: 'ti ti-share',
 		text: i18n.ts.integration,
 		to: '/settings/integration',
 		active: props.initialPage === 'integration',
@@ -108,7 +108,7 @@ const menuDef = computed(() => [{
 }, {
 	title: i18n.ts.clientSettings,
 	items: [{
-		icon: 'fas fa-cogs',
+		icon: 'ti ti-cogs',
 		text: i18n.ts.general,
 		to: '/settings/general',
 		active: props.initialPage === 'general',
@@ -166,7 +166,7 @@ const menuDef = computed(() => [{
 		to: '/settings/webhook',
 		active: props.initialPage === 'webhook',
 	}, {
-		icon: 'fas fa-ellipsis-h',
+		icon: 'ti ti-dots',
 		text: i18n.ts.other,
 		to: '/settings/other',
 		active: props.initialPage === 'other',
@@ -174,7 +174,7 @@ const menuDef = computed(() => [{
 }, {
 	items: [{
 		type: 'button',
-		icon: 'fas fa-trash',
+		icon: 'ti ti-trash',
 		text: i18n.ts.clearCache,
 		action: () => {
 			localStorage.removeItem('locale');

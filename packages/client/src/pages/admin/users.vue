@@ -128,7 +128,7 @@ defineExpose({
 		icon: 'fas fa-users',
 		bg: 'var(--bg)',
 		actions: [{
-			icon: 'fas fa-search',
+			icon: 'ti ti-search',
 			text: i18n.ts.search,
 			handler: searchUser
 		}, {
@@ -138,7 +138,7 @@ defineExpose({
 			handler: addUser
 		}, {
 			asFullButton: true,
-			icon: 'fas fa-search',
+			icon: 'ti ti-search',
 			text: i18n.ts.lookup,
 			handler: lookupUser
 		}],

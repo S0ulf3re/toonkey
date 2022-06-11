@@ -27,7 +27,7 @@
 								</div>
 								<span v-if="$i && $i.id != user.id && user.isFollowed" class="followed">{{ $ts.followsYou }}</span>
 								<div v-if="$i" class="actions">
-									<button class="menu _button" @click="menu"><i class="fas fa-ellipsis-h"></i></button>
+									<button class="menu _button" @click="menu"><i class="ti ti-dots"></i></button>
 									<MkFollowButton v-if="$i.id != user.id" :user="user" :inline="true" :transparent="false" :full="true" class="koudoku"/>
 								</div>
 							</div>
@@ -190,7 +190,7 @@ export default defineComponent({
 				tabs: [{
 					active: this.page === 'index',
 					title: this.$ts.overview,
-					icon: 'fas fa-home',
+					icon: 'ti ti-home-2',
 					onClick: () => { this.mkNav.push('/@' + getAcct(this.user)); },
 				}, ...(this.$i && (this.$i.id === this.user.id)) || this.user.publicReactions ? [{
 					active: this.page === 'reactions',
@@ -200,7 +200,7 @@ export default defineComponent({
 				}] : [], {
 					active: this.page === 'clips',
 					title: this.$ts.clips,
-					icon: 'fas fa-paperclip',
+					icon: 'ti ti-paperclip',
 					onClick: () => { this.mkNav.push('/@' + getAcct(this.user) + '/clips'); },
 				}, {
 					active: this.page === 'pages',

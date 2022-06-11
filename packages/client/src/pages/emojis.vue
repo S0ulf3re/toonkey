@@ -41,7 +41,7 @@ defineExpose({
 		icon: 'fas fa-laugh',
 		bg: 'var(--bg)',
 		actions: [{
-			icon: 'fas fa-ellipsis-h',
+			icon: 'ti ti-dots',
 			handler: menu,
 		}],
 	},

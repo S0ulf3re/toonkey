@@ -1,12 +1,12 @@
 <template>
 <div class="xrmjdkdw">
 	<MkContainer :foldable="true" class="lookup">
-		<template #header><i class="fas fa-search"></i> {{ $ts.lookup }}</template>
+		<template #header><i class="ti ti-search"></i> {{ $ts.lookup }}</template>
 		<div class="xrmjdkdw-lookup">
 			<MkInput v-model="q" class="item" type="text" @enter="find()">
 				<template #label>{{ $ts.fileIdOrUrl }}</template>
 			</MkInput>
-			<MkButton primary @click="find()"><i class="fas fa-search"></i> {{ $ts.lookup }}</MkButton>
+			<MkButton primary @click="find()"><i class="ti ti-search"></i> {{ $ts.lookup }}</MkButton>
 		</div>
 	</MkContainer>
 
@@ -114,11 +114,11 @@ function find() {
 defineExpose({
 	[symbols.PAGE_INFO]: computed(() => ({
 		title: i18n.ts.files,
-		icon: 'fas fa-cloud',
+		icon: 'ti ti-cloud',
 		bg: 'var(--bg)',
 		actions: [{
 			text: i18n.ts.clearCachedFiles,
-			icon: 'fas fa-trash-alt',
+			icon: 'ti ti-trash',
 			handler: clear,
 		}],
 	})),

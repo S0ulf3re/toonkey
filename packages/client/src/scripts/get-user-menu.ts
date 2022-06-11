@@ -171,7 +171,7 @@ export function getUserMenu(user) {
 		}
 	}, meId !== user.id ? {
 		type: 'link',
-		icon: 'fas fa-comments',
+		icon: 'ti ti-messages',
 		text: i18n.ts.startMessaging,
 		to: '/my/messaging/' + Acct.toString(user),
 	} : undefined, null, {
@@ -186,7 +186,7 @@ export function getUserMenu(user) {
 
 	if ($i && meId !== user.id) {
 		menu = menu.concat([null, {
-			icon: user.isMuted ? 'fas fa-eye' : 'fas fa-eye-slash',
+			icon: user.isMuted ? 'ti ti-eye' : 'ti ti-eye-off',
 			text: user.isMuted ? i18n.ts.unmute : i18n.ts.mute,
 			action: toggleMute
 		}, {
@@ -224,7 +224,7 @@ export function getUserMenu(user) {
 
 	if ($i && meId === user.id) {
 		menu = menu.concat([null, {
-			icon: 'fas fa-pencil-alt',
+			icon: 'ti ti-pencil',
 			text: i18n.ts.editProfile,
 			action: () => {
 				router.push('/settings/profile');

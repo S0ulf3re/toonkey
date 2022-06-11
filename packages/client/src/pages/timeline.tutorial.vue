@@ -59,8 +59,8 @@
 				<i class="fas fa-chevron-right"></i>
 			</button>
 		</div>
-		<MkButton v-if="tutorial === 6" class="ok" primary @click="tutorial = -1"><i class="fas fa-check"></i> {{ $ts.gotIt }}</MkButton>
-		<MkButton v-else class="ok" primary @click="tutorial++"><i class="fas fa-check"></i> {{ $ts.next }}</MkButton>
+		<MkButton v-if="tutorial === 6" class="ok" primary @click="tutorial = -1"><i class="ti ti-check"></i> {{ $ts.gotIt }}</MkButton>
+		<MkButton v-else class="ok" primary @click="tutorial++"><i class="ti ti-check"></i> {{ $ts.next }}</MkButton>
 	</div>
 </div>
 </template>

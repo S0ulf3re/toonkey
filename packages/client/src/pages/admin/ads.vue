@@ -36,7 +36,7 @@
 			</MkTextarea>
 			<div class="buttons _formBlock">
 				<MkButton class="button" inline primary style="margin-right: 12px;" @click="save(ad)"><i class="fas fa-save"></i> {{ i18n.ts.save }}</MkButton>
-				<MkButton class="button" inline danger @click="remove(ad)"><i class="fas fa-trash-alt"></i> {{ i18n.ts.remove }}</MkButton>
+				<MkButton class="button" inline danger @click="remove(ad)"><i class="ti ti-trash"></i> {{ i18n.ts.remove }}</MkButton>
 			</div>
 		</div>
 	</div>

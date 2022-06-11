@@ -113,7 +113,7 @@ defineExpose({
 			handler: testEmail,
 		}, {
 			asFullButton: true,
-			icon: 'fas fa-check',
+			icon: 'ti ti-check',
 			text: i18n.ts.save,
 			handler: save,
 		}],

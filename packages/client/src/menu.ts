@@ -10,21 +10,21 @@ import { router } from './router';
 export const menuDef = reactive({
 	notifications: {
 		title: 'notifications',
-		icon: 'fas fa-bell',
+		icon: 'ti ti-bell-ringing-2',
 		show: computed(() => $i != null),
 		indicated: computed(() => $i != null && $i.hasUnreadNotification),
 		to: '/my/notifications',
 	},
 	messaging: {
 		title: 'messaging',
-		icon: 'fas fa-comments',
+		icon: 'ti ti-messages',
 		show: computed(() => $i != null),
 		indicated: computed(() => $i != null && $i.hasUnreadMessagingMessage),
 		to: '/my/messaging',
 	},
 	drive: {
 		title: 'drive',
-		icon: 'fas fa-cloud',
+		icon: 'ti ti-cloud',
 		show: computed(() => $i != null),
 		to: '/my/drive',
 	},
@@ -37,12 +37,12 @@ export const menuDef = reactive({
 	},
 	featured: {
 		title: 'featured',
-		icon: 'fas fa-fire-alt',
+		icon: 'ti ti-flame',
 		to: '/featured',
 	},
 	explore: {
 		title: 'explore',
-		icon: 'fas fa-hashtag',
+		icon: 'ti ti-hash',
 		to: '/explore',
 	},
 	announcements: {
@@ -53,7 +53,7 @@ export const menuDef = reactive({
 	},
 	search: {
 		title: 'search',
-		icon: 'fas fa-search',
+		icon: 'ti ti-search',
 		action: () => search(),
 	},
 	lists: {
@@ -74,7 +74,7 @@ export const menuDef = reactive({
 					type: 'link',
 					to: '/my/lists',
 					text: i18n.ts.manageLists,
-					icon: 'fas fa-cog',
+					icon: 'ti ti-cog',
 				}];
 				items.value = _items;
 			});
@@ -105,7 +105,7 @@ export const menuDef = reactive({
 					type: 'link',
 					to: '/my/antennas',
 					text: i18n.ts.manageAntennas,
-					icon: 'fas fa-cog',
+					icon: 'ti ti-cog',
 				}];
 				items.value = _items;
 			});
@@ -128,7 +128,7 @@ export const menuDef = reactive({
 	},
 	favorites: {
 		title: 'favorites',
-		icon: 'fas fa-star',
+		icon: 'ti ti-star',
 		show: computed(() => $i != null),
 		to: '/my/favorites',
 	},
@@ -144,7 +144,7 @@ export const menuDef = reactive({
 	},
 	clips: {
 		title: 'clip',
-		icon: 'fas fa-paperclip',
+		icon: 'ti ti-paperclip',
 		show: computed(() => $i != null),
 		to: '/my/clips',
 	},
@@ -155,7 +155,7 @@ export const menuDef = reactive({
 	},
 	federation: {
 		title: 'federation',
-		icon: 'fas fa-globe',
+		icon: 'ti ti-world',
 		to: '/federation',
 	},
 	emojis: {

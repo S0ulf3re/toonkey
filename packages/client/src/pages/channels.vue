@@ -44,7 +44,7 @@ export default defineComponent({
 				tabs: [{
 					active: this.tab === 'featured',
 					title: this.$ts._channel.featured,
-					icon: 'fas fa-fire-alt',
+					icon: 'ti ti-flame',
 					onClick: () => { this.tab = 'featured'; },
 				}, {
 					active: this.tab === 'following',

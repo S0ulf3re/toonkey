@@ -114,7 +114,7 @@ function focus(): void {
 defineExpose({
 	[symbols.PAGE_INFO]: computed(() => ({
 		title: i18n.ts.timeline,
-		icon: src === 'local' ? 'fas fa-comments' : src === 'social' ? 'fas fa-share-alt' : src === 'global' ? 'fas fa-globe' : 'fas fa-home',
+		icon: src === 'local' ? 'ti ti-messages' : src === 'social' ? 'ti ti-share' : src === 'global' ? 'ti ti-world' : 'ti ti-home-2',
 		bg: 'var(--bg)',
 		actions: [{
 			icon: 'fas fa-list-ul',
@@ -136,25 +136,25 @@ defineExpose({
 		tabs: [{
 			active: src === 'home',
 			title: i18n.ts._timelines.home,
-			icon: 'fas fa-home',
+			icon: 'ti ti-home-2',
 			iconOnly: true,
 			onClick: () => { saveSrc('home'); },
 		}, ...(isLocalTimelineAvailable ? [{
 			active: src === 'local',
 			title: i18n.ts._timelines.local,
-			icon: 'fas fa-comments',
+			icon: 'ti ti-messages',
 			iconOnly: true,
 			onClick: () => { saveSrc('local'); },
 		}, {
 			active: src === 'social',
 			title: i18n.ts._timelines.social,
-			icon: 'fas fa-share-alt',
+			icon: 'ti ti-share',
 			iconOnly: true,
 			onClick: () => { saveSrc('social'); },
 		}] : []), ...(isGlobalTimelineAvailable ? [{
 			active: src === 'global',
 			title: i18n.ts._timelines.global,
-			icon: 'fas fa-globe',
+			icon: 'ti ti-world',
 			iconOnly: true,
 			onClick: () => { saveSrc('global'); },
 		}] : [])],

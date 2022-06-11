@@ -3,7 +3,7 @@
 	<div class="body">
 		<div class="left">
 			<MkA v-click-anime v-tooltip="$ts.timeline" class="item index" active-class="active" to="/" exact>
-				<i class="fas fa-home fa-fw"></i>
+				<i class="ti ti-home-2 fa-fw"></i>
 			</MkA>
 			<template v-for="item in menu">
 				<div v-if="item === '-'" class="divider"></div>
@@ -17,20 +17,20 @@
 				<i class="fas fa-door-open fa-fw"></i>
 			</MkA>
 			<button v-click-anime class="item _button" @click="more">
-				<i class="fas fa-ellipsis-h fa-fw"></i>
+				<i class="ti ti-dots fa-fw"></i>
 				<span v-if="otherNavItemIndicated" class="indicator"><i class="fas fa-circle"></i></span>
 			</button>
 		</div>
 		<div class="right">
 			<MkA v-click-anime v-tooltip="$ts.settings" class="item" active-class="active" to="/settings" :behavior="settingsWindowed ? 'modalWindow' : null">
-				<i class="fas fa-cog fa-fw"></i>
+				<i class="ti ti-cog fa-fw"></i>
 			</MkA>
 			<button v-click-anime class="item _button account" @click="openAccountMenu">
 				<MkAvatar :user="$i" class="avatar"/><MkAcct class="acct" :user="$i"/>
 			</button>
 			<div class="post" @click="post">
 				<MkButton class="button" gradate full rounded>
-					<i class="fas fa-pencil-alt fa-fw"></i>
+					<i class="ti ti-pencil fa-fw"></i>
 				</MkButton>
 			</div>
 		</div>
