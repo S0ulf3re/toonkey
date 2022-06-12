@@ -43,7 +43,7 @@ const nav = new MisskeyNavigator();
 
 const indexInfo = {
 	title: i18n.ts.controlPanel,
-	icon: 'ti ti-cog',
+	icon: 'ti ti-settings',
 	bg: 'var(--bg)',
 	hideHeader: true,
 };
@@ -134,7 +134,7 @@ const menuDef = $computed(() => [{
 }, {
 	title: i18n.ts.settings,
 	items: [{
-		icon: 'ti ti-cog',
+		icon: 'ti ti-settings',
 		text: i18n.ts.general,
 		to: '/admin/settings',
 		active: props.initialPage === 'settings',
@@ -164,7 +164,7 @@ const menuDef = $computed(() => [{
 		to: '/admin/integrations',
 		active: props.initialPage === 'integrations',
 	}, {
-		icon: 'fas fa-ban',
+		icon: 'ti ti-ban',
 		text: i18n.ts.instanceBlocking,
 		to: '/admin/instance-block',
 		active: props.initialPage === 'instance-block',
@@ -174,7 +174,7 @@ const menuDef = $computed(() => [{
 		to: '/admin/proxy-account',
 		active: props.initialPage === 'proxy-account',
 	}, {
-		icon: 'ti ti-cogs',
+		icon: 'ti ti-settingss',
 		text: i18n.ts.other,
 		to: '/admin/other-settings',
 		active: props.initialPage === 'other-settings',

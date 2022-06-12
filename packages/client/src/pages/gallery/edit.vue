@@ -14,7 +14,7 @@
 				<div class="name">{{ file.name }}</div>
 				<button v-tooltip="$ts.remove" class="remove _button" @click="remove(file)"><i class="ti ti-x"></i></button>
 			</div>
-			<FormButton primary @click="selectFile"><i class="fas fa-plus"></i> {{ $ts.attachFile }}</FormButton>
+			<FormButton primary @click="selectFile"><i class="ti ti-plus"></i> {{ $ts.attachFile }}</FormButton>
 		</FormGroup>
 
 		<FormSwitch v-model="isSensitive">{{ $ts.markAsSensitive }}</FormSwitch>

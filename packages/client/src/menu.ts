@@ -74,7 +74,7 @@ export const menuDef = reactive({
 					type: 'link',
 					to: '/my/lists',
 					text: i18n.ts.manageLists,
-					icon: 'ti ti-cog',
+					icon: 'ti ti-settings',
 				}];
 				items.value = _items;
 			});
@@ -105,7 +105,7 @@ export const menuDef = reactive({
 					type: 'link',
 					to: '/my/antennas',
 					text: i18n.ts.manageAntennas,
-					icon: 'ti ti-cog',
+					icon: 'ti ti-settings',
 				}];
 				items.value = _items;
 			});

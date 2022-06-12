@@ -56,7 +56,7 @@
 			</button>
 			<span>{{ tutorial + 1 }} / 7</span>
 			<button class="arrow _button" :disabled="tutorial === 6" @click="tutorial++">
-				<i class="fas fa-chevron-right"></i>
+				<i class="ti ti-chevron-right"></i>
 			</button>
 		</div>
 		<MkButton v-if="tutorial === 6" class="ok" primary @click="tutorial = -1"><i class="ti ti-check"></i> {{ $ts.gotIt }}</MkButton>

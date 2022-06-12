@@ -21,14 +21,14 @@
 				<span v-if="visibility === 'followers'"><i class="fas fa-unlock"></i></span>
 				<span v-if="visibility === 'specified'"><i class="ti ti-mail"></i></span>
 			</button>
-			<button v-tooltip="i18n.ts.previewNoteText" class="_button preview" :class="{ active: showPreview }" @click="showPreview = !showPreview"><i class="fas fa-file-code"></i></button>
-			<button class="submit _buttonGradate" :disabled="!canPost" data-cy-open-post-form-submit @click="post">{{ submitText }}<i :class="reply ? 'fas fa-reply' : renote ? 'fas fa-quote-right' : 'ti ti-send'"></i></button>
+			<button v-tooltip="i18n.ts.previewNoteText" class="_button preview" :class="{ active: showPreview }" @click="showPreview = !showPreview"><i class="ti ti-eye"></i></button>
+			<button class="submit _buttonGradate" :disabled="!canPost" data-cy-open-post-form-submit @click="post">{{ submitText }}<i :class="reply ? 'fas fa-reply' : renote ? 'ti ti-quote' : 'ti ti-send'"></i></button>
 		</div>
 	</header>
 	<div class="form" :class="{ fixed }">
 		<XNoteSimple v-if="reply" class="preview" :note="reply"/>
 		<XNoteSimple v-if="renote" class="preview" :note="renote"/>
-		<div v-if="quoteId" class="with-quote"><i class="fas fa-quote-left"></i> {{ i18n.ts.quoteAttached }}<button @click="quoteId = null"><i class="ti ti-x"></i></button></div>
+		<div v-if="quoteId" class="with-quote"><i class="ti ti-quote"></i> {{ i18n.ts.quoteAttached }}<button @click="quoteId = null"><i class="ti ti-x"></i></button></div>
 		<div v-if="visibility === 'specified'" class="to-specified">
 			<span style="margin-right: 8px;">{{ i18n.ts.recipient }}</span>
 			<div class="visibleUsers">
@@ -36,7 +36,7 @@
 					<MkAcct :user="u"/>
 					<button class="_button" @click="removeVisibleUser(u)"><i class="ti ti-x"></i></button>
 				</span>
-				<button class="_buttonPrimary" @click="addVisibleUser"><i class="fas fa-plus fa-fw"></i></button>
+				<button class="_buttonPrimary" @click="addVisibleUser"><i class="ti ti-plus ti-fw"></i></button>
 			</div>
 		</div>
 		<MkInfo v-if="hasNotSpecifiedMentions" warn class="hasNotSpecifiedMentions">{{ i18n.ts.notSpecifiedMentionWarning }} - <button class="_textButton" @click="addMissingMention()">{{ i18n.ts.add }}</button></MkInfo>
@@ -47,7 +47,7 @@
 		<XPollEditor v-if="poll" v-model="poll" @destroyed="poll = null"/>
 		<XNotePreview v-if="showPreview" class="preview" :text="text"/>
 		<footer>
-			<button v-tooltip="i18n.ts.attachFile" class="_button" @click="chooseFileFrom"><i class="fas fa-photo-video"></i></button>
+			<button v-tooltip="i18n.ts.attachFile" class="_button" @click="chooseFileFrom"><i class="ti ti-photo"></i></button>
 			<button v-tooltip="i18n.ts.poll" class="_button" :class="{ active: poll }" @click="togglePoll"><i class="ti ti-chart-arrows"></i></button>
 			<button v-tooltip="i18n.ts.useCw" class="_button" :class="{ active: useCw }" @click="useCw = !useCw"><i class="ti ti-eye-off"></i></button>
 			<button v-tooltip="i18n.ts.mention" class="_button" @click="insertMention"><i class="ti ti-at"></i></button>

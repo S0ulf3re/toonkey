@@ -7,7 +7,7 @@
 	</div>
 
 	<div v-else-if="tab === 'my'" class="rknalgpo my">
-		<MkButton class="new" @click="create()"><i class="fas fa-plus"></i></MkButton>
+		<MkButton class="new" @click="create()"><i class="ti ti-plus"></i></MkButton>
 		<MkPagination v-slot="{items}" :pagination="myPagesPagination">
 			<MkPagePreview v-for="page in items" :key="page.id" class="ckltabjg" :page="page"/>
 		</MkPagination>
@@ -39,7 +39,7 @@ export default defineComponent({
 				icon: 'fas fa-sticky-note',
 				bg: 'var(--bg)',
 				actions: [{
-					icon: 'fas fa-plus',
+					icon: 'ti ti-plus',
 					text: this.$ts.create,
 					handler: this.create,
 				}],
@@ -51,7 +51,7 @@ export default defineComponent({
 				}, {
 					active: this.tab === 'my',
 					title: this.$ts._pages.my,
-					icon: 'fas fa-edit',
+					icon: 'ti ti-edit',
 					onClick: () => { this.tab = 'my'; },
 				}, {
 					active: this.tab === 'liked',

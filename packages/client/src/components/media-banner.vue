@@ -19,7 +19,7 @@
 		:title="media.name"
 		:download="media.name"
 	>
-		<span class="icon"><i class="fas fa-download"></i></span>
+		<span class="icon"><i class="ti ti-download"></i></span>
 		<b>{{ media.name }}</b>
 	</a>
 </div>

@@ -96,7 +96,7 @@ export function getNoteMenu(props: {
 	async function clip(): Promise<void> {
 		const clips = await os.api('clips/list');
 		os.popupMenu([{
-			icon: 'fas fa-plus',
+			icon: 'ti ti-plus',
 			text: i18n.ts.createNew,
 			action: async () => {
 				const { canceled, result } = await os.form(i18n.ts.createNewClip, {
@@ -219,11 +219,11 @@ export function getNoteMenu(props: {
 			action: () => toggleWatch(true)
 		}) : undefined,
 		statePromise.then(state => state.isMutedThread ? {
-			icon: 'fas fa-comment-slash',
+			icon: 'ti ti-messages-off',
 			text: i18n.ts.unmuteThread,
 			action: () => toggleThreadMute(false)
 		} : {
-			icon: 'fas fa-comment-slash',
+			icon: 'ti ti-messages-off',
 			text: i18n.ts.muteThread,
 			action: () => toggleThreadMute(true)
 		}),
@@ -264,7 +264,7 @@ export function getNoteMenu(props: {
 		...(appearNote.userId === $i.id || $i.isModerator || $i.isAdmin ? [
 			null,
 			appearNote.userId === $i.id ? {
-				icon: 'fas fa-edit',
+				icon: 'ti ti-edit',
 				text: i18n.ts.deleteAndEdit,
 				action: delEdit
 			} : undefined,

@@ -20,8 +20,8 @@
 						<MkButton v-else v-tooltip="$ts._pages.like" class="button" @click="like()"><i class="far fa-heart"></i><span v-if="page.likedCount > 0" class="count">{{ page.likedCount }}</span></MkButton>
 					</div>
 					<div class="other">
-						<button v-tooltip="$ts.shareWithNote" v-click-anime class="_button" @click="shareWithNote"><i class="ti ti-repeat fa-fw"></i></button>
-						<button v-tooltip="$ts.share" v-click-anime class="_button" @click="share"><i class="ti ti-share fa-fw"></i></button>
+						<button v-tooltip="$ts.shareWithNote" v-click-anime class="_button" @click="shareWithNote"><i class="ti ti-repeat ti-fw"></i></button>
+						<button v-tooltip="$ts.share" v-click-anime class="_button" @click="share"><i class="ti ti-share ti-fw"></i></button>
 					</div>
 				</div>
 				<div class="user">

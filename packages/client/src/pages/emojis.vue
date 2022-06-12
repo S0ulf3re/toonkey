@@ -15,7 +15,7 @@ const tab = ref('category');
 
 function menu(ev) {
 	os.popupMenu([{
-		icon: 'fas fa-download',
+		icon: 'ti ti-download',
 		text: i18n.ts.export,
 		action: async () => {
 			os.api('export-custom-emojis', {

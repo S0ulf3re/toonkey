@@ -62,7 +62,7 @@ const title = computed(() => `${props.file.name}\n${props.file.type} ${bytes(pro
 function getMenu() {
 	return [{
 		text: i18n.ts.rename,
-		icon: 'fas fa-i-cursor',
+		icon: 'ti ti-cursor-text',
 		action: rename
 	}, {
 		text: props.file.isSensitive ? i18n.ts.unmarkAsSensitive : i18n.ts.markAsSensitive,
@@ -70,7 +70,7 @@ function getMenu() {
 		action: toggleSensitive
 	}, {
 		text: i18n.ts.describeFile,
-		icon: 'fas fa-i-cursor',
+		icon: 'ti ti-cursor-text',
 		action: describe
 	}, null, {
 		text: i18n.ts.copyUrl,
@@ -81,7 +81,7 @@ function getMenu() {
 		href: props.file.url,
 		target: '_blank',
 		text: i18n.ts.download,
-		icon: 'fas fa-download',
+		icon: 'ti ti-download',
 		download: props.file.name
 	}, null, {
 		text: i18n.ts.delete,

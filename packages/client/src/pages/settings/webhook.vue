@@ -45,7 +45,7 @@ const pagination = {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: 'Webhook',
-		icon: 'fas fa-bolt',
+		icon: 'ti ti-webhook',
 		bg: 'var(--bg)',
 	},
 });

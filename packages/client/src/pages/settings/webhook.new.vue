@@ -74,7 +74,7 @@ async function create(): Promise<void> {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: 'Create new webhook',
-		icon: 'fas fa-bolt',
+		icon: 'ti ti-webhook',
 		bg: 'var(--bg)',
 	},
 });

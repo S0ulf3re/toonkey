@@ -1,7 +1,7 @@
 <template>
 <section>
 	<header class="_acrylic" @click="shown = !shown">
-		<i class="toggle fa-fw" :class="shown ? 'fas fa-chevron-down' : 'fas fa-chevron-up'"></i> <slot></slot> ({{ emojis.length }})
+		<i class="toggle ti-fw" :class="shown ? 'ti ti-chevron-down' : 'ti ti-chevron-up'"></i> <slot></slot> ({{ emojis.length }})
 	</header>
 	<div v-if="shown">
 		<button v-for="emoji in emojis"

@@ -1,7 +1,7 @@
 <template>
 <MkSpacer :content-max="700">
 	<div v-if="tab === 'owned'" class="_content">
-		<MkButton primary style="margin: 0 auto var(--margin) auto;" @click="create"><i class="fas fa-plus"></i> {{ $ts.createGroup }}</MkButton>
+		<MkButton primary style="margin: 0 auto var(--margin) auto;" @click="create"><i class="ti ti-plus"></i> {{ $ts.createGroup }}</MkButton>
 
 		<MkPagination v-slot="{items}" ref="owned" :pagination="ownedPagination">
 			<div v-for="group in items" :key="group.id" class="_card">
@@ -30,7 +30,7 @@
 				<div class="_content"><MkAvatars :user-ids="invitation.group.userIds"/></div>
 				<div class="_footer">
 					<MkButton primary inline @click="acceptInvite(invitation)"><i class="ti ti-check"></i> {{ $ts.accept }}</MkButton>
-					<MkButton primary inline @click="rejectInvite(invitation)"><i class="fas fa-ban"></i> {{ $ts.reject }}</MkButton>
+					<MkButton primary inline @click="rejectInvite(invitation)"><i class="ti ti-ban"></i> {{ $ts.reject }}</MkButton>
 				</div>
 			</div>
 		</MkPagination>
@@ -64,7 +64,7 @@ export default defineComponent({
 				icon: 'ti ti-users',
 				bg: 'var(--bg)',
 				actions: [{
-					icon: 'fas fa-plus',
+					icon: 'ti ti-plus',
 					text: this.$ts.createGroup,
 					handler: this.create,
 				}],

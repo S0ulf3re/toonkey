@@ -3,7 +3,7 @@
 	<MkTab v-if="$i" v-model="tab">
 		<option value="explore"><i class="fas fa-icons"></i> {{ $ts.gallery }}</option>
 		<option value="liked"><i class="fas fa-heart"></i> {{ $ts._gallery.liked }}</option>
-		<option value="my"><i class="fas fa-edit"></i> {{ $ts._gallery.my }}</option>
+		<option value="my"><i class="ti ti-edit"></i> {{ $ts._gallery.my }}</option>
 	</MkTab>
 
 	<div v-if="tab === 'explore'">
@@ -32,7 +32,7 @@
 		</MkPagination>
 	</div>
 	<div v-else-if="tab === 'my'">
-		<MkA to="/gallery/new" class="_link" style="margin: 16px;"><i class="fas fa-plus"></i> {{ $ts.postToGallery }}</MkA>
+		<MkA to="/gallery/new" class="_link" style="margin: 16px;"><i class="ti ti-plus"></i> {{ $ts.postToGallery }}</MkA>
 		<MkPagination v-slot="{items}" :pagination="myPostsPagination">
 			<div class="vfpdbgtk">
 				<MkGalleryPostPreview v-for="post in items" :key="post.id" :post="post" class="post"/>

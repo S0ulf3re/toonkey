@@ -1,7 +1,7 @@
 <template>
 <MkSpacer :content-max="700">
 	<div class="qtcaoidl">
-		<MkButton primary class="add" @click="create"><i class="fas fa-plus"></i> {{ $ts.add }}</MkButton>
+		<MkButton primary class="add" @click="create"><i class="ti ti-plus"></i> {{ $ts.add }}</MkButton>
 
 		<MkPagination v-slot="{items}" ref="pagingComponent" :pagination="pagination" class="list">
 			<MkA v-for="item in items" :key="item.id" :to="`/clips/${item.id}`" class="item _panel _gap">
@@ -67,7 +67,7 @@ defineExpose({
 		icon: 'ti ti-paperclip',
 		bg: 'var(--bg)',
 		action: {
-			icon: 'fas fa-plus',
+			icon: 'ti ti-plus',
 			handler: create
 		},
 	},

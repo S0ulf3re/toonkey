@@ -41,11 +41,11 @@ export default defineComponent({
 				icon: 'ti ti-list',
 				bg: 'var(--bg)',
 				actions: [{
-					icon: 'fas fa-calendar-alt',
+					icon: 'ti ti-calendar',
 					text: this.$ts.jumpToSpecifiedDate,
 					handler: this.timetravel
 				}, {
-					icon: 'ti ti-cog',
+					icon: 'ti ti-settings',
 					text: this.$ts.settings,
 					handler: this.settings
 				}],

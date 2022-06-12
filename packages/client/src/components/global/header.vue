@@ -13,7 +13,7 @@
 				</div>
 				<div v-if="narrow && hasTabs" class="subtitle activeTab">
 					{{ info.tabs.find(tab => tab.active)?.title }}
-					<i class="chevron fas fa-chevron-down"></i>
+					<i class="chevron ti ti-chevron-down"></i>
 				</div>
 			</div>
 		</div>

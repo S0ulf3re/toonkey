@@ -97,7 +97,7 @@
 				</button>
 				<XRenoteButton ref="renoteButton" class="button" :note="appearNote" :count="appearNote.renoteCount"/>
 				<button v-if="appearNote.myReaction == null" ref="reactButton" class="button _button" @click="react()">
-					<i class="fas fa-plus"></i>
+					<i class="ti ti-plus"></i>
 				</button>
 				<button v-if="appearNote.myReaction != null" ref="reactButton" class="button _button reacted" @click="undoReact(appearNote)">
 					<i class="ti ti-minus"></i>

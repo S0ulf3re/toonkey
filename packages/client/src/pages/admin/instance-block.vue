@@ -39,7 +39,7 @@ function save() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.instanceBlocking,
-		icon: 'fas fa-ban',
+		icon: 'ti ti-ban',
 		bg: 'var(--bg)',
 	}
 });

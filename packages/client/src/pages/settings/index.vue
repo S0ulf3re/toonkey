@@ -31,11 +31,10 @@ import { i18n } from '@/i18n';
 import MkInfo from '@/components/ui/info.vue';
 import MkSuperMenu from '@/components/ui/super-menu.vue';
 import { scroll } from '@/scripts/scroll';
-import { signout } from '@/account';
+import { signout , $i } from '@/account';
 import { unisonReload } from '@/scripts/unison-reload';
 import * as symbols from '@/symbols';
 import { instance } from '@/instance';
-import { $i } from '@/account';
 import { MisskeyNavigator } from '@/scripts/navigate';
 
 const props = defineProps<{
@@ -44,7 +43,7 @@ const props = defineProps<{
 
 const indexInfo = {
 	title: i18n.ts.settings,
-	icon: 'ti ti-cog',
+	icon: 'ti ti-settings',
 	bg: 'var(--bg)',
 	hideHeader: true,
 };
@@ -108,7 +107,7 @@ const menuDef = computed(() => [{
 }, {
 	title: i18n.ts.clientSettings,
 	items: [{
-		icon: 'ti ti-cogs',
+		icon: 'ti ti-tool',
 		text: i18n.ts.general,
 		to: '/settings/general',
 		active: props.initialPage === 'general',
@@ -123,7 +122,7 @@ const menuDef = computed(() => [{
 		to: '/settings/menu',
 		active: props.initialPage === 'menu',
 	}, {
-		icon: 'fas fa-music',
+		icon: 'ti ti-music',
 		text: i18n.ts.sounds,
 		to: '/settings/sounds',
 		active: props.initialPage === 'sounds',
@@ -136,7 +135,7 @@ const menuDef = computed(() => [{
 }, {
 	title: i18n.ts.otherSettings,
 	items: [{
-		icon: 'fas fa-boxes',
+		icon: 'ti ti-package',
 		text: i18n.ts.importAndExport,
 		to: '/settings/import-export',
 		active: props.initialPage === 'import-export',
@@ -146,22 +145,22 @@ const menuDef = computed(() => [{
 		to: '/settings/instance-mute',
 		active: props.initialPage === 'instance-mute',
 	}, {
-		icon: 'fas fa-ban',
+		icon: 'ti ti-ban',
 		text: i18n.ts.muteAndBlock,
 		to: '/settings/mute-block',
 		active: props.initialPage === 'mute-block',
 	}, {
-		icon: 'fas fa-comment-slash',
+		icon: 'ti ti-messages-off',
 		text: i18n.ts.wordMute,
 		to: '/settings/word-mute',
 		active: props.initialPage === 'word-mute',
 	}, {
-		icon: 'fas fa-key',
+		icon: 'ti ti-api',
 		text: 'API',
 		to: '/settings/api',
 		active: props.initialPage === 'api',
 	}, {
-		icon: 'fas fa-bolt',
+		icon: 'ti ti-webhook',
 		text: 'Webhook',
 		to: '/settings/webhook',
 		active: props.initialPage === 'webhook',
@@ -183,13 +182,13 @@ const menuDef = computed(() => [{
 		},
 	}, {
 		type: 'button',
-		icon: 'fas fa-sign-in-alt fa-flip-horizontal',
+		icon: 'ti ti-login',
 		text: i18n.ts.logout,
 		action: () => {
 			signout();
 		},
 		danger: true,
-	},],
+	}],
 }]);
 
 const pageProps = ref({});

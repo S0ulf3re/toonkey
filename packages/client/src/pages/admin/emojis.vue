@@ -158,14 +158,14 @@ const remoteMenu = (emoji, ev: MouseEvent) => {
 		text: ':' + emoji.name + ':',
 	}, {
 		text: i18n.ts.import,
-		icon: 'fas fa-plus',
+		icon: 'ti ti-plus',
 		action: () => { im(emoji); }
 	}], ev.currentTarget ?? ev.target);
 };
 
 const menu = (ev: MouseEvent) => {
 	os.popupMenu([{
-		icon: 'fas fa-download',
+		icon: 'ti ti-download',
 		text: i18n.ts.export,
 		action: async () => {
 			os.api('export-custom-emojis', {
@@ -272,7 +272,7 @@ defineExpose({
 		bg: 'var(--bg)',
 		actions: [{
 			asFullButton: true,
-			icon: 'fas fa-plus',
+			icon: 'ti ti-plus',
 			text: i18n.ts.addEmoji,
 			handler: add,
 		}, {

@@ -6,7 +6,7 @@
 				<template #label>{{ $ts.selectWidget }}</template>
 				<option v-for="widget in widgetDefs" :key="widget" :value="widget">{{ $t(`_widgets.${widget}`) }}</option>
 			</MkSelect>
-			<MkButton inline primary class="mk-widget-add" @click="addWidget"><i class="fas fa-plus"></i> {{ $ts.add }}</MkButton>
+			<MkButton inline primary class="mk-widget-add" @click="addWidget"><i class="ti ti-plus"></i> {{ $ts.add }}</MkButton>
 			<MkButton inline @click="$emit('exit')">{{ $ts.close }}</MkButton>
 		</header>
 		<XDraggable
@@ -17,7 +17,7 @@
 		>
 			<template #item="{element}">
 				<div class="customize-container">
-					<button class="config _button" @click.prevent.stop="configWidget(element.id)"><i class="ti ti-cog"></i></button>
+					<button class="config _button" @click.prevent.stop="configWidget(element.id)"><i class="ti ti-settings"></i></button>
 					<button class="remove _button" @click.prevent.stop="removeWidget(element)"><i class="ti ti-x"></i></button>
 					<component :is="`mkw-${element.name}`" :ref="el => widgetRefs[element.id] = el" class="handle" :widget="element" @updateProps="updateWidget(element.id, $event)"/>
 				</div>

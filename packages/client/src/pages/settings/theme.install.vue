@@ -72,7 +72,7 @@ async function install(code: string): Promise<void> {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts._theme.install,
-		icon: 'fas fa-download',
+		icon: 'ti ti-download',
 		bg: 'var(--bg)',
 	},
 });

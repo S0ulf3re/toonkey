@@ -107,7 +107,7 @@ defineExpose({
 		bg: 'var(--bg)',
 		actions: [{
 			asFullButton: true,
-			icon: 'fas fa-plus',
+			icon: 'ti ti-plus',
 			text: i18n.ts.add,
 			handler: add,
 		}],

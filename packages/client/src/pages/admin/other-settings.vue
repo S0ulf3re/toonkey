@@ -27,7 +27,7 @@ function save() {
 defineExpose({
   [symbols.PAGE_INFO]: {
 		title: i18n.ts.other,
-		icon: 'ti ti-cogs',
+		icon: 'ti ti-settingss',
 		bg: 'var(--bg)',
 		actions: [{
 			asFullButton: true,

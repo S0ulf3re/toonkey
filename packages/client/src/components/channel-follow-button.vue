@@ -9,11 +9,11 @@
 			<span v-if="full">{{ i18n.ts.unfollow }}</span><i class="ti ti-minus"></i>
 		</template>
 		<template v-else>
-			<span v-if="full">{{ i18n.ts.follow }}</span><i class="fas fa-plus"></i>
+			<span v-if="full">{{ i18n.ts.follow }}</span><i class="ti ti-plus"></i>
 		</template>
 	</template>
 	<template v-else>
-		<span v-if="full">{{ i18n.ts.processing }}</span><i class="fas fa-spinner fa-pulse fa-fw"></i>
+		<span v-if="full">{{ i18n.ts.processing }}</span><i class="fas fa-spinner fa-pulse ti-fw"></i>
 	</template>
 </button>
 </template>

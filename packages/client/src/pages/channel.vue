@@ -11,8 +11,8 @@
 			</div>
 			<div :style="{ backgroundImage: channel.bannerUrl ? `url(${channel.bannerUrl})` : null }" class="banner">
 				<div class="status">
-					<div><i class="ti ti-users fa-fw"></i><I18n :src="$ts._channel.usersCount" tag="span" style="margin-left: 4px;"><template #n><b>{{ channel.usersCount }}</b></template></I18n></div>
-					<div><i class="ti ti-pencil fa-fw"></i><I18n :src="$ts._channel.notesCount" tag="span" style="margin-left: 4px;"><template #n><b>{{ channel.notesCount }}</b></template></I18n></div>
+					<div><i class="ti ti-users ti-fw"></i><I18n :src="$ts._channel.usersCount" tag="span" style="margin-left: 4px;"><template #n><b>{{ channel.usersCount }}</b></template></I18n></div>
+					<div><i class="ti ti-pencil ti-fw"></i><I18n :src="$ts._channel.notesCount" tag="span" style="margin-left: 4px;"><template #n><b>{{ channel.notesCount }}</b></template></I18n></div>
 				</div>
 				<div class="fade"></div>
 			</div>
@@ -59,7 +59,7 @@ export default defineComponent({
 				icon: 'ti ti-satellite-dish',
 				bg: 'var(--bg)',
 				actions: [...(this.$i && this.$i.id === this.channel.userId ? [{
-					icon: 'ti ti-cog',
+					icon: 'ti ti-settings',
 					text: this.$ts.edit,
 					handler: this.edit,
 				}] : [])],

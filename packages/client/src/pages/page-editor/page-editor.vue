@@ -33,7 +33,7 @@
 			<MkSwitch v-model="hideTitleWhenPinned" class="_formBlock">{{ $ts._pages.hideTitleWhenPinned }}</MkSwitch>
 
 			<div class="eyeCatch">
-				<MkButton v-if="eyeCatchingImageId == null && !readonly" @click="setEyeCatchingImage"><i class="fas fa-plus"></i> {{ $ts._pages.eyeCatchingImageSet }}</MkButton>
+				<MkButton v-if="eyeCatchingImageId == null && !readonly" @click="setEyeCatchingImage"><i class="ti ti-plus"></i> {{ $ts._pages.eyeCatchingImageSet }}</MkButton>
 				<div v-else-if="eyeCatchingImage">
 					<img :src="eyeCatchingImage.url" :alt="eyeCatchingImage.name" style="max-width: 100%;"/>
 					<MkButton v-if="!readonly" @click="removeEyeCatchingImage()"><i class="ti ti-trash"></i> {{ $ts._pages.eyeCatchingImageRemove }}</MkButton>
@@ -46,7 +46,7 @@
 		<div>
 			<XBlocks v-model="content" class="content" :hpml="hpml"/>
 
-			<MkButton v-if="!readonly" @click="add()"><i class="fas fa-plus"></i></MkButton>
+			<MkButton v-if="!readonly" @click="add()"><i class="ti ti-plus"></i></MkButton>
 		</div>
 	</div>
 
@@ -66,7 +66,7 @@
 				</template>
 			</XDraggable>
 
-			<MkButton v-if="!readonly" class="add" @click="addVariable()"><i class="fas fa-plus"></i></MkButton>
+			<MkButton v-if="!readonly" class="add" @click="addVariable()"><i class="ti ti-plus"></i></MkButton>
 		</div>
 	</div>
 
@@ -149,7 +149,7 @@ export default defineComponent({
 					tabs: [{
 						active: this.tab === 'settings',
 						title: this.$ts._pages.pageSetting,
-						icon: 'ti ti-cog',
+						icon: 'ti ti-settings',
 						onClick: () => { this.tab = 'settings'; },
 					}, {
 						active: this.tab === 'contents',

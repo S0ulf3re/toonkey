@@ -9,7 +9,7 @@
 			<p v-if="!fetching && messages.length == 0" class="empty"><i class="ti ti-info-circle"></i>{{ $ts.noMessagesYet }}</p>
 			<p v-if="!fetching && messages.length > 0 && !existMoreMessages" class="no-history"><i class="fas fa-flag"></i>{{ $ts.noMoreHistory }}</p>
 			<button v-show="existMoreMessages" ref="loadMore" class="more _button" :class="{ fetching: fetchingMoreMessages }" :disabled="fetchingMoreMessages" @click="fetchMoreMessages">
-				<template v-if="fetchingMoreMessages"><i class="fas fa-spinner fa-pulse fa-fw"></i></template>{{ fetchingMoreMessages ? $ts.loading : $ts.loadMore }}
+				<template v-if="fetchingMoreMessages"><i class="fas fa-spinner fa-pulse ti-fw"></i></template>{{ fetchingMoreMessages ? $ts.loading : $ts.loadMore }}
 			</button>
 			<XList v-if="messages.length > 0" v-slot="{ item: message }" class="messages" :items="messages" direction="up" reversed>
 				<XMessage :key="message.id" :message="message" :is-group="group != null"/>

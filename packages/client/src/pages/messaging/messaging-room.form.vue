@@ -14,9 +14,9 @@
 	></textarea>
 	<div v-if="file" class="file" @click="file = null">{{ file.name }}</div>
 	<button class="send _button" :disabled="!canSend || sending" :title="$ts.send" @click="send">
-		<template v-if="!sending"><i class="ti ti-send"></i></template><template v-if="sending"><i class="fas fa-spinner fa-pulse fa-fw"></i></template>
+		<template v-if="!sending"><i class="ti ti-send"></i></template><template v-if="sending"><i class="fas fa-spinner fa-pulse ti-fw"></i></template>
 	</button>
-	<button class="_button" @click="chooseFile"><i class="fas fa-photo-video"></i></button>
+	<button class="_button" @click="chooseFile"><i class="ti ti-photo"></i></button>
 	<button class="_button" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
 	<input ref="file" type="file" @change="onChangeFile"/>
 </div>

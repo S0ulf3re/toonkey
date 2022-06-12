@@ -46,7 +46,7 @@ import { i18n } from '@/i18n';
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: 'Edit webhook',
-		icon: 'fas fa-bolt',
+		icon: 'ti ti-webhook',
 		bg: 'var(--bg)',
 	},
 });

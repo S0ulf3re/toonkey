@@ -201,7 +201,7 @@ export async function openAccountMenu(opts: {
 			to: `/@${ $i.username }`,
 			avatar: $i,
 		}, null, ...(opts.includeCurrentAccount ? [createItem($i)] : []), ...accountItemPromises, {
-			icon: 'fas fa-plus',
+			icon: 'ti ti-plus',
 			text: i18n.ts.addAccount,
 			action: () => {
 				popupMenu([{

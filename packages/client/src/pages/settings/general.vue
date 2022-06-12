@@ -181,7 +181,7 @@ watch([
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.general,
-		icon: 'ti ti-cogs',
+		icon: 'ti ti-settingss',
 		bg: 'var(--bg)'
 	}
 });

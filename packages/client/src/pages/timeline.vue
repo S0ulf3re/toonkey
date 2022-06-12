@@ -129,7 +129,7 @@ defineExpose({
 			text: i18n.ts.channel,
 			handler: chooseChannel,
 		}, {
-			icon: 'fas fa-calendar-alt',
+			icon: 'ti ti-calendar',
 			text: i18n.ts.jumpToSpecifiedDate,
 			handler: timetravel,
 		}],

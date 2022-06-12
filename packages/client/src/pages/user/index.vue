@@ -48,15 +48,15 @@
 							</div>
 							<div class="fields system">
 								<dl v-if="user.location" class="field">
-									<dt class="name"><i class="fas fa-map-marker fa-fw"></i> {{ $ts.location }}</dt>
+									<dt class="name"><i class="ti ti-map-pin ti-fw"></i> {{ $ts.location }}</dt>
 									<dd class="value">{{ user.location }}</dd>
 								</dl>
 								<dl v-if="user.birthday" class="field">
-									<dt class="name"><i class="fas fa-birthday-cake fa-fw"></i> {{ $ts.birthday }}</dt>
+									<dt class="name"><i class="fas fa-birthday-cake ti-fw"></i> {{ $ts.birthday }}</dt>
 									<dd class="value">{{ user.birthday.replace('-', '/').replace('-', '/') }} ({{ $t('yearsOld', { age }) }})</dd>
 								</dl>
 								<dl class="field">
-									<dt class="name"><i class="fas fa-calendar-alt fa-fw"></i> {{ $ts.registeredDate }}</dt>
+									<dt class="name"><i class="ti ti-calendar ti-fw"></i> {{ $ts.registeredDate }}</dt>
 									<dd class="value">{{ new Date(user.createdAt).toLocaleString() }} (<MkTime :time="user.createdAt"/>)</dd>
 								</dl>
 							</div>

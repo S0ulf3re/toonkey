@@ -190,7 +190,7 @@ export function getUserMenu(user) {
 			text: user.isMuted ? i18n.ts.unmute : i18n.ts.mute,
 			action: toggleMute
 		}, {
-			icon: 'fas fa-ban',
+			icon: 'ti ti-ban',
 			text: user.isBlocking ? i18n.ts.unblock : i18n.ts.block,
 			action: toggleBlock
 		}]);
