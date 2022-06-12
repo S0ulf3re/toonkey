@@ -171,7 +171,7 @@ function setWallpaper(event) {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.theme,
-		icon: 'fas fa-palette',
+		icon: 'ti ti-palette',
 		bg: 'var(--bg)',
 	}
 });

@@ -29,7 +29,7 @@ onMounted(async () => {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.signup,
-		icon: 'fas fa-user',
+		icon: 'ti ti-user',
 	},
 });
 </script>

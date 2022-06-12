@@ -61,7 +61,7 @@ export default defineComponent({
 		return {
 			[symbols.PAGE_INFO]: computed(() => ({
 				title: this.$ts.groups,
-				icon: 'fas fa-users',
+				icon: 'ti ti-users',
 				bg: 'var(--bg)',
 				actions: [{
 					icon: 'fas fa-plus',
@@ -71,7 +71,7 @@ export default defineComponent({
 				tabs: [{
 					active: this.tab === 'owned',
 					title: this.$ts.ownedGroups,
-					icon: 'fas fa-user-tie',
+					icon: 'ti ti-user-tie',
 					onClick: () => { this.tab = 'owned'; },
 				}, {
 					active: this.tab === 'joined',
@@ -81,7 +81,7 @@ export default defineComponent({
 				}, {
 					active: this.tab === 'invites',
 					title: this.$ts.invites,
-					icon: 'fas fa-envelope-open-text',
+					icon: 'ti ti-mail-open-text',
 					onClick: () => { this.tab = 'invites'; },
 				},]
 			})),

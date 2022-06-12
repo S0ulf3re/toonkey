@@ -45,7 +45,7 @@ watch(instanceMutes, () => {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.instanceMute,
-		icon: 'fas fa-volume-mute'
+		icon: 'ti ti-volume-3'
 	}
 });
 </script>

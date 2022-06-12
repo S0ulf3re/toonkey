@@ -79,7 +79,7 @@ const menuDef = $computed(() => [{
 		action: lookup,
 	}, ...(instance.disableRegistration ? [{
 		type: 'button',
-		icon: 'fas fa-user',
+		icon: 'ti ti-user',
 		text: i18n.ts.invite,
 		action: invite,
 	}] : [])],
@@ -91,12 +91,12 @@ const menuDef = $computed(() => [{
 		to: '/admin/overview',
 		active: props.initialPage === 'overview',
 	}, {
-		icon: 'fas fa-users',
+		icon: 'ti ti-users',
 		text: i18n.ts.users,
 		to: '/admin/users',
 		active: props.initialPage === 'users',
 	}, {
-		icon: 'fas fa-laugh',
+		icon: 'ti ti-mood-happy',
 		text: i18n.ts.customEmojis,
 		to: '/admin/emojis',
 		active: props.initialPage === 'emojis',
@@ -121,12 +121,12 @@ const menuDef = $computed(() => [{
 		to: '/admin/announcements',
 		active: props.initialPage === 'announcements',
 	}, {
-		icon: 'fas fa-audio-description',
+		icon: 'ti ti-ad',
 		text: i18n.ts.ads,
 		to: '/admin/ads',
 		active: props.initialPage === 'ads',
 	}, {
-		icon: 'fas fa-exclamation-circle',
+		icon: 'ti ti-alert-circle',
 		text: i18n.ts.abuseReports,
 		to: '/admin/abuses',
 		active: props.initialPage === 'abuses',
@@ -139,7 +139,7 @@ const menuDef = $computed(() => [{
 		to: '/admin/settings',
 		active: props.initialPage === 'settings',
 	}, {
-		icon: 'fas fa-envelope',
+		icon: 'ti ti-mail',
 		text: i18n.ts.emailServer,
 		to: '/admin/email-settings',
 		active: props.initialPage === 'email-settings',
@@ -149,7 +149,7 @@ const menuDef = $computed(() => [{
 		to: '/admin/object-storage',
 		active: props.initialPage === 'object-storage',
 	}, {
-		icon: 'fas fa-lock',
+		icon: 'ti ti-lock',
 		text: i18n.ts.security,
 		to: '/admin/security',
 		active: props.initialPage === 'security',
@@ -276,7 +276,7 @@ const invite = () => {
 const lookup = (ev) => {
 	os.popupMenu([{
 		text: i18n.ts.user,
-		icon: 'fas fa-user',
+		icon: 'ti ti-user',
 		action: () => {
 			lookupUser();
 		}

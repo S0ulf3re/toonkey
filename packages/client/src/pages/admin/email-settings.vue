@@ -105,7 +105,7 @@ function save() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.emailServer,
-		icon: 'fas fa-envelope',
+		icon: 'ti ti-mail',
 		bg: 'var(--bg)',
 		actions: [{
 			asFullButton: true,

@@ -65,17 +65,17 @@ const ro = new ResizeObserver((entries, observer) => {
 const menuDef = computed(() => [{
 	title: i18n.ts.basicSettings,
 	items: [{
-		icon: 'fas fa-user',
+		icon: 'ti ti-user',
 		text: i18n.ts.profile,
 		to: '/settings/profile',
 		active: props.initialPage === 'profile',
 	}, {
-		icon: 'fas fa-lock-open',
+		icon: 'ti ti-lock-open',
 		text: i18n.ts.privacy,
 		to: '/settings/privacy',
 		active: props.initialPage === 'privacy',
 	}, {
-		icon: 'fas fa-laugh',
+		icon: 'ti ti-mood-happy',
 		text: i18n.ts.reaction,
 		to: '/settings/reaction',
 		active: props.initialPage === 'reaction',
@@ -90,7 +90,7 @@ const menuDef = computed(() => [{
 		to: '/settings/notifications',
 		active: props.initialPage === 'notifications',
 	}, {
-		icon: 'fas fa-envelope',
+		icon: 'ti ti-mail',
 		text: i18n.ts.email,
 		to: '/settings/email',
 		active: props.initialPage === 'email',
@@ -100,7 +100,7 @@ const menuDef = computed(() => [{
 		to: '/settings/integration',
 		active: props.initialPage === 'integration',
 	}, {
-		icon: 'fas fa-lock',
+		icon: 'ti ti-lock',
 		text: i18n.ts.security,
 		to: '/settings/security',
 		active: props.initialPage === 'security',
@@ -113,12 +113,12 @@ const menuDef = computed(() => [{
 		to: '/settings/general',
 		active: props.initialPage === 'general',
 	}, {
-		icon: 'fas fa-palette',
+		icon: 'ti ti-palette',
 		text: i18n.ts.theme,
 		to: '/settings/theme',
 		active: props.initialPage === 'theme',
 	}, {
-		icon: 'fas fa-list-ul',
+		icon: 'ti ti-list',
 		text: i18n.ts.menu,
 		to: '/settings/menu',
 		active: props.initialPage === 'menu',
@@ -128,7 +128,7 @@ const menuDef = computed(() => [{
 		to: '/settings/sounds',
 		active: props.initialPage === 'sounds',
 	}, {
-		icon: 'fas fa-plug',
+		icon: 'ti ti-plug',
 		text: i18n.ts.plugins,
 		to: '/settings/plugin',
 		active: props.initialPage === 'plugin',
@@ -141,7 +141,7 @@ const menuDef = computed(() => [{
 		to: '/settings/import-export',
 		active: props.initialPage === 'import-export',
 	}, {
-		icon: 'fas fa-volume-mute',
+		icon: 'ti ti-volume-3',
 		text: i18n.ts.instanceMute,
 		to: '/settings/instance-mute',
 		active: props.initialPage === 'instance-mute',

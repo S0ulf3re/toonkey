@@ -125,7 +125,7 @@ function show(user) {
 defineExpose({
 	[symbols.PAGE_INFO]: computed(() => ({
 		title: i18n.ts.users,
-		icon: 'fas fa-users',
+		icon: 'ti ti-users',
 		bg: 'var(--bg)',
 		actions: [{
 			icon: 'ti ti-search',

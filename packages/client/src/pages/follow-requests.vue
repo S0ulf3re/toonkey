@@ -61,7 +61,7 @@ function reject(user) {
 defineExpose({
 	[symbols.PAGE_INFO]: computed(() => ({
 		title: i18n.ts.followRequests,
-		icon: 'fas fa-user-clock',
+		icon: 'ti ti-user-clock',
 		bg: 'var(--bg)',
 	})),
 });

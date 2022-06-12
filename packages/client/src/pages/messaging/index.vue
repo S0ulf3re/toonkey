@@ -122,11 +122,11 @@ export default defineComponent({
 		start(ev) {
 			os.popupMenu([{
 				text: this.$ts.messagingWithUser,
-				icon: 'fas fa-user',
+				icon: 'ti ti-user',
 				action: () => { this.startUser(); }
 			}, {
 				text: this.$ts.messagingWithGroup,
-				icon: 'fas fa-users',
+				icon: 'ti ti-users',
 				action: () => { this.startGroup(); }
 			}], ev.currentTarget ?? ev.target);
 		},

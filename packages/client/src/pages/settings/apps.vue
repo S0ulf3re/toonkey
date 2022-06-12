@@ -63,7 +63,7 @@ function revoke(token) {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.installedApps,
-		icon: 'fas fa-plug',
+		icon: 'ti ti-plug',
 		bg: 'var(--bg)',
 	}
 });

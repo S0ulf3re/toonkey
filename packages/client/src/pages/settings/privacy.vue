@@ -87,7 +87,7 @@ function save() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.privacy,
-		icon: 'fas fa-lock-open',
+		icon: 'ti ti-lock-open',
 		bg: 'var(--bg)',
 	},
 });

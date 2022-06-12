@@ -45,7 +45,7 @@ async function deleteAccount() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts._accountDelete.accountDelete,
-		icon: 'fas fa-exclamation-triangle',
+		icon: 'ti ti-alert-triangle',
 		bg: 'var(--bg)',
 	}
 });

@@ -1,5 +1,6 @@
 <template>
-<div class="pemppnzi _block"
+<div
+	class="pemppnzi _block"
 	@dragover.stop="onDragover"
 	@drop.stop="onDrop"
 >
@@ -16,7 +17,7 @@
 		<template v-if="!sending"><i class="ti ti-send"></i></template><template v-if="sending"><i class="fas fa-spinner fa-pulse fa-fw"></i></template>
 	</button>
 	<button class="_button" @click="chooseFile"><i class="fas fa-photo-video"></i></button>
-	<button class="_button" @click="insertEmoji"><i class="fas fa-laugh-squint"></i></button>
+	<button class="_button" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
 	<input ref="file" type="file" @change="onChangeFile"/>
 </div>
 </template>
@@ -25,12 +26,12 @@
 import { defineComponent, defineAsyncComponent } from 'vue';
 import insertTextAtCursor from 'insert-text-at-cursor';
 import autosize from 'autosize';
+import { throttle } from 'throttle-debounce';
 import { formatTimeString } from '@/scripts/format-time-string';
 import { selectFile } from '@/scripts/select-file';
 import * as os from '@/os';
 import { stream } from '@/stream';
 import { Autocomplete } from '@/scripts/autocomplete';
-import { throttle } from 'throttle-debounce';
 import { uploadFile } from '@/scripts/upload';
 
 export default defineComponent({
@@ -63,7 +64,7 @@ export default defineComponent({
 		},
 		room(): any {
 			return this.$parent;
-		}
+		},
 	},
 	watch: {
 		text() {
@@ -71,7 +72,7 @@ export default defineComponent({
 		},
 		file() {
 			this.saveDraft();
-		}
+		},
 	},
 	mounted() {
 		autosize(this.$refs.text);
@@ -103,7 +104,7 @@ export default defineComponent({
 				if (items[0].kind === 'file') {
 					os.alert({
 						type: 'error',
-						text: this.$ts.onlyOneFileCanBeAttached
+						text: this.$ts.onlyOneFileCanBeAttached,
 					});
 				}
 			}
@@ -128,7 +129,7 @@ export default defineComponent({
 				evt.preventDefault();
 				os.alert({
 					type: 'error',
-					text: this.$ts.onlyOneFileCanBeAttached
+					text: this.$ts.onlyOneFileCanBeAttached,
 				});
 				return;
 			}
@@ -175,7 +176,7 @@ export default defineComponent({
 				userId: this.user ? this.user.id : undefined,
 				groupId: this.group ? this.group.id : undefined,
 				text: this.text ? this.text : undefined,
-				fileId: this.file ? this.file.id : undefined
+				fileId: this.file ? this.file.id : undefined,
 			}).then(message => {
 				this.clear();
 			}).catch(err => {
@@ -198,8 +199,8 @@ export default defineComponent({
 				updatedAt: new Date(),
 				data: {
 					text: this.text,
-					file: this.file
-				}
+					file: this.file,
+				},
 			};
 
 			localStorage.setItem('message_drafts', JSON.stringify(drafts));
@@ -215,8 +216,8 @@ export default defineComponent({
 
 		async insertEmoji(ev) {
 			os.openEmojiPicker(ev.currentTarget ?? ev.target, {}, this.$refs.text);
-		}
-	}
+		},
+	},
 });
 </script>
 

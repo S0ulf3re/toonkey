@@ -3,7 +3,7 @@
 	<FormSection>
 		<template #label>{{ $ts.emailAddress }}</template>
 		<FormInput v-model="emailAddress" type="email" manual-save>
-			<template #prefix><i class="fas fa-envelope"></i></template>
+			<template #prefix><i class="ti ti-mail"></i></template>
 			<template v-if="$i.email && !$i.emailVerified" #caption>{{ $ts.verificationEmailSent }}</template>
 			<template v-else-if="emailAddress === $i.email && $i.emailVerified" #caption><i class="ti ti-check" style="color: var(--success);"></i> {{ $ts.emailVerified }}</template>
 		</FormInput>
@@ -103,7 +103,7 @@ onMounted(() => {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.email,
-		icon: 'fas fa-envelope',
+		icon: 'ti ti-mail',
 		bg: 'var(--bg)',
 	}
 });

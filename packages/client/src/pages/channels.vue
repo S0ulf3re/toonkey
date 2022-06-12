@@ -34,7 +34,7 @@ export default defineComponent({
 		return {
 			[symbols.PAGE_INFO]: computed(() => ({
 				title: this.$ts.channel,
-				icon: 'fas fa-satellite-dish',
+				icon: 'ti ti-satellite-dish',
 				bg: 'var(--bg)',
 				actions: [{
 					icon: 'fas fa-plus',

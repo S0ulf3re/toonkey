@@ -117,15 +117,15 @@ defineExpose({
 		icon: src === 'local' ? 'ti ti-messages' : src === 'social' ? 'ti ti-share' : src === 'global' ? 'ti ti-world' : 'ti ti-home-2',
 		bg: 'var(--bg)',
 		actions: [{
-			icon: 'fas fa-list-ul',
+			icon: 'ti ti-list',
 			text: i18n.ts.lists,
 			handler: chooseList,
 		}, {
-			icon: 'fas fa-satellite',
+			icon: 'ti ti-satellite',
 			text: i18n.ts.antennas,
 			handler: chooseAntenna,
 		}, {
-			icon: 'fas fa-satellite-dish',
+			icon: 'ti ti-satellite-dish',
 			text: i18n.ts.channel,
 			handler: chooseChannel,
 		}, {

@@ -23,7 +23,7 @@
 			</div>
 		</button>
 		<button key="specified" :disabled="localOnly" class="_button" :class="{ active: v === 'specified' }" data-index="4" @click="choose('specified')">
-			<div><i class="fas fa-envelope"></i></div>
+			<div><i class="ti ti-mail"></i></div>
 			<div>
 				<span>{{ $ts._visibility.specified }}</span>
 				<span>{{ $ts._visibility.specifiedDescription }}</span>

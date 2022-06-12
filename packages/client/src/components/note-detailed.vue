@@ -29,7 +29,7 @@
 			<span v-if="note.visibility !== 'public'" class="visibility">
 				<i v-if="note.visibility === 'home'" class="ti ti-home-2"></i>
 				<i v-else-if="note.visibility === 'followers'" class="fas fa-unlock"></i>
-				<i v-else-if="note.visibility === 'specified'" class="fas fa-envelope"></i>
+				<i v-else-if="note.visibility === 'specified'" class="ti ti-mail"></i>
 			</span>
 			<span v-if="note.localOnly" class="localOnly"><i class="fas fa-biohazard"></i></span>
 		</div>
@@ -46,7 +46,7 @@
 					<span v-if="appearNote.visibility !== 'public'" class="visibility">
 						<i v-if="appearNote.visibility === 'home'" class="ti ti-home-2"></i>
 						<i v-else-if="appearNote.visibility === 'followers'" class="fas fa-unlock"></i>
-						<i v-else-if="appearNote.visibility === 'specified'" class="fas fa-envelope"></i>
+						<i v-else-if="appearNote.visibility === 'specified'" class="ti ti-mail"></i>
 					</span>
 					<span v-if="appearNote.localOnly" class="localOnly"><i class="fas fa-biohazard"></i></span>
 				</div>
@@ -81,7 +81,7 @@
 					<MkUrlPreview v-for="url in urls" :key="url" :url="url" :compact="true" :detail="true" class="url-preview"/>
 					<div v-if="appearNote.renote" class="renote"><XNoteSimple :note="appearNote.renote"/></div>
 				</div>
-				<MkA v-if="appearNote.channel && !inChannel" class="channel" :to="`/channels/${appearNote.channel.id}`"><i class="fas fa-satellite-dish"></i> {{ appearNote.channel.name }}</MkA>
+				<MkA v-if="appearNote.channel && !inChannel" class="channel" :to="`/channels/${appearNote.channel.id}`"><i class="ti ti-satellite-dish"></i> {{ appearNote.channel.name }}</MkA>
 			</div>
 			<footer class="footer">
 				<div class="info">

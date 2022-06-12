@@ -48,11 +48,11 @@ export default defineComponent({
 		return {
 			[symbols.PAGE_INFO]: computed(() => this.channelId ? {
 				title: this.$ts._channel.edit,
-				icon: 'fas fa-satellite-dish',
+				icon: 'ti ti-satellite-dish',
 				bg: 'var(--bg)',
 			} : {
 				title: this.$ts._channel.create,
-				icon: 'fas fa-satellite-dish',
+				icon: 'ti ti-satellite-dish',
 				bg: 'var(--bg)',
 			}),
 			channel: null,

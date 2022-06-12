@@ -38,7 +38,7 @@ function menu(ev) {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.customEmojis,
-		icon: 'fas fa-laugh',
+		icon: 'ti ti-mood-happy',
 		bg: 'var(--bg)',
 		actions: [{
 			icon: 'ti ti-dots',

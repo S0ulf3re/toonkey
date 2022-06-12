@@ -66,7 +66,7 @@ function save() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.security,
-		icon: 'fas fa-lock',
+		icon: 'ti ti-lock',
 		bg: 'var(--bg)',
 	}
 });

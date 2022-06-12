@@ -249,7 +249,7 @@ export function getNoteMenu(props: {
 		...(appearNote.userId !== $i.id ? [
 			null,
 			{
-				icon: 'fas fa-exclamation-circle',
+				icon: 'ti ti-alert-circle',
 				text: i18n.ts.reportAbuse,
 				action: () => {
 					const u = appearNote.url || appearNote.uri || `${url}/notes/${appearNote.id}`;
@@ -298,7 +298,7 @@ export function getNoteMenu(props: {
 
 	if (noteActions.length > 0) {
 		menu = menu.concat([null, ...noteActions.map(action => ({
-			icon: 'fas fa-plug',
+			icon: 'ti ti-plug',
 			text: action.title,
 			action: () => {
 				action.handler(appearNote);

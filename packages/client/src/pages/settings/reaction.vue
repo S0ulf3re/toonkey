@@ -123,7 +123,7 @@ watch($$(reactions), () => {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.reaction,
-		icon: 'fas fa-laugh',
+		icon: 'ti ti-mood-happy',
 		action: {
 			icon: 'ti ti-eye',
 			handler: preview,

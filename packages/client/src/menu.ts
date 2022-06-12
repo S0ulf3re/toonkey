@@ -30,7 +30,7 @@ export const menuDef = reactive({
 	},
 	followRequests: {
 		title: 'followRequests',
-		icon: 'fas fa-user-clock',
+		icon: 'ti ti-user-clock',
 		show: computed(() => $i != null && $i.isLocked),
 		indicated: computed(() => $i != null && $i.hasPendingReceivedFollowRequest),
 		to: '/my/follow-requests',
@@ -58,7 +58,7 @@ export const menuDef = reactive({
 	},
 	lists: {
 		title: 'lists',
-		icon: 'fas fa-list-ul',
+		icon: 'ti ti-list',
 		show: computed(() => $i != null),
 		active: computed(() => router.currentRoute.value.path.startsWith('/timeline/list/') || router.currentRoute.value.path === '/my/lists' || router.currentRoute.value.path.startsWith('/my/lists/')),
 		action: (ev) => {
@@ -83,13 +83,13 @@ export const menuDef = reactive({
 	},
 	groups: {
 		title: 'groups',
-		icon: 'fas fa-users',
+		icon: 'ti ti-users',
 		show: computed(() => $i != null),
 		to: '/my/groups',
 	},
 	antennas: {
 		title: 'antennas',
-		icon: 'fas fa-satellite',
+		icon: 'ti ti-satellite',
 		show: computed(() => $i != null),
 		active: computed(() => router.currentRoute.value.path.startsWith('/timeline/antenna/') || router.currentRoute.value.path === '/my/antennas' || router.currentRoute.value.path.startsWith('/my/antennas/')),
 		action: (ev) => {
@@ -114,14 +114,14 @@ export const menuDef = reactive({
 	},
 	mentions: {
 		title: 'mentions',
-		icon: 'fas fa-at',
+		icon: 'ti ti-at',
 		show: computed(() => $i != null),
 		indicated: computed(() => $i != null && $i.hasUnreadMentions),
 		to: '/my/mentions',
 	},
 	messages: {
 		title: 'directNotes',
-		icon: 'fas fa-envelope',
+		icon: 'ti ti-mail',
 		show: computed(() => $i != null),
 		indicated: computed(() => $i != null && $i.hasUnreadSpecifiedNotes),
 		to: '/my/messages',
@@ -150,7 +150,7 @@ export const menuDef = reactive({
 	},
 	channels: {
 		title: 'channel',
-		icon: 'fas fa-satellite-dish',
+		icon: 'ti ti-satellite-dish',
 		to: '/channels',
 	},
 	federation: {
@@ -160,7 +160,7 @@ export const menuDef = reactive({
 	},
 	emojis: {
 		title: 'emojis',
-		icon: 'fas fa-laugh',
+		icon: 'ti ti-mood-happy',
 		to: '/emojis',
 	},
 	scratchpad: {

@@ -77,7 +77,7 @@ function resolved(reportId) {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.abuseReports,
-		icon: 'fas fa-exclamation-circle',
+		icon: 'ti ti-alert-circle',
 		bg: 'var(--bg)',
 	}
 });

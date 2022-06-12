@@ -6,7 +6,7 @@
 	<div class="_content mk-messaging-room">
 		<div class="body">
 			<MkLoading v-if="fetching"/>
-			<p v-if="!fetching && messages.length == 0" class="empty"><i class="fas fa-info-circle"></i>{{ $ts.noMessagesYet }}</p>
+			<p v-if="!fetching && messages.length == 0" class="empty"><i class="ti ti-info-circle"></i>{{ $ts.noMessagesYet }}</p>
 			<p v-if="!fetching && messages.length > 0 && !existMoreMessages" class="no-history"><i class="fas fa-flag"></i>{{ $ts.noMoreHistory }}</p>
 			<button v-show="existMoreMessages" ref="loadMore" class="more _button" :class="{ fetching: fetchingMoreMessages }" :disabled="fetchingMoreMessages" @click="fetchMoreMessages">
 				<template v-if="fetchingMoreMessages"><i class="fas fa-spinner fa-pulse fa-fw"></i></template>{{ fetchingMoreMessages ? $ts.loading : $ts.loadMore }}
@@ -79,7 +79,7 @@ const Component = defineComponent({
 				},
 			} : {
 				title: this.group.name,
-				icon: 'fas fa-users',
+				icon: 'ti ti-users',
 				action: {
 					icon: 'ti ti-dots',
 					handler: this.menu,

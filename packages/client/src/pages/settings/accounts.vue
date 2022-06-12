@@ -101,7 +101,7 @@ function switchAccountWithToken(token: string) {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.accounts,
-		icon: 'fas fa-users',
+		icon: 'ti ti-users',
 		bg: 'var(--bg)',
 	}
 });

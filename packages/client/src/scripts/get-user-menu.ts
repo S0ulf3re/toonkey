@@ -152,19 +152,19 @@ export function getUserMenu(user) {
 	}
 
 	let menu = [{
-		icon: 'fas fa-at',
+		icon: 'ti ti-at',
 		text: i18n.ts.copyUsername,
 		action: () => {
 			copyToClipboard(`@${user.username}@${user.host || host}`);
 		}
 	}, {
-		icon: 'fas fa-info-circle',
+		icon: 'ti ti-info-circle',
 		text: i18n.ts.info,
 		action: () => {
 			os.pageWindow(`/user-info/${user.id}`);
 		}
 	}, {
-		icon: 'fas fa-envelope',
+		icon: 'ti ti-mail',
 		text: i18n.ts.sendMessage,
 		action: () => {
 			os.post({ specified: user });
@@ -175,11 +175,11 @@ export function getUserMenu(user) {
 		text: i18n.ts.startMessaging,
 		to: '/my/messaging/' + Acct.toString(user),
 	} : undefined, null, {
-		icon: 'fas fa-list-ul',
+		icon: 'ti ti-list',
 		text: i18n.ts.addToList,
 		action: pushList
 	}, meId !== user.id ? {
-		icon: 'fas fa-users',
+		icon: 'ti ti-users',
 		text: i18n.ts.inviteToGroup,
 		action: inviteGroup
 	} : undefined] as any;
@@ -204,7 +204,7 @@ export function getUserMenu(user) {
 		}
 
 		menu = menu.concat([null, {
-			icon: 'fas fa-exclamation-circle',
+			icon: 'ti ti-alert-circle',
 			text: i18n.ts.reportAbuse,
 			action: reportAbuse
 		}]);
@@ -234,7 +234,7 @@ export function getUserMenu(user) {
 
 	if (userActions.length > 0) {
 		menu = menu.concat([null, ...userActions.map(action => ({
-			icon: 'fas fa-plug',
+			icon: 'ti ti-plug',
 			text: action.title,
 			action: () => {
 				action.handler(user);

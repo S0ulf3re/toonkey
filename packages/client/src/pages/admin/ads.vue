@@ -103,7 +103,7 @@ function save(ad) {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.ads,
-		icon: 'fas fa-audio-description',
+		icon: 'ti ti-ad',
 		bg: 'var(--bg)',
 		actions: [{
 			asFullButton: true,

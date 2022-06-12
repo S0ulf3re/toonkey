@@ -29,7 +29,7 @@ const pagination = {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.manageAntennas,
-		icon: 'fas fa-satellite',
+		icon: 'ti ti-satellite',
 		bg: 'var(--bg)'
 	}
 });

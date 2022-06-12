@@ -104,7 +104,7 @@ export default defineComponent({
 		return {
 			[symbols.PAGE_INFO]: computed(() => ({
 				title: this.user ? acct(this.user) : this.$ts.userInfo,
-				icon: 'fas fa-info-circle',
+				icon: 'ti ti-info-circle',
 				bg: 'var(--bg)',
 				actions: this.user ? [this.user.url ? {
 					text: this.user.url,

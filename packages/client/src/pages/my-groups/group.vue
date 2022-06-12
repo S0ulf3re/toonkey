@@ -55,7 +55,7 @@ export default defineComponent({
 		return {
 			[symbols.PAGE_INFO]: computed(() => this.group ? {
 				title: this.group.name,
-				icon: 'fas fa-users',
+				icon: 'ti ti-users',
 			} : null),
 			group: null,
 			users: [],

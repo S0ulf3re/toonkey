@@ -1,5 +1,6 @@
 <template>
-<div v-size="{ max: [310, 500] }" class="gafaadew"
+<div
+	v-size="{ max: [310, 500] }" class="gafaadew"
 	:class="{ modal, _popup: modal }"
 	@dragover.stop="onDragover"
 	@dragenter="onDragenter"
@@ -18,7 +19,7 @@
 				<span v-if="visibility === 'public'"><i class="ti ti-world"></i></span>
 				<span v-if="visibility === 'home'"><i class="ti ti-home-2"></i></span>
 				<span v-if="visibility === 'followers'"><i class="fas fa-unlock"></i></span>
-				<span v-if="visibility === 'specified'"><i class="fas fa-envelope"></i></span>
+				<span v-if="visibility === 'specified'"><i class="ti ti-mail"></i></span>
 			</button>
 			<button v-tooltip="i18n.ts.previewNoteText" class="_button preview" :class="{ active: showPreview }" @click="showPreview = !showPreview"><i class="fas fa-file-code"></i></button>
 			<button class="submit _buttonGradate" :disabled="!canPost" data-cy-open-post-form-submit @click="post">{{ submitText }}<i :class="reply ? 'fas fa-reply' : renote ? 'fas fa-quote-right' : 'ti ti-send'"></i></button>
@@ -47,12 +48,12 @@
 		<XNotePreview v-if="showPreview" class="preview" :text="text"/>
 		<footer>
 			<button v-tooltip="i18n.ts.attachFile" class="_button" @click="chooseFileFrom"><i class="fas fa-photo-video"></i></button>
-			<button v-tooltip="i18n.ts.poll" class="_button" :class="{ active: poll }" @click="togglePoll"><i class="fas fa-poll-h"></i></button>
+			<button v-tooltip="i18n.ts.poll" class="_button" :class="{ active: poll }" @click="togglePoll"><i class="ti ti-chart-arrows"></i></button>
 			<button v-tooltip="i18n.ts.useCw" class="_button" :class="{ active: useCw }" @click="useCw = !useCw"><i class="ti ti-eye-off"></i></button>
-			<button v-tooltip="i18n.ts.mention" class="_button" @click="insertMention"><i class="fas fa-at"></i></button>
+			<button v-tooltip="i18n.ts.mention" class="_button" @click="insertMention"><i class="ti ti-at"></i></button>
 			<button v-tooltip="i18n.ts.hashtags" class="_button" :class="{ active: withHashtags }" @click="withHashtags = !withHashtags"><i class="ti ti-hash"></i></button>
-			<button v-tooltip="i18n.ts.emoji" class="_button" @click="insertEmoji"><i class="fas fa-laugh-squint"></i></button>
-			<button v-if="postFormActions.length > 0" v-tooltip="i18n.ts.plugin" class="_button" @click="showActions"><i class="fas fa-plug"></i></button>
+			<button v-tooltip="i18n.ts.emoji" class="_button" @click="insertEmoji"><i class="ti ti-mood-happy"></i></button>
+			<button v-if="postFormActions.length > 0" v-tooltip="i18n.ts.plugin" class="_button" @click="showActions"><i class="ti ti-plug"></i></button>
 		</footer>
 		<datalist id="hashtags">
 			<option v-for="hashtag in recentHashtags" :key="hashtag" :value="hashtag"/>
@@ -68,6 +69,8 @@ import * as misskey from 'misskey-js';
 import insertTextAtCursor from 'insert-text-at-cursor';
 import { length } from 'stringz';
 import { toASCII } from 'punycode/';
+import * as Acct from 'misskey-js/built/acct';
+import { throttle } from 'throttle-debounce';
 import XNoteSimple from './note-simple.vue';
 import XNotePreview from './note-preview.vue';
 import XPostFormAttaches from './post-form-attaches.vue';
@@ -75,14 +78,12 @@ import XPollEditor from './poll-editor.vue';
 import { host, url } from '@/config';
 import { erase, unique } from '@/scripts/array';
 import { extractMentions } from '@/scripts/extract-mentions';
-import * as Acct from 'misskey-js/built/acct';
 import { formatTimeString } from '@/scripts/format-time-string';
 import { Autocomplete } from '@/scripts/autocomplete';
 import * as os from '@/os';
 import { stream } from '@/stream';
 import { selectFiles } from '@/scripts/select-file';
 import { defaultStore, notePostInterruptors, postFormActions } from '@/store';
-import { throttle } from 'throttle-debounce';
 import MkInfo from '@/components/ui/info.vue';
 import { i18n } from '@/i18n';
 import { instance } from '@/instance';
@@ -181,7 +182,7 @@ const placeholder = $computed((): string => {
 			i18n.ts._postForm._placeholders.c,
 			i18n.ts._postForm._placeholders.d,
 			i18n.ts._postForm._placeholders.e,
-			i18n.ts._postForm._placeholders.f
+			i18n.ts._postForm._placeholders.f,
 		];
 		return xs[Math.floor(Math.random() * xs.length)];
 	}
@@ -238,10 +239,10 @@ if (props.reply && props.reply.text != null) {
 
 	for (const x of extractMentions(ast)) {
 		const mention = x.host ?
-											`@${x.username}@${toASCII(x.host)}` :
-											(otherHost == null || otherHost === host) ?
-												`@${x.username}` :
-												`@${x.username}@${toASCII(otherHost)}`;
+			`@${x.username}@${toASCII(x.host)}` :
+			(otherHost == null || otherHost === host) ?
+				`@${x.username}` :
+				`@${x.username}@${toASCII(otherHost)}`;
 
 		// 自分は除外
 		if ($i.username === x.username && (x.host == null || x.host === host)) continue;
@@ -263,7 +264,7 @@ if (props.reply && ['home', 'followers', 'specified'].includes(props.reply.visib
 	visibility = props.reply.visibility;
 	if (props.reply.visibility === 'specified') {
 		os.api('users/show', {
-			userIds: props.reply.visibleUserIds.filter(uid => uid !== $i.id && uid !== props.reply.userId)
+			userIds: props.reply.visibleUserIds.filter(uid => uid !== $i.id && uid !== props.reply.userId),
 		}).then(users => {
 			users.forEach(pushVisibleUser);
 		});
@@ -399,7 +400,7 @@ function setVisibility() {
 			if (defaultStore.state.rememberNoteVisibility) {
 				defaultStore.set('localOnly', localOnly);
 			}
-		}
+		},
 	}, 'closed');
 }
 
@@ -522,8 +523,8 @@ function saveDraft() {
 			visibility: visibility,
 			localOnly: localOnly,
 			files: files,
-			poll: poll
-		}
+			poll: poll,
+		},
 	};
 
 	localStorage.setItem('drafts', JSON.stringify(draftData));
@@ -612,11 +613,11 @@ function showActions(ev) {
 		text: action.title,
 		action: () => {
 			action.handler({
-				text: text
+				text: text,
 			}, (key, value) => {
 				if (key === 'text') { text = value; }
 			});
-		}
+		},
 	})), ev.currentTarget ?? ev.target);
 }
 

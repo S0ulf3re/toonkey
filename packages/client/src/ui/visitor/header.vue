@@ -5,7 +5,7 @@
 			<MkA to="/" class="link" active-class="active"><i class="ti ti-home-2 icon"></i>{{ $ts.home }}</MkA>
 			<MkA to="/explore" class="link" active-class="active"><i class="ti ti-hash icon"></i>{{ $ts.explore }}</MkA>
 			<MkA to="/featured" class="link" active-class="active"><i class="ti ti-flame icon"></i>{{ $ts.featured }}</MkA>
-			<MkA to="/channels" class="link" active-class="active"><i class="fas fa-satellite-dish icon"></i>{{ $ts.channel }}</MkA>
+			<MkA to="/channels" class="link" active-class="active"><i class="ti ti-satellite-dish icon"></i>{{ $ts.channel }}</MkA>
 			<div v-if="info" class="page active link">
 				<div class="title">
 					<i v-if="info.icon" class="icon" :class="info.icon"></i>

@@ -38,7 +38,7 @@ export default defineComponent({
 			queue: 0,
 			[symbols.PAGE_INFO]: computed(() => this.list ? {
 				title: this.list.name,
-				icon: 'fas fa-list-ul',
+				icon: 'ti ti-list',
 				bg: 'var(--bg)',
 				actions: [{
 					icon: 'fas fa-calendar-alt',

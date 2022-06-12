@@ -41,7 +41,7 @@ async function create() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.manageLists,
-		icon: 'fas fa-list-ul',
+		icon: 'ti ti-list',
 		bg: 'var(--bg)',
 		action: {
 			icon: 'fas fa-plus',

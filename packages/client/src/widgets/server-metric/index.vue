@@ -1,6 +1,6 @@
 <template>
 <MkContainer :show-header="widgetProps.showHeader" :naked="widgetProps.transparent">
-	<template #header><i class="fas fa-server"></i>{{ $ts._widgets.serverMetric }}</template>
+	<template #header><i class="ti ti-server-2"></i>{{ $ts._widgets.serverMetric }}</template>
 	<template #func><button class="_button" @click="toggleView()"><i class="fas fa-sort"></i></button></template>
 
 	<div v-if="meta" class="mkw-serverMetric">

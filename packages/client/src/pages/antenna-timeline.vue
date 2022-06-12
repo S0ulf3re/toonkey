@@ -38,7 +38,7 @@ export default defineComponent({
 			queue: 0,
 			[symbols.PAGE_INFO]: computed(() => this.antenna ? {
 				title: this.antenna.name,
-				icon: 'fas fa-satellite',
+				icon: 'ti ti-satellite',
 				bg: 'var(--bg)',
 				actions: [{
 					icon: 'fas fa-calendar-alt',

@@ -1,6 +1,6 @@
 <template>
 <div class="_card tbkwesmv">
-	<div class="_title"><i class="fas fa-info-circle"></i> {{ $ts._tutorial.title }}</div>
+	<div class="_title"><i class="ti ti-info-circle"></i> {{ $ts._tutorial.title }}</div>
 	<div v-if="tutorial === 0" class="_content">
 		<div>{{ $ts._tutorial.step1_1 }}</div>
 		<div>{{ $ts._tutorial.step1_2 }}</div>

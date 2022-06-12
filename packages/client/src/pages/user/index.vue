@@ -5,8 +5,8 @@
 			<div v-size="{ max: [500] }" class="ftskorzw" :class="{ wide: !narrow }">
 				<div class="main">
 					<!-- TODO -->
-					<!-- <div class="punished" v-if="user.isSuspended"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ $ts.userSuspended }}</div> -->
-					<!-- <div class="punished" v-if="user.isSilenced"><i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ $ts.userSilenced }}</div> -->
+					<!-- <div class="punished" v-if="user.isSuspended"><i class="ti ti-alert-triangle" style="margin-right: 8px;"></i> {{ $ts.userSuspended }}</div> -->
+					<!-- <div class="punished" v-if="user.isSilenced"><i class="ti ti-alert-triangle" style="margin-right: 8px;"></i> {{ $ts.userSilenced }}</div> -->
 
 					<div class="profile">
 						<MkRemoteCaution v-if="user.host != null" :href="user.url" class="warn"/>
@@ -21,7 +21,7 @@
 										<span class="username"><MkAcct :user="user" :detail="true" /></span>
 										<span v-if="user.isAdmin" :title="$ts.isAdmin" style="color: var(--badge);"><i class="fas fa-bookmark"></i></span>
 										<span v-if="!user.isAdmin && user.isModerator" :title="$ts.isModerator" style="color: var(--badge);"><i class="far fa-bookmark"></i></span>
-										<span v-if="user.isLocked" :title="$ts.isLocked"><i class="fas fa-lock"></i></span>
+										<span v-if="user.isLocked" :title="$ts.isLocked"><i class="ti ti-lock"></i></span>
 										<span v-if="user.isBot" :title="$ts.isBot"><i class="fas fa-robot"></i></span>
 									</div>
 								</div>
@@ -38,7 +38,7 @@
 									<span class="username"><MkAcct :user="user" :detail="true" /></span>
 									<span v-if="user.isAdmin" :title="$ts.isAdmin" style="color: var(--badge);"><i class="fas fa-bookmark"></i></span>
 									<span v-if="!user.isAdmin && user.isModerator" :title="$ts.isModerator" style="color: var(--badge);"><i class="far fa-bookmark"></i></span>
-									<span v-if="user.isLocked" :title="$ts.isLocked"><i class="fas fa-lock"></i></span>
+									<span v-if="user.isLocked" :title="$ts.isLocked"><i class="ti ti-lock"></i></span>
 									<span v-if="user.isBot" :title="$ts.isBot"><i class="fas fa-robot"></i></span>
 								</div>
 							</div>
@@ -177,7 +177,7 @@ export default defineComponent({
 	data() {
 		return {
 			[symbols.PAGE_INFO]: computed(() => this.user ? {
-				icon: 'fas fa-user',
+				icon: 'ti ti-user',
 				title: this.user.name ? `${this.user.name} (@${this.user.username})` : `@${this.user.username}`,
 				subtitle: `@${getAcct(this.user)}`,
 				userName: this.user,
@@ -195,7 +195,7 @@ export default defineComponent({
 				}, ...(this.$i && (this.$i.id === this.user.id)) || this.user.publicReactions ? [{
 					active: this.page === 'reactions',
 					title: this.$ts.reaction,
-					icon: 'fas fa-laugh',
+					icon: 'ti ti-mood-happy',
 					onClick: () => { this.mkNav.push('/@' + getAcct(this.user) + '/reactions'); },
 				}] : [], {
 					active: this.page === 'clips',

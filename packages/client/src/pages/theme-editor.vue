@@ -207,7 +207,7 @@ watch($$(theme), apply, { deep: true });
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.themeEditor,
-		icon: 'fas fa-palette',
+		icon: 'ti ti-palette',
 		bg: 'var(--bg)',
 		actions: [{
 			asFullButton: true,
