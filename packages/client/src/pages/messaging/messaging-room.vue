@@ -74,14 +74,14 @@ const Component = defineComponent({
 				userName: this.user,
 				avatar: this.user,
 				action: {
-					icon: 'fas fa-ellipsis-h',
+					icon: 'ph ph-dots-three-bold',
 					handler: this.menu,
 				},
 			} : {
 				title: this.group.name,
 				icon: 'fas fa-users',
 				action: {
-					icon: 'fas fa-ellipsis-h',
+					icon: 'ph ph-dots-three-bold',
 					handler: this.menu,
 				},
 			} : null),

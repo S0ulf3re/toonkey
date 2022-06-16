@@ -5,7 +5,7 @@
 			<button v-if="history.length > 0" class="_button" @click="back()"><i class="fas fa-chevron-left"></i></button>
 			<button v-else class="_button" style="pointer-events: none;"><!-- マージンのバランスを取るためのダミー --></button>
 			<span class="title" v-text="pageInfo?.title" />
-			<button class="_button" @click="close()"><i class="fas fa-times"></i></button>
+			<button class="_button" @click="close()"><i class="ph ph-x-bold"></i></button>
 		</header>
 		<MkHeader class="pageHeader" :info="pageInfo"/>
 		<component :is="component" v-bind="props" :ref="changePage"/>
@@ -84,7 +84,7 @@ function onContextmenu(ev: MouseEvent) {
 			close();
 		}
 	}, {
-		icon: 'fas fa-link',
+		icon: 'ph ph-link-bold',
 		text: i18n.ts.copyLink,
 		action: () => {
 			copyToClipboard(url);

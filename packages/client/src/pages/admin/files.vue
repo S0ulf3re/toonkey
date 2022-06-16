@@ -118,7 +118,7 @@ defineExpose({
 		bg: 'var(--bg)',
 		actions: [{
 			text: i18n.ts.clearCachedFiles,
-			icon: 'fas fa-trash-alt',
+			icon: 'ph ph-trash-bold',
 			handler: clear,
 		}],
 	})),

@@ -114,7 +114,7 @@ function focus(): void {
 defineExpose({
 	[symbols.PAGE_INFO]: computed(() => ({
 		title: i18n.ts.timeline,
-		icon: src === 'local' ? 'fas fa-comments' : src === 'social' ? 'fas fa-share-alt' : src === 'global' ? 'fas fa-globe' : 'fas fa-home',
+		icon: src === 'local' ? 'fas fa-comments' : src === 'social' ? 'fas fa-share-alt' : src === 'global' ? 'fas fa-globe' : 'ph ph-house-bold',
 		bg: 'var(--bg)',
 		actions: [{
 			icon: 'fas fa-list-ul',
@@ -136,7 +136,7 @@ defineExpose({
 		tabs: [{
 			active: src === 'home',
 			title: i18n.ts._timelines.home,
-			icon: 'fas fa-home',
+			icon: 'ph ph-house-bold',
 			iconOnly: true,
 			onClick: () => { saveSrc('home'); },
 		}, ...(isLocalTimelineAvailable ? [{

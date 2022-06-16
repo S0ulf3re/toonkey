@@ -5,7 +5,7 @@
 			<MkAvatar :user="$i" class="avatar"/><MkAcct class="text" :user="$i"/>
 		</button>
 		<MkA v-click-anime class="item index" active-class="active" to="/" exact>
-			<i class="fas fa-home fa-fw"></i><span class="text">{{ $ts.timeline }}</span>
+			<i class="ph ph-house-bold fa-fw"></i><span class="text">{{ $ts.timeline }}</span>
 		</MkA>
 		<template v-for="item in menu">
 			<div v-if="item === '-'" class="divider"></div>

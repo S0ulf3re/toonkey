@@ -133,7 +133,7 @@ defineExpose({
 			handler: searchUser
 		}, {
 			asFullButton: true,
-			icon: 'fas fa-plus',
+			icon: 'ph ph-plus-bold',
 			text: i18n.ts.addUser,
 			handler: addUser
 		}, {

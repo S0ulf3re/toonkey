@@ -127,6 +127,13 @@ hr {
 	background: var(--divider);
 }
 
+.ph {
+	display: inline-block;
+	line-height: 1;
+	vertical-align: -15%;
+	font-size: 110%;
+}
+
 ._noSelect {
 	user-select: none;
 	-webkit-user-select: none;

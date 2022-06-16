@@ -74,18 +74,18 @@ function getMenu() {
 		action: describe
 	}, null, {
 		text: i18n.ts.copyUrl,
-		icon: 'fas fa-link',
+		icon: 'ph ph-link-bold',
 		action: copyUrl
 	}, {
 		type: 'a',
 		href: props.file.url,
 		target: '_blank',
 		text: i18n.ts.download,
-		icon: 'fas fa-download',
+		icon: 'ph ph-download-simple-bold',
 		download: props.file.name
 	}, null, {
 		text: i18n.ts.delete,
-		icon: 'fas fa-trash-alt',
+		icon: 'ph ph-trash-bold',
 		danger: true,
 		action: deleteFile
 	}];

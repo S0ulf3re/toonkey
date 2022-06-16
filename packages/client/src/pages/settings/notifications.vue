@@ -52,7 +52,7 @@ function configure() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts.notifications,
-		icon: 'fas fa-bell',
+		icon: 'ph ph-bell-simple-bold',
 		bg: 'var(--bg)',
 	}
 });

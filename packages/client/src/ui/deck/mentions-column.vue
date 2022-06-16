@@ -1,6 +1,6 @@
 <template>
 <XColumn :column="column" :is-stacked="isStacked" @parent-focus="$event => emit('parent-focus', $event)">
-	<template #header><i class="fas fa-at" style="margin-right: 8px;"></i>{{ column.name }}</template>
+	<template #header><i class="ph ph-at-bold" style="margin-right: 8px;"></i>{{ column.name }}</template>
 
 	<XNotes :pagination="pagination"/>
 </XColumn>

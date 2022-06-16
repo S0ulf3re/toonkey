@@ -125,7 +125,7 @@ export default defineComponent({
 				action: () => { this.describe(file); }
 			}, {
 				text: this.$ts.attachCancel,
-				icon: 'fas fa-times-circle',
+				icon: 'ph ph-x-bold-circle',
 				action: () => { this.detachMedia(file.id); }
 			}], ev.currentTarget ?? ev.target).then(() => this.menu = null);
 		}

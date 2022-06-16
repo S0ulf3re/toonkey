@@ -21,7 +21,7 @@
 						</div>
 						<div class="actions">
 							<button class="_button" @click="accept(req.follower)"><i class="fas fa-check"></i></button>
-							<button class="_button" @click="reject(req.follower)"><i class="fas fa-times"></i></button>
+							<button class="_button" @click="reject(req.follower)"><i class="ph ph-x-bold"></i></button>
 						</div>
 					</div>
 				</div>

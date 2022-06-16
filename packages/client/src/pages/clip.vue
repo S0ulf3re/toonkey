@@ -44,7 +44,7 @@ export default defineComponent({
 				icon: 'fas fa-paperclip',
 				bg: 'var(--bg)',
 				actions: [{
-					icon: 'fas fa-ellipsis-h',
+					icon: 'ph ph-dots-three-bold',
 					handler: this.menu
 				}],
 			} : null),
@@ -113,7 +113,7 @@ export default defineComponent({
 					});
 				}
 			} : undefined, this.isOwned ? {
-				icon: 'fas fa-trash-alt',
+				icon: 'ph ph-trash-bold',
 				text: this.$ts.delete,
 				danger: true,
 				action: async () => {

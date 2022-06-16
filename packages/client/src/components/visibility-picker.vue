@@ -9,7 +9,7 @@
 			</div>
 		</button>
 		<button key="home" class="_button" :class="{ active: v === 'home' }" data-index="2" @click="choose('home')">
-			<div><i class="fas fa-home"></i></div>
+			<div><i class="ph ph-house-bold"></i></div>
 			<div>
 				<span>{{ $ts._visibility.home }}</span>
 				<span>{{ $ts._visibility.homeDescription }}</span>

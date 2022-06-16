@@ -8,7 +8,7 @@
 				<i v-if="pageInfo.icon" class="icon" :class="pageInfo.icon"></i>
 				<span>{{ pageInfo.title }}</span>
 			</span>
-			<button class="_button" @click="$refs.modal.close()"><i class="fas fa-times"></i></button>
+			<button class="_button" @click="$refs.modal.close()"><i class="ph ph-x-bold"></i></button>
 		</div>
 		<div class="body">
 			<MkStickyContainer>
@@ -114,7 +114,7 @@ export default defineComponent({
 					this.$refs.window.close();
 				},
 			}, {
-				icon: 'fas fa-link',
+				icon: 'ph ph-link-bold',
 				text: this.$ts.copyLink,
 				action: () => {
 					copyToClipboard(this.url);

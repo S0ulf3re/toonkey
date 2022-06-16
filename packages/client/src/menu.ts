@@ -10,7 +10,7 @@ import { router } from './router';
 export const menuDef = reactive({
 	notifications: {
 		title: 'notifications',
-		icon: 'fas fa-bell',
+		icon: 'ph ph-bell-simple-bold',
 		show: computed(() => $i != null),
 		indicated: computed(() => $i != null && $i.hasUnreadNotification),
 		to: '/my/notifications',
@@ -42,7 +42,7 @@ export const menuDef = reactive({
 	},
 	explore: {
 		title: 'explore',
-		icon: 'fas fa-hashtag',
+		icon: 'ph ph-hash-boldtag',
 		to: '/explore',
 	},
 	announcements: {
@@ -114,7 +114,7 @@ export const menuDef = reactive({
 	},
 	mentions: {
 		title: 'mentions',
-		icon: 'fas fa-at',
+		icon: 'ph ph-at-bold',
 		show: computed(() => $i != null),
 		indicated: computed(() => $i != null && $i.hasUnreadMentions),
 		to: '/my/mentions',
@@ -128,7 +128,7 @@ export const menuDef = reactive({
 	},
 	favorites: {
 		title: 'favorites',
-		icon: 'fas fa-star',
+		icon: 'ph ph-star-bold',
 		show: computed(() => $i != null),
 		to: '/my/favorites',
 	},

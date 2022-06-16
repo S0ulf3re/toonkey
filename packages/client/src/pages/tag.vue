@@ -24,7 +24,7 @@ const pagination = {
 defineExpose({
 	[symbols.PAGE_INFO]: computed(() => ({
 		title: props.tag,
-		icon: 'fas fa-hashtag',
+		icon: 'ph ph-hash-boldtag',
 		bg: 'var(--bg)',
 	})),
 });

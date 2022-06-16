@@ -1,7 +1,7 @@
 <template>
 <XColumn :func="{ handler: setType, title: $ts.timeline }" :column="column" :is-stacked="isStacked" :indicated="indicated" @change-active-state="onChangeActiveState" @parent-focus="$event => emit('parent-focus', $event)">
 	<template #header>
-		<i v-if="column.tl === 'home'" class="fas fa-home"></i>
+		<i v-if="column.tl === 'home'" class="ph ph-house-bold"></i>
 		<i v-else-if="column.tl === 'local'" class="fas fa-comments"></i>
 		<i v-else-if="column.tl === 'social'" class="fas fa-share-alt"></i>
 		<i v-else-if="column.tl === 'global'" class="fas fa-globe"></i>

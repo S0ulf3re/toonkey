@@ -171,7 +171,7 @@ function getMenu() {
 			popRightColumn(props.column.id);
 		}
 	} : undefined, null, {
-		icon: 'fas fa-trash-alt',
+		icon: 'ph ph-trash-bold',
 		text: i18n.ts.remove,
 		danger: true,
 		action: () => {

@@ -24,7 +24,7 @@
 			<span v-if="folder != null" class="separator"><i class="fas fa-angle-right"></i></span>
 			<span v-if="folder != null" class="folder current">{{ folder.name }}</span>
 		</div>
-		<button class="menu _button" @click="showMenu"><i class="fas fa-ellipsis-h"></i></button>
+		<button class="menu _button" @click="showMenu"><i class="ph ph-dots-three-bold"></i></button>
 	</nav>
 	<div ref="main" class="main"
 		:class="{ uploading: uploadings.length > 0, fetching }"
@@ -572,11 +572,11 @@ function getMenu() {
 		type: 'label'
 	}, {
 		text: i18n.ts.upload,
-		icon: 'fas fa-upload',
+		icon: 'ph ph-upload-simple-bold',
 		action: () => { selectLocalFile(); }
 	}, {
 		text: i18n.ts.fromUrl,
-		icon: 'fas fa-link',
+		icon: 'ph ph-link-bold',
 		action: () => { urlUpload(); }
 	}, null, {
 		text: folder.value ? folder.value.name : i18n.ts.drive,
@@ -587,7 +587,7 @@ function getMenu() {
 		action: () => { renameFolder(folder.value); }
 	} : undefined, folder.value ? {
 		text: i18n.ts.deleteFolder,
-		icon: 'fas fa-trash-alt',
+		icon: 'ph ph-trash-bold',
 		action: () => { deleteFolder(folder.value as Misskey.entities.DriveFolder); }
 	} : undefined, {
 		text: i18n.ts.createFolder,

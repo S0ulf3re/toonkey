@@ -10,7 +10,7 @@
 	</div>
 	<div class="divider"></div>
 	<MkA v-click-anime class="item index" active-class="active" to="/" exact>
-		<i class="fas fa-home fa-fw"></i><span class="text">{{ $ts.timeline }}</span>
+		<i class="ph ph-house-bold fa-fw"></i><span class="text">{{ $ts.timeline }}</span>
 	</MkA>
 	<template v-for="item in menu">
 		<div v-if="item === '-'" class="divider"></div>
@@ -24,7 +24,7 @@
 		<i class="fas fa-door-open fa-fw"></i><span class="text">{{ $ts.controlPanel }}</span>
 	</MkA>
 	<button v-click-anime class="item _button" @click="more">
-		<i class="fas fa-ellipsis-h fa-fw"></i><span class="text">{{ $ts.more }}</span>
+		<i class="ph ph-dots-three-bold fa-fw"></i><span class="text">{{ $ts.more }}</span>
 		<span v-if="otherNavItemIndicated" class="indicator"><i class="fas fa-circle"></i></span>
 	</button>
 	<MkA v-click-anime class="item" active-class="active" to="/settings" :behavior="settingsWindowed ? 'modalWindow' : null">

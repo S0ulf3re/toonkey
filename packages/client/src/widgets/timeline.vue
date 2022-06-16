@@ -2,7 +2,7 @@
 <MkContainer :show-header="widgetProps.showHeader" :style="`height: ${widgetProps.height}px;`" :scrollable="true" class="mkw-timeline">
 	<template #header>
 		<button class="_button" @click="choose">
-			<i v-if="widgetProps.src === 'home'" class="fas fa-home"></i>
+			<i v-if="widgetProps.src === 'home'" class="ph ph-house-bold"></i>
 			<i v-else-if="widgetProps.src === 'local'" class="fas fa-comments"></i>
 			<i v-else-if="widgetProps.src === 'social'" class="fas fa-share-alt"></i>
 			<i v-else-if="widgetProps.src === 'global'" class="fas fa-globe"></i>
@@ -102,7 +102,7 @@ const choose = async (ev) => {
 	}));
 	os.popupMenu([{
 		text: i18n.ts._timelines.home,
-		icon: 'fas fa-home',
+		icon: 'ph ph-house-bold',
 		action: () => { setSrc('home'); }
 	}, {
 		text: i18n.ts._timelines.local,

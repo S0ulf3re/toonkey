@@ -116,7 +116,7 @@ async function install() {
 defineExpose({
 	[symbols.PAGE_INFO]: {
 		title: i18n.ts._plugin.install,
-		icon: 'fas fa-download',
+		icon: 'ph ph-download-simple-bold',
 		bg: 'var(--bg)',
 	}
 });

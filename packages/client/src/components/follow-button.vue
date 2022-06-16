@@ -15,10 +15,10 @@
 			<span v-if="full">{{ i18n.ts.unfollow }}</span><i class="fas fa-minus"></i>
 		</template>
 		<template v-else-if="!isFollowing && user.isLocked">
-			<span v-if="full">{{ i18n.ts.followRequest }}</span><i class="fas fa-plus"></i>
+			<span v-if="full">{{ i18n.ts.followRequest }}</span><i class="ph ph-plus-bold"></i>
 		</template>
 		<template v-else-if="!isFollowing && !user.isLocked">
-			<span v-if="full">{{ i18n.ts.follow }}</span><i class="fas fa-plus"></i>
+			<span v-if="full">{{ i18n.ts.follow }}</span><i class="ph ph-plus-bold"></i>
 		</template>
 	</template>
 	<template v-else>

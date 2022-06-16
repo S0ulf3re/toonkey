@@ -32,7 +32,7 @@
 		</MkPagination>
 	</div>
 	<div v-else-if="tab === 'my'">
-		<MkA to="/gallery/new" class="_link" style="margin: 16px;"><i class="fas fa-plus"></i> {{ $ts.postToGallery }}</MkA>
+		<MkA to="/gallery/new" class="_link" style="margin: 16px;"><i class="ph ph-plus-bold"></i> {{ $ts.postToGallery }}</MkA>
 		<MkPagination v-slot="{items}" :pagination="myPostsPagination">
 			<div class="vfpdbgtk">
 				<MkGalleryPostPreview v-for="post in items" :key="post.id" :post="post" class="post"/>

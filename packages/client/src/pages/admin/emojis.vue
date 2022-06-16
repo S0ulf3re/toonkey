@@ -158,14 +158,14 @@ const remoteMenu = (emoji, ev: MouseEvent) => {
 		text: ':' + emoji.name + ':',
 	}, {
 		text: i18n.ts.import,
-		icon: 'fas fa-plus',
+		icon: 'ph ph-plus-bold',
 		action: () => { im(emoji); }
 	}], ev.currentTarget ?? ev.target);
 };
 
 const menu = (ev: MouseEvent) => {
 	os.popupMenu([{
-		icon: 'fas fa-download',
+		icon: 'ph ph-download-simple-bold',
 		text: i18n.ts.export,
 		action: async () => {
 			os.api('export-custom-emojis', {
@@ -183,7 +183,7 @@ const menu = (ev: MouseEvent) => {
 			});
 		}
 	}, {
-		icon: 'fas fa-upload',
+		icon: 'ph ph-upload-simple-bold',
 		text: i18n.ts.import,
 		action: async () => {
 			const file = await selectFile(ev.currentTarget ?? ev.target);
@@ -272,11 +272,11 @@ defineExpose({
 		bg: 'var(--bg)',
 		actions: [{
 			asFullButton: true,
-			icon: 'fas fa-plus',
+			icon: 'ph ph-plus-bold',
 			text: i18n.ts.addEmoji,
 			handler: add,
 		}, {
-			icon: 'fas fa-ellipsis-h',
+			icon: 'ph ph-dots-three-bold',
 			handler: menu,
 		}],
 		tabs: [{

@@ -152,7 +152,7 @@ export function getUserMenu(user) {
 	}
 
 	let menu = [{
-		icon: 'fas fa-at',
+		icon: 'ph ph-at-bold',
 		text: i18n.ts.copyUsername,
 		action: () => {
 			copyToClipboard(`@${user.username}@${user.host || host}`);

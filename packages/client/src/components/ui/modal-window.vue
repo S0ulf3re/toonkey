@@ -2,11 +2,11 @@
 <MkModal ref="modal" :prefer-type="'dialog'" @click="onBgClick" @closed="$emit('closed')">
 	<div ref="rootEl" class="ebkgoccj _window _narrow_" :style="{ width: `${width}px`, height: scroll ? (height ? `${height}px` : null) : (height ? `min(${height}px, 100%)` : '100%') }" @keydown="onKeydown">
 		<div ref="headerEl" class="header">
-			<button v-if="withOkButton" class="_button" @click="$emit('close')"><i class="fas fa-times"></i></button>
+			<button v-if="withOkButton" class="_button" @click="$emit('close')"><i class="ph ph-x-bold"></i></button>
 			<span class="title">
 				<slot name="header"></slot>
 			</span>
-			<button v-if="!withOkButton" class="_button" @click="$emit('close')"><i class="fas fa-times"></i></button>
+			<button v-if="!withOkButton" class="_button" @click="$emit('close')"><i class="ph ph-x-bold"></i></button>
 			<button v-if="withOkButton" class="_button" :disabled="okButtonDisabled" @click="$emit('ok')"><i class="fas fa-check"></i></button>
 		</div>
 		<div v-if="padding" class="body">

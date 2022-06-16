@@ -83,7 +83,7 @@ function select(src: any, label: string | null, multiple: boolean): Promise<Driv
 			ref: keepOriginal
 		}, {
 			text: i18n.ts.upload,
-			icon: 'fas fa-upload',
+			icon: 'ph ph-upload-simple-bold',
 			action: chooseFileFromPc
 		}, {
 			text: i18n.ts.fromDrive,
@@ -91,7 +91,7 @@ function select(src: any, label: string | null, multiple: boolean): Promise<Driv
 			action: chooseFileFromDrive
 		}, {
 			text: i18n.ts.fromUrl,
-			icon: 'fas fa-link',
+			icon: 'ph ph-link-bold',
 			action: chooseFileFromUrl
 		}], src);
 	});

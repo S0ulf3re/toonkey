@@ -3,7 +3,7 @@
 	<div class="body">
 		<div class="left">
 			<MkA v-click-anime v-tooltip="$ts.timeline" class="item index" active-class="active" to="/" exact>
-				<i class="fas fa-home fa-fw"></i>
+				<i class="ph ph-house-bold fa-fw"></i>
 			</MkA>
 			<template v-for="item in menu">
 				<div v-if="item === '-'" class="divider"></div>
@@ -17,7 +17,7 @@
 				<i class="fas fa-door-open fa-fw"></i>
 			</MkA>
 			<button v-click-anime class="item _button" @click="more">
-				<i class="fas fa-ellipsis-h fa-fw"></i>
+				<i class="ph ph-dots-three-bold fa-fw"></i>
 				<span v-if="otherNavItemIndicated" class="indicator"><i class="fas fa-circle"></i></span>
 			</button>
 		</div>

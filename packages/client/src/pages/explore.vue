@@ -22,7 +22,7 @@
 						<XUserList :pagination="recentlyUpdatedUsers"/>
 					</MkFolder>
 					<MkFolder class="_gap" persist-key="explore-recently-registered-users">
-						<template #header><i class="fas fa-plus fa-fw" style="margin-right: 0.5em;"></i>{{ $ts.recentlyRegisteredUsers }}</template>
+						<template #header><i class="ph ph-plus-bold fa-fw" style="margin-right: 0.5em;"></i>{{ $ts.recentlyRegisteredUsers }}</template>
 						<XUserList :pagination="recentlyRegisteredUsers"/>
 					</MkFolder>
 				</template>
@@ -33,7 +33,7 @@
 				</div>
 
 				<MkFolder ref="tags" :foldable="true" :expanded="false" class="_gap">
-					<template #header><i class="fas fa-hashtag fa-fw" style="margin-right: 0.5em;"></i>{{ $ts.popularTags }}</template>
+					<template #header><i class="ph ph-hash-boldtag fa-fw" style="margin-right: 0.5em;"></i>{{ $ts.popularTags }}</template>
 
 					<div class="vxjfqztj">
 						<MkA v-for="tag in tagsLocal" :key="'local:' + tag.tag" :to="`/explore/tags/${tag.tag}`" class="local">{{ tag.tag }}</MkA>
@@ -42,7 +42,7 @@
 				</MkFolder>
 
 				<MkFolder v-if="tag != null" :key="`${tag}`" class="_gap">
-					<template #header><i class="fas fa-hashtag fa-fw" style="margin-right: 0.5em;"></i>{{ tag }}</template>
+					<template #header><i class="ph ph-hash-boldtag fa-fw" style="margin-right: 0.5em;"></i>{{ tag }}</template>
 					<XUserList :pagination="tagUsers"/>
 				</MkFolder>
 
@@ -110,7 +110,7 @@ export default defineComponent({
 		return {
 			[symbols.PAGE_INFO]: computed(() => ({
 				title: this.$ts.explore,
-				icon: 'fas fa-hashtag',
+				icon: 'ph ph-hash-boldtag',
 				bg: 'var(--bg)',
 				tabs: [{
 					active: this.tab === 'local',

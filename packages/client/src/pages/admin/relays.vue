@@ -8,7 +8,7 @@
 			<i v-else class="fas fa-clock icon requesting"></i>
 			<span>{{ $t(`_relayStatus.${relay.status}`) }}</span>
 		</div>
-		<MkButton class="button" inline danger @click="remove(relay.inbox)"><i class="fas fa-trash-alt"></i> {{ i18n.ts.remove }}</MkButton>
+		<MkButton class="button" inline danger @click="remove(relay.inbox)"><i class="ph ph-trash-bold"></i> {{ i18n.ts.remove }}</MkButton>
 	</div>
 </MkSpacer>
 </template>
@@ -69,7 +69,7 @@ defineExpose({
 		bg: 'var(--bg)',
 		actions: [{
 			asFullButton: true,
-			icon: 'fas fa-plus',
+			icon: 'ph ph-plus-bold',
 			text: i18n.ts.addRelay,
 			handler: addRelay,
 		}],

@@ -26,7 +26,7 @@ function setFilter(ev) {
 		}
 	}));
 	const items = includeTypes != null ? [{
-		icon: 'fas fa-times',
+		icon: 'ph ph-x-bold',
 		text: i18n.ts.clear,
 		action: () => {
 			includeTypes = null;
@@ -38,7 +38,7 @@ function setFilter(ev) {
 defineExpose({
 	[symbols.PAGE_INFO]: computed(() => ({
 		title: i18n.ts.notifications,
-		icon: 'fas fa-bell',
+		icon: 'ph ph-bell-simple-bold',
 		bg: 'var(--bg)',
 		actions: [{
 			text: i18n.ts.filter,

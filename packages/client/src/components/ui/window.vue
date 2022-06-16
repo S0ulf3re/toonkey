@@ -11,7 +11,7 @@
 				</span>
 				<span class="right">
 					<slot name="headerRight"></slot>
-					<button v-if="closeButton" class="_button" @click="close()"><i class="fas fa-times"></i></button>
+					<button v-if="closeButton" class="_button" @click="close()"><i class="ph ph-x-bold"></i></button>
 				</span>
 			</div>
 			<div v-if="padding" class="body">

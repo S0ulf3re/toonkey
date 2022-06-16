@@ -8,7 +8,7 @@
 			<MkInput class="input" :model-value="choice" :placeholder="$t('_poll.choiceN', { n: i + 1 })" @update:modelValue="onInput(i, $event)">
 			</MkInput>
 			<button class="_button" @click="remove(i)">
-				<i class="fas fa-times"></i>
+				<i class="ph ph-x-bold"></i>
 			</button>
 		</li>
 	</ul>

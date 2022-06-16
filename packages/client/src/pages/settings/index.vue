@@ -85,7 +85,7 @@ const menuDef = computed(() => [{
 		to: '/settings/drive',
 		active: props.initialPage === 'drive',
 	}, {
-		icon: 'fas fa-bell',
+		icon: 'ph ph-bell-simple-bold',
 		text: i18n.ts.notifications,
 		to: '/settings/notifications',
 		active: props.initialPage === 'notifications',
@@ -166,7 +166,7 @@ const menuDef = computed(() => [{
 		to: '/settings/webhook',
 		active: props.initialPage === 'webhook',
 	}, {
-		icon: 'fas fa-ellipsis-h',
+		icon: 'ph ph-dots-three-bold',
 		text: i18n.ts.other,
 		to: '/settings/other',
 		active: props.initialPage === 'other',
