@@ -863,6 +863,7 @@ numberOfPageCacheDescription: "多くすると利便性が向上しますが、�
 logoutConfirm: "ログアウトしますか？"
 lastActiveDate: "最終利用日時"
 statusbar: "ステータスバー"
+pleaseSelect: "選択してください"
 
 _emailUnavailable:
   used: "既に使用されています"

@@ -115,6 +115,11 @@ const menuDef = computed(() => [{
 		active: props.initialPage === 'theme',
 	}, {
 		icon: 'fas fa-list-ul',
+		text: i18n.ts.statusbar,
+		to: '/settings/statusbars',
+		active: props.initialPage === 'statusbars',
+	}, {
+		icon: 'fas fa-list-ul',
 		text: i18n.ts.menu,
 		to: '/settings/menu',
 		active: props.initialPage === 'menu',

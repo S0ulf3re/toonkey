@@ -1,6 +1,10 @@
 <template>
 <div class="_formRoot">
-	<XStatusbar v-for="x in statusbars" :key="x.id" :_id="x.id"/>
+	<FormFolder v-for="x in statusbars" :key="x.id" class="_formBlock">
+		<template #label>{{ x.type ?? i18n.ts.notSet }}</template>
+		<template #suffix>{{ x.name }}</template>
+		<XStatusbar :_id="x.id"/>
+	</FormFolder>
 	<FormButton @click="add">add</FormButton>
 </div>
 </template>
@@ -10,7 +14,7 @@ import { computed, ref, watch } from 'vue';
 import { v4 as uuid } from 'uuid';
 import XStatusbar from './statusbars.statusbar.vue';
 import FormTextarea from '@/components/form/textarea.vue';
-import FormRadios from '@/components/form/radios.vue';
+import FormFolder from '@/components/form/folder.vue';
 import FormButton from '@/components/ui/button.vue';
 import * as os from '@/os';
 import { menuDef } from '@/menu';
@@ -24,7 +28,8 @@ const statusbars = defaultStore.reactiveState.statusbars;
 async function add() {
 	defaultStore.push('statusbars', {
 		id: uuid(),
-		type: 'rss',
+		type: null,
+		black: false,
 		props: {},
 	});
 }
