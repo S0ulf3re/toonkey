@@ -1,0 +1,57 @@
+<template>
+<div class="_formRoot">
+	<FormSelect v-model="statusbar.type" class="_formBlock">
+		<template #label>{{ i18n.ts.type }}</template>
+		<option value="rss">RSS</option>
+	</FormSelect>
+
+	<template v-if="statusbar.type === 'rss'">
+		<MkInput v-model="statusbar.props.url" class="_formBlock" type="url">
+			<template #label>URL</template>
+		</MkInput>
+		<MkInput v-model="statusbar.props.speed" class="_formBlock" type="number">
+			<template #label>Duration</template>
+		</MkInput>
+	</template>
+
+	<FormButton @click="save">save</FormButton>
+	<FormButton @click="del">Delete</FormButton>
+</div>
+</template>
+
+<script lang="ts" setup>
+import { computed, reactive, ref, watch } from 'vue';
+import FormSelect from '@/components/form/select.vue';
+import MkInput from '@/components/form/input.vue';
+import FormRadios from '@/components/form/radios.vue';
+import FormButton from '@/components/ui/button.vue';
+import * as os from '@/os';
+import { menuDef } from '@/menu';
+import { defaultStore } from '@/store';
+import { i18n } from '@/i18n';
+
+const props = defineProps<{
+	_id: string;
+}>();
+
+const statusbar = reactive(JSON.parse(JSON.stringify(defaultStore.state.statusbars.find(x => x.id === props._id))));
+
+watch(statusbar.type, () => {
+	if (statusbar.type === 'rss') {
+		statusbar.props.url = 'http://feeds.afpbb.com/rss/afpbb/afpbbnews';
+		statusbar.props.speed = 100;
+	}
+});
+
+async function save() {
+	const i = defaultStore.state.statusbars.findIndex(x => x.id === props._id);
+	defaultStore.state.statusbars[i] = JSON.parse(JSON.stringify(statusbar));
+	defaultStore.set('statusbars', defaultStore.state.statusbars);
+}
+
+function del() {
+	const i = defaultStore.state.statusbars.findIndex(x => x.id === props._id);
+	defaultStore.state.statusbars.splice(i, 1);
+	defaultStore.set('statusbars', defaultStore.state.statusbars);
+}
+</script>

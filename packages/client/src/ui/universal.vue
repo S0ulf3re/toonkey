@@ -3,6 +3,7 @@
 	<XSidebar v-if="!isMobile" class="sidebar"/>
 
 	<div class="contents" :style="{ background: pageMetadata?.value?.bg }" @contextmenu.stop="onContextmenu">
+		<XStatusBars class="statusbars"/>
 		<main>
 			<div class="content">
 				<RouterView/>
@@ -71,6 +72,7 @@ import { mainRouter } from '@/router';
 import { PageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
 const XWidgets = defineAsyncComponent(() => import('./universal.widgets.vue'));
 const XSidebar = defineAsyncComponent(() => import('@/ui/_common_/sidebar.vue'));
+const XStatusBars = defineAsyncComponent(() => import('@/ui/_common_/statusbars.vue'));
 
 const DESKTOP_THRESHOLD = 1100;
 const MOBILE_THRESHOLD = 500;
@@ -234,7 +236,13 @@ const wallpaper = localStorage.getItem('wallpaper') != null;
 	> .contents {
 		width: 100%;
 		min-width: 0;
-		background: var(--panel);
+		background: var(--bg);
+
+		> .statusbars {
+			position: sticky;
+			top: 0;
+			left: 0;
+		}
 
 		> main {
 			min-width: 0;
