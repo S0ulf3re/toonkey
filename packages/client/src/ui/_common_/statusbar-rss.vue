@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="root">
 	<MarqueeText v-if="!fetching" :key="key" :duration="speed" :reverse="reverse">
 		<span v-for="item in items" class="item">
 			<a class="link" :href="item.link" rel="nofollow noopener" target="_blank" :title="item.title">{{ item.title }}</a><span class="divider"></span>
@@ -39,3 +39,26 @@ useInterval(tick, 60000, {
 	afterMounted: true,
 });
 </script>
+
+<style lang="scss" scoped>
+.root {
+	font-size: 0.85em;
+	line-height: 24px;
+
+	::v-deep(.item) {
+		display: inline-flex;
+		align-items: center;
+		vertical-align: bottom;
+		margin: 0;
+
+		> .divider {
+			display: inline-block;
+			width: 0.5px;
+			height: 16px;
+			margin: 0 1em;
+			background: currentColor;
+			opacity: 0.7;
+		}
+	}
+}
+</style>

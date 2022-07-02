@@ -1,6 +1,6 @@
 <template>
 <div class="_formRoot">
-	<XStatusbar v-for="x in defaultStore.state.statusbars" :key="x.id" :_id="x.id"/>
+	<XStatusbar v-for="x in statusbars" :key="x.id" :_id="x.id"/>
 	<FormButton @click="add">add</FormButton>
 </div>
 </template>
@@ -18,6 +18,8 @@ import { defaultStore } from '@/store';
 import { unisonReload } from '@/scripts/unison-reload';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+
+const statusbars = defaultStore.reactiveState.statusbars;
 
 async function add() {
 	defaultStore.push('statusbars', {
