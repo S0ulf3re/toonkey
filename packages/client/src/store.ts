@@ -97,6 +97,10 @@ export const defaultStore = markRaw(new Storage('base', {
 			props: Record<string, any>;
 		}[],
 	},
+	statusbarSize: {
+		where: 'deviceAccount',
+		default: 'medium',
+	},
 	widgets: {
 		where: 'deviceAccount',
 		default: [] as {

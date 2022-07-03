@@ -1,10 +1,14 @@
 <template>
-<span v-if="!fetching" class="xbhtxfms">
+<span v-if="!fetching" class="nmidsaqw">
 	<template v-if="display === 'marquee'">
 		<transition name="change" mode="default">
 			<MarqueeText :key="key" :duration="marqueeDuration" :reverse="marqueeReverse">
-				<span v-for="item in items" class="item">
-					<a class="link" :href="item.link" rel="nofollow noopener" target="_blank" :title="item.title">{{ item.title }}</a><span class="divider"></span>
+				<span v-for="instance in instances" :key="instance.id" class="item">
+					<img v-if="instance.iconUrl" class="icon" :src="instance.iconUrl" alt=""/>
+					<MkA :to="`/instance-info/${instance.host}`" class="_monospace">
+						{{ instance.host }}
+					</MkA>
+					<span class="divider"></span>
 				</span>
 			</MarqueeText>
 		</transition>
@@ -17,12 +21,14 @@
 
 <script lang="ts" setup>
 import { computed, defineAsyncComponent, ref, toRef, watch } from 'vue';
+import * as misskey from 'misskey-js';
 import MarqueeText from '@/components/marquee.vue';
 import * as os from '@/os';
 import { useInterval } from '@/scripts/use-interval';
+import { getNoteSummary } from '@/scripts/get-note-summary';
+import { notePage } from '@/filters/note';
 
 const props = defineProps<{
-	url?: string;
 	display?: 'marquee' | 'oneByOne';
 	marqueeDuration?: number;
 	marqueeReverse?: boolean;
@@ -30,17 +36,18 @@ const props = defineProps<{
 	refreshIntervalSec?: number;
 }>();
 
-const items = ref([]);
+const instances = ref<misskey.entities.Instance[]>([]);
 const fetching = ref(true);
 let key = $ref(0);
 
 const tick = () => {
-	fetch(`/api/fetch-rss?url=${props.url}`, {}).then(res => {
-		res.json().then(feed => {
-			items.value = feed.items;
-			fetching.value = false;
-			key++;
-		});
+	os.api('federation/instances', {
+		sort: '+lastCommunicatedAt',
+		limit: 30,
+	}).then(res => {
+		instances.value = res;
+		fetching.value = false;
+		key++;
 	});
 };
 
@@ -65,7 +72,7 @@ useInterval(tick, Math.max(5000, props.refreshIntervalSec * 1000), {
 	transform: translateY(100%);
 }
 
-.xbhtxfms {
+.nmidsaqw {
 	display: inline-block;
 	position: relative;
 
@@ -75,13 +82,21 @@ useInterval(tick, Math.max(5000, props.refreshIntervalSec * 1000), {
 		vertical-align: bottom;
 		margin: 0;
 
+		> .icon {
+			display: inline-block;
+			height: var(--height);
+			aspect-ratio: 1;
+			vertical-align: bottom;
+			margin-right: 8px;
+		}
+
 		> .divider {
 			display: inline-block;
 			width: 0.5px;
 			height: 16px;
 			margin: 0 1em;
 			background: currentColor;
-			opacity: 0.7;
+			opacity: 0;
 		}
 	}
 }

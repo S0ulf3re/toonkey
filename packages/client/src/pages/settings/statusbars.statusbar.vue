@@ -3,6 +3,8 @@
 	<FormSelect v-model="statusbar.type" placeholder="Please select" class="_formBlock">
 		<template #label>{{ i18n.ts.type }}</template>
 		<option value="rss">RSS</option>
+		<option value="federation">Federation</option>
+		<option value="userList">User list timeline</option>
 	</FormSelect>
 
 	<MkInput v-model="statusbar.name" class="_formBlock">
@@ -17,13 +19,39 @@
 		<MkInput v-model="statusbar.props.url" class="_formBlock" type="url">
 			<template #label>URL</template>
 		</MkInput>
-		<MkInput v-model="statusbar.props.refreshInterval" class="_formBlock" type="number">
+		<MkInput v-model="statusbar.props.refreshIntervalSec" class="_formBlock" type="number">
 			<template #label>Refresh interval</template>
 		</MkInput>
 		<MkInput v-model="statusbar.props.marqueeDuration" class="_formBlock" type="number">
 			<template #label>Duration</template>
 		</MkInput>
-		<MkSwitch v-model="statusbar.props.marqueeRverse" class="_formBlock">
+		<MkSwitch v-model="statusbar.props.marqueeReverse" class="_formBlock">
+			<template #label>Reverse</template>
+		</MkSwitch>
+	</template>
+	<template v-else-if="statusbar.type === 'federation'">
+		<MkInput v-model="statusbar.props.refreshIntervalSec" class="_formBlock" type="number">
+			<template #label>Refresh interval</template>
+		</MkInput>
+		<MkInput v-model="statusbar.props.marqueeDuration" class="_formBlock" type="number">
+			<template #label>Duration</template>
+		</MkInput>
+		<MkSwitch v-model="statusbar.props.marqueeReverse" class="_formBlock">
+			<template #label>Reverse</template>
+		</MkSwitch>
+	</template>
+	<template v-else-if="statusbar.type === 'userList' && userLists != null">
+		<FormSelect v-model="statusbar.props.userListId" class="_formBlock">
+			<template #label>{{ i18n.ts.userList }}</template>
+			<option v-for="list in userLists" :value="list.id">{{ list.name }}</option>
+		</FormSelect>
+		<MkInput v-model="statusbar.props.refreshIntervalSec" class="_formBlock" type="number">
+			<template #label>Refresh interval</template>
+		</MkInput>
+		<MkInput v-model="statusbar.props.marqueeDuration" class="_formBlock" type="number">
+			<template #label>Duration</template>
+		</MkInput>
+		<MkSwitch v-model="statusbar.props.marqueeReverse" class="_formBlock">
 			<template #label>Reverse</template>
 		</MkSwitch>
 	</template>
@@ -49,6 +77,7 @@ import { i18n } from '@/i18n';
 
 const props = defineProps<{
 	_id: string;
+	userLists: any[] | null;
 }>();
 
 const statusbar = reactive(JSON.parse(JSON.stringify(defaultStore.state.statusbars.find(x => x.id === props._id))));
@@ -57,10 +86,22 @@ watch(() => statusbar.type, () => {
 	if (statusbar.type === 'rss') {
 		statusbar.name = 'NEWS';
 		statusbar.props.url = 'http://feeds.afpbb.com/rss/afpbb/afpbbnews';
-		statusbar.props.refreshInterval = 60000;
+		statusbar.props.refreshIntervalSec = 120;
 		statusbar.props.display = 'marquee';
 		statusbar.props.marqueeDuration = 100;
-		statusbar.props.marqueeRverse = false;
+		statusbar.props.marqueeReverse = false;
+	} else if (statusbar.type === 'federation') {
+		statusbar.name = 'FEDERATION';
+		statusbar.props.refreshIntervalSec = 120;
+		statusbar.props.display = 'marquee';
+		statusbar.props.marqueeDuration = 100;
+		statusbar.props.marqueeReverse = false;
+	} else if (statusbar.type === 'userList') {
+		statusbar.name = 'LIST TL';
+		statusbar.props.refreshIntervalSec = 120;
+		statusbar.props.display = 'marquee';
+		statusbar.props.marqueeDuration = 100;
+		statusbar.props.marqueeReverse = false;
 	}
 });
 
