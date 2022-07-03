@@ -1,10 +1,17 @@
 <template>
-<div class="dlrsnxqu" :class="{ small: defaultStore.reactiveState.statusbarSize.value === 'small', medium: defaultStore.reactiveState.statusbarSize.value === 'medium', large: defaultStore.reactiveState.statusbarSize.value === 'large' }">
+<div
+	class="dlrsnxqu" :class="{
+		verySmall: defaultStore.reactiveState.statusbarSize.value === 'verySmall',
+		small: defaultStore.reactiveState.statusbarSize.value === 'small',
+		medium: defaultStore.reactiveState.statusbarSize.value === 'medium',
+		large: defaultStore.reactiveState.statusbarSize.value === 'large'
+	}"
+>
 	<div v-for="x in defaultStore.reactiveState.statusbars.value" :key="x.id" class="item" :class="{ black: x.black }">
 		<span class="name">{{ x.name }}</span>
-		<XRss v-if="x.type === 'rss'" class="body" :url="x.props.url" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display"/>
-		<XFederation v-else-if="x.type === 'federation'" class="body" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display"/>
-		<XUserList v-else-if="x.type === 'userList'" class="body" :user-list-id="x.props.userListId" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display"/>
+		<XRss v-if="x.type === 'rss'" class="body" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display" :url="x.props.url"/>
+		<XFederation v-else-if="x.type === 'federation'" class="body" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display" :colored="x.props.colored"/>
+		<XUserList v-else-if="x.type === 'userList'" class="body" :refresh-interval-sec="x.props.refreshIntervalSec" :marquee-duration="x.props.marqueeDuration" :marquee-reverse="x.props.marqueeReverse" :display="x.props.display" :user-list-id="x.props.userListId"/>
 	</div>
 </div>
 </template>
@@ -24,6 +31,11 @@ const XUserList = defineAsyncComponent(() => import('./statusbar-user-list.vue')
 	background: var(--panel);
 	font-size: 0.85em;
 
+	&.verySmall {
+		--height: 16px;
+		font-size: 0.75em;
+	}
+
 	&.small {
 		--height: 20px;
 		font-size: 0.8em;
@@ -36,10 +48,12 @@ const XUserList = defineAsyncComponent(() => import('./statusbar-user-list.vue')
 
 	> .item {
 		display: inline-flex;
+		vertical-align: bottom;
 		width: 100%;
 		line-height: var(--height);
 		height: var(--height);
 		overflow: clip;
+		contain: strict;
 
 		> .name {
 			padding: 0 6px;

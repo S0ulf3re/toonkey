@@ -39,6 +39,9 @@
 		<MkSwitch v-model="statusbar.props.marqueeReverse" class="_formBlock">
 			<template #label>Reverse</template>
 		</MkSwitch>
+		<MkSwitch v-model="statusbar.props.colored" class="_formBlock">
+			<template #label>Colored</template>
+		</MkSwitch>
 	</template>
 	<template v-else-if="statusbar.type === 'userList' && userLists != null">
 		<FormSelect v-model="statusbar.props.userListId" class="_formBlock">
@@ -96,6 +99,7 @@ watch(() => statusbar.type, () => {
 		statusbar.props.display = 'marquee';
 		statusbar.props.marqueeDuration = 100;
 		statusbar.props.marqueeReverse = false;
+		statusbar.props.colored = false;
 	} else if (statusbar.type === 'userList') {
 		statusbar.name = 'LIST TL';
 		statusbar.props.refreshIntervalSec = 120;
@@ -107,13 +111,12 @@ watch(() => statusbar.type, () => {
 
 async function save() {
 	const i = defaultStore.state.statusbars.findIndex(x => x.id === props._id);
-	defaultStore.state.statusbars[i] = JSON.parse(JSON.stringify(statusbar));
-	defaultStore.set('statusbars', defaultStore.state.statusbars);
+	const statusbars = JSON.parse(JSON.stringify(defaultStore.state.statusbars));
+	statusbars[i] = JSON.parse(JSON.stringify(statusbar));
+	defaultStore.set('statusbars', statusbars);
 }
 
 function del() {
-	const i = defaultStore.state.statusbars.findIndex(x => x.id === props._id);
-	defaultStore.state.statusbars.splice(i, 1);
-	defaultStore.set('statusbars', defaultStore.state.statusbars);
+	defaultStore.set('statusbars', defaultStore.state.statusbars.filter(x => x.id !== props._id));
 }
 </script>

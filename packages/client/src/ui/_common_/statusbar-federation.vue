@@ -3,9 +3,9 @@
 	<template v-if="display === 'marquee'">
 		<transition name="change" mode="default">
 			<MarqueeText :key="key" :duration="marqueeDuration" :reverse="marqueeReverse">
-				<span v-for="instance in instances" :key="instance.id" class="item">
+				<span v-for="instance in instances" :key="instance.id" class="item" :class="{ colored }" :style="{ background: colored ? instance.themeColor : null }">
 					<img v-if="instance.iconUrl" class="icon" :src="instance.iconUrl" alt=""/>
-					<MkA :to="`/instance-info/${instance.host}`" class="_monospace">
+					<MkA :to="`/instance-info/${instance.host}`" class="host _monospace">
 						{{ instance.host }}
 					</MkA>
 					<span class="divider"></span>
@@ -30,6 +30,7 @@ import { notePage } from '@/filters/note';
 
 const props = defineProps<{
 	display?: 'marquee' | 'oneByOne';
+	colored?: boolean;
 	marqueeDuration?: number;
 	marqueeReverse?: boolean;
 	oneByOneInterval?: number;
@@ -77,26 +78,25 @@ useInterval(tick, Math.max(5000, props.refreshIntervalSec * 1000), {
 	position: relative;
 
 	::v-deep(.item) {
-		display: inline-flex;
-		align-items: center;
+		display: inline-block;
 		vertical-align: bottom;
-		margin: 0;
+		margin-right: 3em;
 
 		> .icon {
 			display: inline-block;
 			height: var(--height);
 			aspect-ratio: 1;
 			vertical-align: bottom;
-			margin-right: 8px;
+			margin-right: 1em;
 		}
 
-		> .divider {
-			display: inline-block;
-			width: 0.5px;
-			height: 16px;
-			margin: 0 1em;
-			background: currentColor;
-			opacity: 0;
+		> .host {
+			vertical-align: bottom;
+		}
+
+		&.colored {
+			padding-right: 1em;
+			color: #fff;
 		}
 	}
 }
