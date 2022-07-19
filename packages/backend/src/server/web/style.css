@@ -13,7 +13,7 @@ html {
 	cursor: wait;
 	background-color: var(--bg);
 	opacity: 1;
-	transition: opacity 0.5s ease;
+	transition: opacity 0.2s ease;
 }
 
 #splashIcon {
@@ -26,6 +26,9 @@ html {
 	width: 64px;
 	height: 64px;
 	pointer-events: none;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-name: tada;
 }
 
 #splashSpinner {
@@ -38,7 +41,8 @@ html {
 	display: inline-block;
 	width: 28px;
 	height: 28px;
-	transform: translateY(70px);
+	transform: translateY(110px);
+	display: none !important;
 	color: var(--accent);
 }
 #splashSpinner > .spinner {
@@ -67,4 +71,47 @@ html {
 	100% {
 		transform: rotate(360deg);
 	}
+}
+
+@keyframes tada {
+	0% {
+		transform: scale3d(1, 1, 1);
+	}
+
+	10%,
+	20% {
+		transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+	}
+
+	30%,
+	50%,
+	70%,
+	90% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+	}
+
+	40%,
+	60%,
+	80% {
+		transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+	}
+
+	100% {
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+#splashText {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	display: inline-block;
+	width: 70%;
+	height: 0;
+	text-align: center;
+	padding-top: 100px;
+	font-family: sans-serif;
 }

@@ -7,7 +7,7 @@
 		<div class="shape2"></div>
 		<img src="/client-assets/misskey.svg" class="misskey"/>
 		<div class="emojis">
-			<MkEmoji :normal="true" :no-style="true" emoji="👍"/>
+			<MkEmoji :normal="true" :no-style="true" emoji="⭐"/>
 			<MkEmoji :normal="true" :no-style="true" emoji="❤"/>
 			<MkEmoji :normal="true" :no-style="true" emoji="😆"/>
 			<MkEmoji :normal="true" :no-style="true" emoji="🎉"/>
@@ -29,6 +29,7 @@
 				<div class="action">
 					<MkButton inline rounded gradate data-cy-signup style="margin-right: 12px;" @click="signup()">{{ i18n.ts.signup }}</MkButton>
 					<MkButton inline rounded data-cy-signin @click="signin()">{{ i18n.ts.login }}</MkButton>
+					<MkButton inline rounded style="margin-left: 12px;" onclick="window.location.href='/timeline'">Explore</MkButton>
 				</div>
 			</div>
 		</div>
@@ -195,7 +196,8 @@ function showMenu(ev) {
 		> .emojis {
 			position: absolute;
 			bottom: 32px;
-			left: 35px;
+			left: 115px;
+			transform: scale(1.5);
 
 			> * {
 				margin-right: 8px;
@@ -277,7 +279,8 @@ function showMenu(ev) {
 			backdrop-filter: var(--blur, blur(15px));
 			border-radius: 999px;
 			overflow: clip;
-			width: 800px;
+			width: 35%;
+			left: 50%;
 			padding: 8px 0;
 
 			@media (max-width: 900px) {

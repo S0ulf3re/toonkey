@@ -9,6 +9,14 @@
 You should also include the user name that made the change.
 -->
 
+## 12.117.0 (2022/07/18)
+
+### Improvements
+- Client: ウィンドウを最大化できるように @syuilo
+- Client: Shiftキーを押した状態でリンクをクリックするとアプリ内ウィンドウで開くように @syuilo
+- Client: デッキを使用している際、Ctrlキーを押した状態でリンクをクリックするとページ遷移を強制できるように @syuilo
+- Client: UIのブラッシュアップ @syuilo
+
 ## 12.116.1 (2022/07/17)
 
 ### Bugfixes
@@ -97,6 +105,7 @@ same as 12.112.0
 - Client: For notes with specified visibility, show recipients when hovering over visibility symbol. @Johann150
 - Client: Make widgets available again on a tablet @syuilo
 - ユーザーにモデレーションメモを残せる機能 @syuilo
+- Client: Add timeline page that can be viewed when not logged in @futchitwo
 - Make possible to delete an account by admin @syuilo
 - Improve player detection in URL preview @mei23
 - Add Badge Image to Push Notification #8012 @tamaina
@@ -105,6 +114,8 @@ same as 12.112.0
   IPv4/IPv6 is used by default. You can tune this behavior via `redis.family`.
 - Server: Add possibility to log IP addresses of users @syuilo
 - Add additional drive capacity change support @CyberRex0
+- Migrate to Yarn Berry (v3.2.1) @ThatOneCalculator
+	- You may have to `yarn run clean-all` and `yarn set version berry` before running `yarn install` if you're still on yarn classic
 
 ### Bugfixes
 - Server: Fix GenerateVideoThumbnail failed @mei23
@@ -314,7 +325,7 @@ same as 12.112.0
 ## 12.104.0 (2022/02/09)
 
 ### Note
-ビルドする前に`npm run clean`を実行してください。
+ビルドする前に`yarn clean`を実行してください。
 
 このリリースはマイグレーションの規模が大きいため、インスタンスによってはマイグレーションに時間がかかる可能性があります。
 マイグレーションが終わらない場合は、チャートの情報はリセットされてしまいますが`__chart__`で始まるテーブルの**レコード**を全て削除(テーブル自体は消さないでください)してから再度試す方法もあります。

@@ -6,8 +6,9 @@
 		<span>{{ $ts.clickToShow }}</span>
 	</div>
 	<div v-else-if="media.type.startsWith('audio') && media.type !== 'audio/midi'" class="audio">
-		<audio ref="audioEl"
-			class="audio"
+		<audio
+			ref="audioEl"
+			class="audio vlite-js"
 			:src="media.url"
 			:title="media.name"
 			controls
@@ -28,6 +29,8 @@
 <script lang="ts" setup>
 import { onMounted } from 'vue';
 import * as misskey from 'misskey-js';
+import 'vlitejs/dist/vlite.css';
+import Vlitejs from 'vlitejs';
 import { ColdDeviceStorage } from '@/store';
 
 const props = withDefaults(defineProps<{
@@ -43,7 +46,10 @@ function volumechange() {
 }
 
 onMounted(() => {
-	if (audioEl) audioEl.volume = ColdDeviceStorage.get('mediaVolume');
+	if (audioEl) {
+		audioEl.volume = ColdDeviceStorage.get('mediaVolume');
+		new Vlitejs(audioEl);
+	}
 });
 </script>
 
@@ -53,6 +59,11 @@ onMounted(() => {
 	border-radius: 4px;
 	margin-top: 4px;
 	overflow: hidden;
+
+	> .vlite-js {
+		--vlite-colorPrimary: var(--accent);
+		--vlite-controlsColor: var(--fg);
+	}
 
 	> .download,
 	> .sensitive {
@@ -84,10 +95,10 @@ onMounted(() => {
 		background: var(--noteAttachedFile);
 	}
 
-	> .sensitive {
+	/* > .sensitive {
 		background: #111;
 		color: #fff;
-	}
+	} */
 
 	> .audio {
 		.audio {

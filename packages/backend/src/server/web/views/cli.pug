@@ -4,7 +4,8 @@ html
 
 	head
 		meta(charset='utf-8')
-		meta(name='application-name' content='Misskey')
+		meta(name='application-name' content='Calckey')
+		meta(name='viewport' content='width=device-width, initial-scale=1.0')
 		title Misskey Cli
 		style
 			include ../cli.css
@@ -13,9 +14,10 @@ html
 
 	body
 		header
-			h1 Misskey Cli #{version}
+			h1 Calckey Simple Client v#{version}
 		main
 			div#form
 				textarea#text
-				button#submit submit
+				br
+				button#submit Post
 			div#tl

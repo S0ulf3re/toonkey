@@ -1,5 +1,5 @@
 <template>
-<div v-if="ad" class="qiivuoyo">
+<div v-if="ad && showAds" class="qiivuoyo">
 	<div v-if="!showMenu" class="main" :class="ad.place">
 		<a :href="ad.url" target="_blank">
 			<img :src="ad.imageUrl">
@@ -44,6 +44,7 @@ export default defineComponent({
 
 	setup(props) {
 		const showMenu = ref(false);
+		const showAds = defaultStore.state.showAds;
 		const toggleMenu = () => {
 			showMenu.value = !showMenu.value;
 		};
@@ -104,6 +105,7 @@ export default defineComponent({
 		return {
 			ad: chosen,
 			showMenu,
+			showAds,
 			toggleMenu,
 			host,
 			reduceFrequency,

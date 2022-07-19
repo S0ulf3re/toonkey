@@ -12,44 +12,27 @@
 					<span v-for="emoji in easterEggEmojis" :key="emoji.id" class="emoji" :data-physics-x="emoji.left" :data-physics-y="emoji.top" :class="{ _physics_circle_: !emoji.emoji.startsWith(':') }"><MkEmoji class="emoji" :emoji="emoji.emoji" :custom-emojis="$instance.emojis" :is-reaction="false" :normal="true" :no-style="true"/></span>
 				</div>
 				<div class="_formBlock" style="text-align: center;">
-					{{ i18n.ts._aboutMisskey.about }}<br><a href="https://misskey-hub.net/docs/misskey.html" target="_blank" class="_link">{{ i18n.ts.learnMore }}</a>
+					{{ i18n.ts._aboutMisskey.about }}<br><a href="https://codeberg.org/thatonecalculator/calckey" target="_blank" class="_link">{{ i18n.ts.learnMore }}</a>
 				</div>
 				<div class="_formBlock" style="text-align: center;">
-					<MkButton primary rounded inline @click="iLoveMisskey">I <Mfm text="$[jelly ❤]"/> #Misskey</MkButton>
+					<MkButton primary rounded inline @click="iLoveMisskey">I <Mfm text="$[jelly ❤]"/> #Calckey</MkButton>
 				</div>
 				<FormSection>
 					<div class="_formLinks">
-						<FormLink to="https://github.com/misskey-dev/misskey" external>
+						<FormLink to="https://codeberg.org/thatonecalculator/calckey" external>
 							<template #icon><i class="fas fa-code"></i></template>
 							{{ i18n.ts._aboutMisskey.source }}
-							<template #suffix>GitHub</template>
-						</FormLink>
-						<FormLink to="https://crowdin.com/project/misskey" external>
-							<template #icon><i class="fas fa-language"></i></template>
-							{{ i18n.ts._aboutMisskey.translation }}
-							<template #suffix>Crowdin</template>
-						</FormLink>
-						<FormLink to="https://www.patreon.com/syuilo" external>
-							<template #icon><i class="fas fa-hand-holding-medical"></i></template>
-							{{ i18n.ts._aboutMisskey.donate }}
-							<template #suffix>Patreon</template>
+							<template #suffix>Codeberg</template>
 						</FormLink>
 					</div>
 				</FormSection>
 				<FormSection>
 					<template #label>{{ i18n.ts._aboutMisskey.contributors }}</template>
 					<div class="_formLinks">
+						<FormLink to="https://codeberg.org/thatonecalculator" external>ThatOneCalculator (fork developer)</FormLink>
 						<FormLink to="https://github.com/syuilo" external>@syuilo</FormLink>
-						<FormLink to="https://github.com/AyaMorisawa" external>@AyaMorisawa</FormLink>
-						<FormLink to="https://github.com/mei23" external>@mei23</FormLink>
-						<FormLink to="https://github.com/acid-chicken" external>@acid-chicken</FormLink>
-						<FormLink to="https://github.com/tamaina" external>@tamaina</FormLink>
-						<FormLink to="https://github.com/rinsuki" external>@rinsuki</FormLink>
-						<FormLink to="https://github.com/Xeltica" external>@Xeltica</FormLink>
-						<FormLink to="https://github.com/u1-liquid" external>@u1-liquid</FormLink>
-						<FormLink to="https://github.com/marihachi" external>@marihachi</FormLink>
 					</div>
-					<template #caption><MkLink url="https://github.com/misskey-dev/misskey/graphs/contributors">{{ i18n.ts._aboutMisskey.allContributors }}</MkLink></template>
+					<template #caption><MkLink url="https://codeberg.org/thatonecalculator/calckey/activity">{{ i18n.ts._aboutMisskey.allContributors }}</MkLink></template>
 				</FormSection>
 				<FormSection>
 					<template #label><Mfm text="$[jelly ❤]"/> {{ i18n.ts._aboutMisskey.patrons }}</template>
@@ -186,7 +169,7 @@ function gravity() {
 
 function iLoveMisskey() {
 	os.post({
-		initialText: 'I $[jelly ❤] #Misskey',
+		initialText: 'I $[jelly ❤] #Calckey',
 		instant: true,
 	});
 }

@@ -7,30 +7,37 @@
 </div>
 <div v-else class="kkjnbbplepmiyuadieoenjgutgcmtsvu">
 	<video
+		ref="videoEl"
 		:poster="video.thumbnailUrl"
 		:title="video.comment"
 		:alt="video.comment"
+		class="vlite-js"
 		preload="none"
 		controls
+		:src="video.url"
+		:type="video.type"
 		@contextmenu.stop
-	>
-		<source 
-			:src="video.url" 
-			:type="video.type"
-		>
-	</video>
+	></video>
 	<i class="fas fa-eye-slash" @click="hide = true"></i>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import * as misskey from 'misskey-js';
+import 'vlitejs/dist/vlite.css';
+import Vlitejs from 'vlitejs';
 import { defaultStore } from '@/store';
 
 const props = defineProps<{
 	video: misskey.entities.DriveFile;
 }>();
+
+const videoEl = $ref(null);
+
+onMounted(() => {
+	new Vlitejs(videoEl);
+});
 
 const hide = ref((defaultStore.state.nsfw === 'force') ? true : props.video.isSensitive && (defaultStore.state.nsfw !== 'ignore'));
 </script>
@@ -38,6 +45,11 @@ const hide = ref((defaultStore.state.nsfw === 'force') ? true : props.video.isSe
 <style lang="scss" scoped>
 .kkjnbbplepmiyuadieoenjgutgcmtsvu {
 	position: relative;
+
+	> .vlite-js {
+		--vlite-colorPrimary: var(--accent);
+		--vlite-controlsColor: var(--fg);
+	}
 
 	> i {
 		display: block;
@@ -72,8 +84,8 @@ const hide = ref((defaultStore.state.nsfw === 'force') ? true : props.video.isSe
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: #111;
-	color: #fff;
+	/* background: #111;
+	color: #fff; */
 
 	> div {
 		display: table-cell;

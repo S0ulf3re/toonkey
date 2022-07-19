@@ -53,7 +53,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	reactions: {
 		where: 'account',
-		default: ['👍', '❤️', '😆', '🤔', '😮', '🎉', '💢', '😥', '😇', '🍮'],
+		default: ['⭐', '❤️', '😆', '🤔', '😮', '🎉', '💢', '😥', '😇', '🍮'],
 	},
 	mutedWords: {
 		where: 'account',
@@ -63,20 +63,21 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'account',
 		default: [] as string[],
 	},
+	showAds: {
+		where: 'account',
+		default: true,
+	},
 
 	menu: {
 		where: 'deviceAccount',
 		default: [
-			'notifications',
-			'favorites',
-			'drive',
+			'notifications',,
 			'followRequests',
-			'-',
+			'messaging',
+			'favorites',
 			'explore',
-			'announcements',
+			'channels',
 			'search',
-			'-',
-			'ui',
 		],
 	},
 	visibility: {
@@ -165,7 +166,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	useBlurEffect: {
 		where: 'device',
-		default: true,
+		default: false,
 	},
 	showFixedPostForm: {
 		where: 'device',
@@ -193,15 +194,15 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	reactionPickerSize: {
 		where: 'device',
-		default: 1,
+		default: 3,
 	},
 	reactionPickerWidth: {
 		where: 'device',
-		default: 1,
+		default: 3,
 	},
 	reactionPickerHeight: {
 		where: 'device',
-		default: 2,
+		default: 3,
 	},
 	reactionPickerUseDrawerForMobile: {
 		where: 'device',
@@ -251,6 +252,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
+	enterSendsMessage: {
+		where: 'device',
+		default: true,
+	},
 }));
 
 // TODO: 他のタブと永続化されたstateを同期
@@ -269,8 +274,8 @@ type Plugin = {
 /**
  * 常にメモリにロードしておく必要がないような設定情報を保管するストレージ(非リアクティブ)
  */
-import lightTheme from '@/themes/l-light.json5';
-import darkTheme from '@/themes/d-dark.json5';
+import lightTheme from '@/themes/l-rosepinedawn.json5';
+import darkTheme from '@/themes/d-rosepine.json5';
 
 export class ColdDeviceStorage {
 	public static default = {
@@ -280,7 +285,7 @@ export class ColdDeviceStorage {
 		plugins: [] as Plugin[],
 		mediaVolume: 0.5,
 		sound_masterVolume: 0.3,
-		sound_note: { type: 'syuilo/down', volume: 1 },
+		sound_note: { type: 'None', volume: 0 },
 		sound_noteMy: { type: 'syuilo/up', volume: 1 },
 		sound_notification: { type: 'syuilo/pope2', volume: 1 },
 		sound_chat: { type: 'syuilo/pope1', volume: 1 },

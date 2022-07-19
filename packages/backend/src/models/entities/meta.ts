@@ -77,6 +77,21 @@ export class Meta {
 	})
 	public blockedHosts: string[];
 
+	@Column('boolean', {
+		default: false
+	})
+	public secureMode: boolean;
+
+	@Column('boolean', {
+		default: false
+	})
+	public privateMode: boolean;
+
+	@Column('varchar', {
+		length: 256, array: true, default: '{}'
+	})
+	public allowedHosts: string[];
+
 	@Column('varchar', {
 		length: 512, array: true, default: '{/featured,/channels,/explore,/pages,/about-misskey}',
 	})
@@ -354,14 +369,14 @@ export class Meta {
 
 	@Column('varchar', {
 		length: 512,
-		default: 'https://github.com/misskey-dev/misskey',
+		default: 'https://codeberg.org/thatonecalculator/calckey',
 		nullable: false,
 	})
 	public repositoryUrl: string;
 
 	@Column('varchar', {
 		length: 512,
-		default: 'https://github.com/misskey-dev/misskey/issues/new',
+		default: 'https://codeberg.org/thatonecalculator/calckey/issues/new',
 		nullable: true,
 	})
 	public feedbackUrl: string | null;

@@ -111,14 +111,14 @@ const alpha = (hex, a) => {
 };
 
 const colors = {
-	blue: '#008FFB',
-	green: '#00E396',
-	yellow: '#FEB019',
-	red: '#FF4560',
-	purple: '#e300db',
-	orange: '#fe6919',
-	lime: '#bde800',
-	cyan: '#00e0e0',
+	blue: '#31748f',
+	green: '#9ccfd8',
+	yellow: '#f6c177',
+	red: '#eb6f92',
+	purple: '#c4a7e7',
+	orange: '#ebbcba',
+	lime: '#56949f',
+	cyan: '#9ccfd8',
 };
 const colorSets = [colors.blue, colors.green, colors.yellow, colors.red, colors.purple];
 const getColor = (i) => {

@@ -281,7 +281,7 @@ function blur() {
 
 os.api('notes/children', {
 	noteId: appearNote.id,
-	limit: 30,
+	limit: 100,
 }).then(res => {
 	replies.value = res;
 });
