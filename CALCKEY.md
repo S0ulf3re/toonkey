@@ -6,6 +6,7 @@
 - Classic mode make instance icon bring up new context menu
 - Like/star button
 - Backfill remote users
+- User "choices" (recommended users) like Mastodon and Soapbox
 - Option to publicize instance blocks
 - Better intro/onboarding
 - Fully revamp non-logged-in screen
