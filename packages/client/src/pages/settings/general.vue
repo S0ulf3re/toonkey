@@ -44,6 +44,7 @@
 		<FormSwitch v-model="showAds" class="_formBlock">{{ i18n.ts.showAds }}</FormSwitch>
 		<FormSwitch v-model="disableAnimatedMfm" class="_formBlock">{{ i18n.ts.disableAnimatedMfm }}</FormSwitch>
 		<FormSwitch v-model="reduceAnimation" class="_formBlock">{{ i18n.ts.reduceUiAnimation }}</FormSwitch>
+		<FormSwitch v-model="animateNotificationsIcon" class="_formBlock">{{ i18n.ts.animateNotificationsIcon }}</FormSwitch>
 		<FormSwitch v-model="useBlurEffect" class="_formBlock">{{ i18n.ts.useBlurEffect }}</FormSwitch>
 		<FormSwitch v-model="useBlurEffectForModal" class="_formBlock">{{ i18n.ts.useBlurEffectForModal }}</FormSwitch>
 		<FormSwitch v-model="showGapBetweenNotesInTimeline" class="_formBlock">{{ i18n.ts.showGapBetweenNotesInTimeline }}</FormSwitch>
@@ -125,6 +126,7 @@ async function reloadAsk() {
 const overridedDeviceKind = computed(defaultStore.makeGetterSetter('overridedDeviceKind'));
 const serverDisconnectedBehavior = computed(defaultStore.makeGetterSetter('serverDisconnectedBehavior'));
 const reduceAnimation = computed(defaultStore.makeGetterSetter('animation', v => !v, v => !v));
+const animateNotificationsIcon = computed(defaultStore.makeGetterSetter('animateNotificationsIcon', v => !v, v => !v));
 const useBlurEffectForModal = computed(defaultStore.makeGetterSetter('useBlurEffectForModal'));
 const useBlurEffect = computed(defaultStore.makeGetterSetter('useBlurEffect'));
 const showGapBetweenNotesInTimeline = computed(defaultStore.makeGetterSetter('showGapBetweenNotesInTimeline'));
@@ -178,6 +180,7 @@ watch([
 	overridedDeviceKind,
 	showAds,
 	showUpdates,
+	animateNotificationsIcon,
 ], async () => {
 	await reloadAsk();
 });
