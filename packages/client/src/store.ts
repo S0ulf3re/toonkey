@@ -8,8 +8,8 @@ export const noteActions = [];
 export const noteViewInterruptors = [];
 export const notePostInterruptors = [];
 
-// TODO: それぞれいちいちwhereとかdefaultというキーを付けなきゃいけないの冗長なのでなんとかする(ただ型定義が面倒になりそう)
-//       あと、現行の定義の仕方なら「whereが何であるかに関わらずキー名の重複不可」という制約を付けられるメリットもあるからそのメリットを引き継ぐ方法も考えないといけない
+// TODO: それぞれいちいちwhereとかdefaultというキーを付けなきゃいけないの冗長なのでなんとかする(ただ型定義が面倒になりそう) (I have to add keys such as where and default to each one, which is redundant, so I'll do something about it (just type definition seems to be troublesome))
+//       あと、現行の定義の仕方なら「whereが何であるかに関わらずキー名の重複不可」という制約を付けられるメリットもあるからそのメリットを引き継ぐ方法も考えないといけない (Also, the current definition method has the advantage of adding a constraint that "key names cannot be duplicated regardless of where is", so we have to think of a way to take over that advantage.)
 export const defaultStore = markRaw(new Storage('base', {
 	tutorial: {
 		where: 'account',
@@ -261,7 +261,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 }));
 
-// TODO: 他のタブと永続化されたstateを同期
+// TODO: 他のタブと永続化されたstateを同期 (Synchronize persisted state with other tabs)
 
 const PREFIX = 'miux:';
 
@@ -276,6 +276,7 @@ type Plugin = {
 
 /**
  * 常にメモリにロードしておく必要がないような設定情報を保管するストレージ(非リアクティブ)
+ * (Storage for configuration information that does not need to be loaded into memory all the time (non-reactive))
  */
 import lightTheme from '@/themes/l-rosepinedawn.json5';
 import darkTheme from '@/themes/d-rosepine.json5';

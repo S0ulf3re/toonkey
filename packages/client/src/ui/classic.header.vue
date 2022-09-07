@@ -166,7 +166,8 @@ export default defineComponent({
 					left: 0;
 					color: var(--navIndicator);
 					font-size: 8px;
-					animation: blink 1s infinite;
+					animation: blink 1s 3;
+;
 				}
 
 				&:hover {

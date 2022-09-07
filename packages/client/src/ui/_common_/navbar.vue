@@ -333,7 +333,10 @@ function more(ev: MouseEvent) {
 						left: 20px;
 						color: var(--navIndicator);
 						font-size: 8px;
-						animation: blink 1s infinite;
+					}
+
+					.indicator-animation {
+						animation: blink 1s 3;
 					}
 
 					> .text {
@@ -496,7 +499,7 @@ function more(ev: MouseEvent) {
 						left: 24px;
 						color: var(--navIndicator);
 						font-size: 8px;
-						animation: blink 1s infinite;
+						animation: blink 1s 3;
 					}
 
 					&:hover, &.active {

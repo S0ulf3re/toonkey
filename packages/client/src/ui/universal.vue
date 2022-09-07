@@ -102,7 +102,7 @@ provideMetadataReceiver((info) => {
 
 const menuIndicated = computed(() => {
 	for (const def in navbarItemDef) {
-		if (def === 'notifications') continue; // 通知は下にボタンとして表示されてるから
+		if (def === 'notifications') continue; // 通知は下にボタンとして表示されてるから (Notifications are displayed as buttons at the bottom)
 		if (navbarItemDef[def].indicated) return true;
 	}
 	return false;
@@ -368,7 +368,7 @@ const wallpaper = localStorage.getItem('wallpaper') != null;
 				left: 0;
 				color: var(--indicator);
 				font-size: 16px;
-				animation: blink 1s infinite;
+				animation: blink 1s 3;
 			}
 
 			&:first-child {

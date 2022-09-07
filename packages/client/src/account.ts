@@ -7,13 +7,13 @@ import { apiUrl } from '@/config';
 import { waiting, api, popup, popupMenu, success, alert } from '@/os';
 import { unisonReload, reloadChannel } from '@/scripts/unison-reload';
 
-// TODO: 他のタブと永続化されたstateを同期
+// TODO: 他のタブと永続化されたstateを同期 (Synchronize persisted state with other tabs)
 
 type Account = misskey.entities.MeDetailed;
 
 const accountData = localStorage.getItem('account');
 
-// TODO: 外部からはreadonlyに
+// TODO: 外部からはreadonlyに (make readonly from outside)
 export const $i = accountData ? reactive(JSON.parse(accountData) as Account) : null;
 
 export const iAmModerator = $i != null && ($i.isAdmin || $i.isModerator);
