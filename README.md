@@ -1,26 +1,19 @@
 <div align="center">
-<a href="https://stop.voring.me/">
-	<img src="./.github/title_float.svg" alt="Calckey logo" style="border-radius:50%" width="400"/>
-</a>
 
-**🌎 **[Calckey](https://stop.voring.me/)** is an open source, decentralized social media platform that's free forever! 🚀**
+**🧨 [Toonkey](https://thetooniverse.xyz) is an open source fork on ThatOneCalculator's [Calckey](https://codeberg.org/thatonecalculator/calckey) that is Free Open Source Software (FOSS)**
 
 </div>
 
 <div>
 
-<img src="https://pool.jortage.com/voringme/misskey/e7cd2a17-8b23-4e1e-b5cf-709480c623e2.png" align="right" height="320px"/>
+<img src="https://i.redd.it/yr57inyv88o71.png" align="right" height="320px"/>
 
-# ✨ About Calckey
+# ✨ About Toonkey
 
-- Calckey is based off of Misskey, a powerful microblogging server on ActivityPub with features such as emoji reactions, a customizable web ui, rich chatting, and much more!
-- Calckey adds many quality of life changes and bug fixes for users and instance admins alike.
-- Read **[this document](./CALCKEY.md)** all for current and future differences.
+- Toonkey is based off of Calckey, a powerful microblogging server based on [Misskey](https://github.com/misskey-dev/misskey) With a few alterations
+- Read **[this document](./CALCKEY.md)** all for current and future differences **in Calckey**.
 - Notable differences:
-  - Improved UI/UX, notifications, security, and more
-  - Recommended Instances timeline
-  - Many more user and admin settings
-
+    - None yet, but a few planned changes. See the project
 </div>
 
 <div style="clear: both;"></div>
@@ -40,11 +33,17 @@
 
 # 🚚 Migrating from Misskey to Calckey
 
-You need at least 🐢 NodeJS v16.15.0 (v18.4.0 recommended!) and *exactly* 🧶 Yarn v3.2.2!
+You need at least NodeJS v16.15.0 (v18.4.0 recommended!) and *exactly* 🧶 Yarn v3.2.2!
 
 > ⚠️ Please don't use NodeJS v18.6.0, as it's known to cause problems.
 
-## 📩 Install dependencies
+## Inital setup
+Consider adding the Calckey or main Misskey repo as your remote upstream so that you can pull changes from it if need be
+```
+git add remote upstream https://codeberg.org/thatonecalculator/calckey
+```
+
+## Install dependencies
 
 ```sh
 # nvm install 18.4.0 && nvm alias default 18.4.0 && nvm use 18.4.0
@@ -52,7 +51,7 @@ corepack enable
 yarn set version berry
 ```
 
-## 👀 Get folder ready
+## Get folder ready
 
 ```sh
 git clone https://codeberg.org/thatonecalculator/calckey.git
