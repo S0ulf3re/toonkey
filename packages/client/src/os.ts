@@ -517,7 +517,7 @@ export function popupMenu(items: MenuItem[] | Ref<MenuItem[]>, src?: HTMLElement
 }) {
 	return new Promise((resolve, reject) => {
 		let dispose;
-		popup(defineAsyncComponent(() => import('@/components/ui/popup-menu.vue')), {
+		popup(defineAsyncComponent(() => import('@/components/MkPopupMenu.vue')), {
 			items,
 			src,
 			width: options?.width,
@@ -538,7 +538,7 @@ export function contextMenu(items: MenuItem[] | Ref<MenuItem[]>, ev: MouseEvent)
 	ev.preventDefault();
 	return new Promise((resolve, reject) => {
 		let dispose;
-		popup(defineAsyncComponent(() => import('@/components/ui/context-menu.vue')), {
+		popup(defineAsyncComponent(() => import('@/components/MkContextMenu.vue')), {
 			items,
 			ev,
 		}, {

@@ -25,7 +25,7 @@
 					{{ i18n.ts.newNoteRecived }}
 				</button>
 			</div>
-			<div v-if="!isMobile" class="tl _block">
+			<!-- <div v-if="!isMobile" class="tl _block">
 				<XTimeline
 					ref="tl"
 					:key="src"
@@ -34,13 +34,14 @@
 					:sound="true"
 					@queue="queueUpdated"
 				/>
-			</div>
-			<div v-else class="tl _block">
+			</div> *v-else on next div* -->
+			<div class="tl _block">
 				<swiper
-					:modules="[Pagination, Virtual]"
+					:modules="[Virtual]"
 					:space-between="20"
 					:virtual="true"
 					@swiper="setSwiperRef"
+					@slide-change="onSlideChange"
 				>
 					<swiper-slide
 						v-for="index in timelines"
@@ -49,9 +50,9 @@
 					>
 						<XTimeline
 							ref="tl"
-							:key="index"
+							:key="src"
 							class="tl"
-							:src="index"
+							:src="src"
 							:sound="true"
 							@queue="queueUpdated"
 						/>
@@ -65,7 +66,7 @@
 
 <script lang="ts" setup>
 import { defineAsyncComponent, computed, watch, ref } from 'vue';
-import { Pagination, Virtual } from 'swiper';
+import { Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import XTimeline from '@/components/MkTimeline.vue';
 import XPostForm from '@/components/MkPostForm.vue';
@@ -78,8 +79,7 @@ import { $i } from '@/account';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { deviceKind } from '@/scripts/device-kind';
 import 'swiper/scss';
-import 'swiper/scss/pagination';
-import 'swiper/css/virtual';
+import 'swiper/scss/virtual';
 
 const XTutorial = defineAsyncComponent(() => import('./timeline.tutorial.vue'));
 
@@ -95,6 +95,21 @@ const isGlobalTimelineAvailable =
 const keymap = {
 	t: focus,
 };
+
+let timelines = ['home'];
+
+if (isLocalTimelineAvailable) {
+	timelines.push('local');
+}
+if (isRecommendedTimelineAvailable) {
+	timelines.push('recommended');
+}
+if (isLocalTimelineAvailable) {
+	timelines.push('social');
+}
+if (isGlobalTimelineAvailable) {
+	timelines.push('global');
+}
 
 const MOBILE_THRESHOLD = 500;
 
@@ -113,7 +128,10 @@ const rootEl = $ref<HTMLElement>();
 let queue = $ref(0);
 const src = $computed({
 	get: () => defaultStore.reactiveState.tl.value.src,
-	set: (x) => saveSrc(x),
+	set: (x) => {
+		saveSrc(x);
+		syncSlide(timelines.indexOf(x));
+	},
 });
 
 watch($$(src), () => (queue = 0));
@@ -148,7 +166,7 @@ async function chooseAntenna(ev: MouseEvent): Promise<void> {
 }
 
 function saveSrc(
-	newSrc: 'home' | 'local' | 'recommended' | 'social' | 'global'
+	newSrc: 'home' | 'local' | 'recommended' | 'social' | 'global',
 ): void {
 	defaultStore.set('tl', {
 		...defaultStore.state.tl,
@@ -254,30 +272,20 @@ definePageMetadata(
 	})),
 );
 
-let timelines = ['home'];
-
-if (isLocalTimelineAvailable) {
-	timelines.push('local');
-}
-if (isRecommendedTimelineAvailable) {
-	timelines.push('recommended');
-}
-if (isLocalTimelineAvailable) {
-	timelines.push('social');
-}
-if (isGlobalTimelineAvailable) {
-	timelines.push('global');
-}
-
 let swiperRef = null;
 
-const setSwiperRef = (swiper) => {
+function setSwiperRef(swiper) {
 	swiperRef = swiper;
-};
+	syncSlide(timelines.indexOf(src));
+}
 
-const slideTo = (index) => {
-	swiperRef.slideTo(index - 1, 0);
-};
+function onSlideChange() {
+	saveSrc(timelines[swiperRef.activeIndex]);
+}
+
+function syncSlide(index) {
+	swiperRef.slideTo(index);
+}
 
 </script>
 

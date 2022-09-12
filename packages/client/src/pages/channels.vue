@@ -2,38 +2,57 @@
 <MkStickyContainer>
 	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :content-max="700">
-		<div v-if="tab === 'featured'" class="_content grwlizim featured">
-			<MkPagination v-slot="{items}" :pagination="featuredPagination">
-				<MkChannelPreview v-for="channel in items" :key="channel.id" class="_gap" :channel="channel"/>
-			</MkPagination>
-		</div>
-		<div v-else-if="tab === 'following'" class="_content grwlizim following">
-			<MkPagination v-slot="{items}" :pagination="followingPagination">
-				<MkChannelPreview v-for="channel in items" :key="channel.id" class="_gap" :channel="channel"/>
-			</MkPagination>
-		</div>
-		<div v-else-if="tab === 'owned'" class="_content grwlizim owned">
-			<MkButton class="new" @click="create()"><i class="fas fa-plus"></i></MkButton>
-			<MkPagination v-slot="{items}" :pagination="ownedPagination">
-				<MkChannelPreview v-for="channel in items" :key="channel.id" class="_gap" :channel="channel"/>
-			</MkPagination>
-		</div>
+		<swiper
+			:modules="[Virtual]"
+			:space-between="20"
+			:virtual="true"
+			@swiper="setSwiperRef"
+			@slide-change="onSlideChange"
+		>
+			<swiper-slide>
+				<div class="_content grwlizim featured">
+					<MkPagination v-slot="{items}" :pagination="featuredPagination">
+						<MkChannelPreview v-for="channel in items" :key="channel.id" class="_gap" :channel="channel"/>
+					</MkPagination>
+				</div>
+			</swiper-slide>
+			<swiper-slide>
+				<div class="_content grwlizim following">
+					<MkPagination v-slot="{items}" :pagination="followingPagination">
+						<MkChannelPreview v-for="channel in items" :key="channel.id" class="_gap" :channel="channel"/>
+					</MkPagination>
+				</div>
+			</swiper-slide>
+			<swiper-slide>
+				<div class="_content grwlizim owned">
+					<MkButton class="new" @click="create()"><i class="fas fa-plus"></i></MkButton>
+					<MkPagination v-slot="{items}" :pagination="ownedPagination">
+						<MkChannelPreview v-for="channel in items" :key="channel.id" class="_gap" :channel="channel"/>
+					</MkPagination>
+				</div>
+			</swiper-slide>
+		</swiper>
 	</MkSpacer>
 </MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
 import { computed, defineComponent, inject } from 'vue';
+import { Virtual } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import MkChannelPreview from '@/components/MkChannelPreview.vue';
-import MkPagination from '@/components/ui/pagination.vue';
-import MkButton from '@/components/ui/button.vue';
+import MkPagination from '@/components/MkPagination.vue';
+import MkButton from '@/components/MkButton.vue';
 import { useRouter } from '@/router';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { i18n } from '@/i18n';
+import 'swiper/scss';
+import 'swiper/scss/virtual';
 
 const router = useRouter();
 
 let tab = $ref('featured');
+const tabs = ['featured', 'following', 'owned'];
 
 const featuredPagination = {
 	endpoint: 'channels/featured' as const,
@@ -76,4 +95,19 @@ definePageMetadata(computed(() => ({
 	title: i18n.ts.channel,
 	icon: 'fas fa-satellite-dish',
 })));
+
+let swiperRef = null;
+
+function setSwiperRef(swiper) {
+	swiperRef = swiper;
+	syncSlide(tabs.indexOf(tab));
+}
+
+function onSlideChange() {
+	tab = tabs[swiperRef.activeIndex];
+}
+
+function syncSlide(index) {
+	swiperRef.slideTo(index);
+}
 </script>

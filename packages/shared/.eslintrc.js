@@ -14,7 +14,7 @@ module.exports = {
 	rules: {
 		'indent': ['warn', 'tab', {
 			'SwitchCase': 1,
-			'MemberExpression': 'off',
+			'MemberExpression': 1,
 			'flatTernaryExpressions': true,
 			'ArrayExpression': 'first',
 			'ObjectExpression': 'first',
@@ -71,6 +71,7 @@ module.exports = {
 		'@typescript-eslint/no-misused-promises': ['error', {
 			'checksVoidReturn': false,
 		}],
+		'@typescript-eslint/consistent-type-imports': 'error',
 		'import/no-unresolved': ['off'],
 		'import/no-default-export': ['warn'],
 		'import/order': ['warn', {

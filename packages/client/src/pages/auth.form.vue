@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { defineComponent } from 'vue';
-import MkButton from '@/components/ui/button.vue';
+import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os';
 
 const emit = defineEmits<{

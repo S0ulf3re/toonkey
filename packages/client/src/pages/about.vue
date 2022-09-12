@@ -1,86 +1,98 @@
 <template>
 <MkStickyContainer>
 	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer v-if="tab === 'overview'" :content-max="600" :margin-min="20">
-		<div class="_formRoot">
-			<div class="_formBlock fwhjspax" :style="{ backgroundImage: `url(${ $instance.bannerUrl })` }">
-				<div class="content">
-					<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
-					<div class="name">
-						<b>{{ $instance.name || host }}</b>
+	<MkSpacer :content-max="600" :margin-min="20">
+		<swiper
+			:modules="[Virtual]"
+			:space-between="20"
+			:virtual="true"
+			@swiper="setSwiperRef"
+			@slide-change="onSlideChange"
+		>
+			<swiper-slide>
+				<div class="_formRoot">
+					<div class="_formBlock fwhjspax" :style="{ backgroundImage: `url(${ $instance.bannerUrl })` }">
+						<div class="content">
+							<img :src="$instance.iconUrl || $instance.faviconUrl || '/favicon.ico'" alt="" class="icon"/>
+							<div class="name">
+								<b>{{ $instance.name || host }}</b>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
 
-			<MkKeyValue class="_formBlock">
-				<template #key>{{ i18n.ts.description }}</template>
-				<template #value>{{ $instance.description }}</template>
-			</MkKeyValue>
-
-			<FormSection>
-				<MkKeyValue class="_formBlock" :copy="version">
-					<template #key>Calckey</template>
-					<template #value>{{ version }}</template>
-				</MkKeyValue>
-				<FormLink to="/about-misskey">{{ i18n.ts.aboutMisskey }}</FormLink>
-			</FormSection>
-
-			<FormSection>
-				<FormSplit>
 					<MkKeyValue class="_formBlock">
-						<template #key>{{ i18n.ts.administrator }}</template>
-						<template #value>{{ $instance.maintainerName }}</template>
+						<template #key>{{ i18n.ts.description }}</template>
+						<template #value>{{ $instance.description }}</template>
 					</MkKeyValue>
-					<MkKeyValue class="_formBlock">
-						<template #key>{{ i18n.ts.contact }}</template>
-						<template #value>{{ $instance.maintainerEmail }}</template>
-					</MkKeyValue>
-				</FormSplit>
-				<FormLink v-if="$instance.tosUrl" :to="$instance.tosUrl" class="_formBlock" external>{{ i18n.ts.tos }}</FormLink>
-			</FormSection>
 
-			<FormSuspense :p="initStats">
-				<FormSection>
-					<template #label>{{ i18n.ts.statistics }}</template>
-					<FormSplit>
-						<MkKeyValue class="_formBlock">
-							<template #key>{{ i18n.ts.users }}</template>
-							<template #value>{{ number(stats.originalUsersCount) }}</template>
+					<FormSection>
+						<MkKeyValue class="_formBlock" :copy="version">
+							<template #key>Calckey</template>
+							<template #value>{{ version }}</template>
 						</MkKeyValue>
-						<MkKeyValue class="_formBlock">
-							<template #key>{{ i18n.ts.notes }}</template>
-							<template #value>{{ number(stats.originalNotesCount) }}</template>
-						</MkKeyValue>
-					</FormSplit>
-				</FormSection>
-			</FormSuspense>
+						<FormLink to="/about-calckey">{{ i18n.ts.aboutMisskey }}</FormLink>
+					</FormSection>
 
-			<FormSection>
-				<template #label>Well-known resources</template>
-				<div class="_formLinks">
-					<FormLink :to="`/.well-known/host-meta`" external>host-meta</FormLink>
-					<FormLink :to="`/.well-known/host-meta.json`" external>host-meta.json</FormLink>
-					<FormLink :to="`/.well-known/nodeinfo`" external>nodeinfo</FormLink>
-					<FormLink :to="`/robots.txt`" external>robots.txt</FormLink>
-					<FormLink :to="`/manifest.json`" external>manifest.json</FormLink>
+					<FormSection>
+						<FormSplit>
+							<MkKeyValue class="_formBlock">
+								<template #key>{{ i18n.ts.administrator }}</template>
+								<template #value>{{ $instance.maintainerName }}</template>
+							</MkKeyValue>
+							<MkKeyValue class="_formBlock">
+								<template #key>{{ i18n.ts.contact }}</template>
+								<template #value>{{ $instance.maintainerEmail }}</template>
+							</MkKeyValue>
+						</FormSplit>
+						<FormLink v-if="$instance.tosUrl" :to="$instance.tosUrl" class="_formBlock" external>{{ i18n.ts.tos }}</FormLink>
+					</FormSection>
+
+					<FormSuspense :p="initStats">
+						<FormSection>
+							<template #label>{{ i18n.ts.statistics }}</template>
+							<FormSplit>
+								<MkKeyValue class="_formBlock">
+									<template #key>{{ i18n.ts.users }}</template>
+									<template #value>{{ number(stats.originalUsersCount) }}</template>
+								</MkKeyValue>
+								<MkKeyValue class="_formBlock">
+									<template #key>{{ i18n.ts.notes }}</template>
+									<template #value>{{ number(stats.originalNotesCount) }}</template>
+								</MkKeyValue>
+							</FormSplit>
+						</FormSection>
+					</FormSuspense>
+
+					<FormSection>
+						<template #label>Well-known resources</template>
+						<div class="_formLinks">
+							<FormLink :to="`/.well-known/host-meta`" external>host-meta</FormLink>
+							<FormLink :to="`/.well-known/host-meta.json`" external>host-meta.json</FormLink>
+							<FormLink :to="`/.well-known/nodeinfo`" external>nodeinfo</FormLink>
+							<FormLink :to="`/robots.txt`" external>robots.txt</FormLink>
+							<FormLink :to="`/manifest.json`" external>manifest.json</FormLink>
+						</div>
+					</FormSection>
 				</div>
-			</FormSection>
-		</div>
-	</MkSpacer>
-	<MkSpacer v-else-if="tab === 'emojis'" :content-max="1000" :margin-min="20">
-		<XEmojis/>
-	</MkSpacer>
-	<MkSpacer v-else-if="tab === 'federation'" :content-max="1000" :margin-min="20">
-		<XFederation/>
-	</MkSpacer>
-	<MkSpacer v-else-if="tab === 'charts'" :content-max="1000" :margin-min="20">
-		<MkInstanceStats :chart-limit="500" :detailed="true"/>
+			</swiper-slide>
+			<swiper-slide>
+				<XEmojis/>
+			</swiper-slide>
+			<swiper-slide>
+				<XFederation/>
+			</swiper-slide>
+			<swiper-slide>
+				<MkInstanceStats :chart-limit="500" :detailed="true"/>
+			</swiper-slide>
+		</swiper>
 	</MkSpacer>
 </MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import { Virtual } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import XEmojis from './about.emojis.vue';
 import XFederation from './about.federation.vue';
 import { version, instanceName , host } from '@/config';
@@ -95,6 +107,8 @@ import number from '@/filters/number';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { iAmModerator } from '@/account';
+import 'swiper/scss';
+import 'swiper/scss/virtual';
 
 const props = withDefaults(defineProps<{
 	initialTab?: string;
@@ -104,6 +118,8 @@ const props = withDefaults(defineProps<{
 
 let stats = $ref(null);
 let tab = $ref(props.initialTab);
+let tabs = ['overview', 'emojis','charts'];
+if (iAmModerator) tabs.push('federation');
 
 const initStats = () => os.api('stats', {
 }).then((res) => {
@@ -115,6 +131,7 @@ const headerActions = $computed(() => []);
 let theTabs = [{
 	key: 'overview',
 	title: i18n.ts.overview,
+	icon: 'fas fa-sitemap',
 }, {
 	key: 'emojis',
 	title: i18n.ts.customEmojis,
@@ -141,6 +158,21 @@ definePageMetadata(computed(() => ({
 	title: i18n.ts.instanceInfo,
 	icon: 'fas fa-info-circle',
 })));
+
+let swiperRef = null;
+
+function setSwiperRef(swiper) {
+	swiperRef = swiper;
+	syncSlide(tabs.indexOf(tab));
+}
+
+function onSlideChange() {
+	tab = tabs[swiperRef.activeIndex];
+}
+
+function syncSlide(index) {
+	swiperRef.slideTo(index);
+}
 </script>
 
 <style lang="scss" scoped>

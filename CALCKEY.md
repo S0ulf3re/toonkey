@@ -23,6 +23,7 @@
 
 - Better Messaging UI
   - Videos can be played in DMs
+- Make your password hasn't been pwned
 - OCR image captioning
 - Admin custom CSS
 - Add back time machine (jump to date)
@@ -41,7 +42,7 @@
 - Saner defaults
 - Recommended instances timeline
 - Improve mobile UX
-  - Swipe through timelines/notifications on mobile
+  - Swipe through pages on mobile
   - Redesigned mobile bottom nav bar
   - Post button on TL
 - Star as default reaction

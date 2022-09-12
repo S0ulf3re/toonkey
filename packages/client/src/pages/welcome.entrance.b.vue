@@ -40,7 +40,7 @@ import { defineComponent } from 'vue';
 import { toUnicode } from 'punycode/';
 import XSigninDialog from '@/components/MkSigninDialog.vue';
 import XSignupDialog from '@/components/MkSignupDialog.vue';
-import MkButton from '@/components/ui/button.vue';
+import MkButton from '@/components/MkButton.vue';
 import XNote from '@/components/MkNote.vue';
 import MkFeaturedPhotos from '@/components/MkFeaturedPhotos.vue';
 import XTimeline from './welcome.timeline.vue';
@@ -112,7 +112,7 @@ export default defineComponent({
 				text: this.$ts.aboutMisskey,
 				icon: 'fas fa-info-circle',
 				action: () => {
-					os.pageWindow('/about-misskey');
+					os.pageWindow('/about-calckey');
 				}
 			}, null, {
 				text: this.$ts.help,

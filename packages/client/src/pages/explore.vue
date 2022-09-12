@@ -2,38 +2,47 @@
 <MkStickyContainer>
 	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<div class="lznhrdub">
-		<div v-if="tab === 'featured'">
-			<XFeatured/>
-		</div>
-		<div v-else-if="tab === 'users'">
-			<XUsers/>
-		</div>
-		<div v-else-if="tab === 'search'">
-			<MkSpacer :content-max="1200">
-				<div>
-					<MkInput v-model="searchQuery" :debounce="true" type="search" class="_formBlock">
-						<template #prefix><i class="fas fa-search"></i></template>
-						<template #label>{{ i18n.ts.searchUser }}</template>
-					</MkInput>
-					<MkRadios v-model="searchOrigin" class="_formBlock">
-						<option value="combined">{{ i18n.ts.all }}</option>
-						<option value="local">{{ i18n.ts.local }}</option>
-						<option value="remote">{{ i18n.ts.remote }}</option>
-					</MkRadios>
-				</div>
-
-				<XUserList v-if="searchQuery" ref="searchEl" class="_gap" :pagination="searchPagination"/>
-			</MkSpacer>
-		</div>
+		<swiper
+			:modules="[Virtual]"
+			:space-between="20"
+			:virtual="true"
+			@swiper="setSwiperRef"
+			@slide-change="onSlideChange"
+		>
+			<swiper-slide>
+				<XFeatured/>
+			</swiper-slide>
+			<swiper-slide>
+				<XUsers/>
+			</swiper-slide>
+			<swiper-slide>
+				<MkSpacer :content-max="1200">
+					<div>
+						<MkInput v-model="searchQuery" :debounce="true" type="search" class="_formBlock">
+							<template #prefix><i class="fas fa-search"></i></template>
+							<template #label>{{ i18n.ts.searchUser }}</template>
+						</MkInput>
+						<MkRadios v-model="searchOrigin" class="_formBlock">
+							<option value="combined">{{ i18n.ts.all }}</option>
+							<option value="local">{{ i18n.ts.local }}</option>
+							<option value="remote">{{ i18n.ts.remote }}</option>
+						</MkRadios>
+					</div>
+					<XUserList v-if="searchQuery" ref="searchEl" class="_gap" :pagination="searchPagination"/>
+				</MkSpacer>
+			</swiper-slide>
+		</swiper>
 	</div>
 </MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
 import { computed, watch } from 'vue';
+import { Virtual } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import XFeatured from './explore.featured.vue';
 import XUsers from './explore.users.vue';
-import MkFolder from '@/components/ui/folder.vue';
+import MkFolder from '@/components/MkFolder.vue';
 import MkInput from '@/components/form/input.vue';
 import MkRadios from '@/components/form/radios.vue';
 import number from '@/filters/number';
@@ -42,10 +51,14 @@ import { definePageMetadata } from '@/scripts/page-metadata';
 import { i18n } from '@/i18n';
 import { instance } from '@/instance';
 import XUserList from '@/components/MkUserList.vue';
+import 'swiper/scss';
+import 'swiper/scss/virtual';
 
 const props = defineProps<{
 	tag?: string;
 }>();
+
+const tabs = ['featured', 'users', 'search'];
 
 let tab = $ref('featured');
 let tagsEl = $ref<InstanceType<typeof MkFolder>>();
@@ -77,6 +90,7 @@ const headerTabs = $computed(() => [{
 	title: i18n.ts.users,
 }, {
 	key: 'search',
+	icon: 'fas fa-magnifying-glass',
 	title: i18n.ts.search,
 }]);
 
@@ -84,4 +98,20 @@ definePageMetadata(computed(() => ({
 	title: i18n.ts.explore,
 	icon: 'fas fa-hashtag',
 })));
+
+let swiperRef = null;
+
+function setSwiperRef(swiper) {
+	swiperRef = swiper;
+	syncSlide(tabs.indexOf(tab));
+}
+
+function onSlideChange() {
+	tab = tabs[swiperRef.activeIndex];
+}
+
+function syncSlide(index) {
+	swiperRef.slideTo(index);
+}
+
 </script>

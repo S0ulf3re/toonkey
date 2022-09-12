@@ -47,7 +47,7 @@ import { search } from '@/scripts/search';
 import * as os from '@/os';
 import { navbarItemDef } from '@/navbar';
 import { openAccountMenu } from '@/account';
-import MkButton from '@/components/ui/button.vue';
+import MkButton from '@/components/MkButton.vue';
 import { StickySidebar } from '@/scripts/sticky-sidebar';
 //import MisskeyLogo from '@assets/client/misskey.svg';
 
@@ -182,7 +182,7 @@ function openInstanceMenu(ev: MouseEvent) {
 	}, {
 		type: 'link',
 		text: i18n.ts.aboutMisskey,
-		to: '/about-misskey',
+		to: '/about-calckey',
 	}], ev.currentTarget ?? ev.target, {
 		align: 'left',
 	});

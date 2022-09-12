@@ -6,24 +6,20 @@
 	<template v-if="metadata">
 		<div v-if="!hideTitle" class="titleContainer" @click="showTabsPopup">
 			<MkAvatar v-if="metadata.avatar" class="avatar" :user="metadata.avatar" :disable-preview="true" :show-indicator="true"/>
-			<i v-else-if="metadata.icon" class="icon" :class="metadata.icon"></i>
+			<i v-else-if="metadata.icon && !narrow" class="icon" :class="metadata.icon"></i>
 
 			<div class="title">
 				<MkUserName v-if="metadata.userName" :user="metadata.userName" :nowrap="true" class="title"/>
-				<div v-else-if="metadata.title" class="title">{{ metadata.title }}</div>
+				<div v-else-if="metadata.title && !(tabs != null && tabs.length > 0 && narrow)" class="title">{{ metadata.title }}</div>
 				<div v-if="!narrow && metadata.subtitle" class="subtitle">
 					{{ metadata.subtitle }}
 				</div>
-				<div v-if="narrow && hasTabs" class="subtitle activeTab">
-					{{ tabs.find(tab => tab.key === props.tab)?.title }}
-					<i class="chevron fas fa-chevron-down"></i>
-				</div>
 			</div>
 		</div>
-		<div v-if="!narrow || hideTitle" class="tabs">
+		<div class="tabs">
 			<button v-for="tab in tabs" :ref="(el) => tabRefs[tab.key] = el" v-tooltip.noDelay="tab.title" class="tab _button" :class="{ active: tab.key != null && tab.key === props.tab }" @mousedown="(ev) => onTabMousedown(tab, ev)" @click="(ev) => onTabClick(tab, ev)">
 				<i v-if="tab.icon" class="icon" :class="tab.icon"></i>
-				<span v-if="!tab.iconOnly" class="title">{{ tab.title }}</span>
+				<span v-if="!tab.iconOnly && !narrow" class="title">{{ tab.title }}</span>
 			</button>
 			<div ref="tabHighlightEl" class="highlight"></div>
 		</div>
@@ -331,8 +327,8 @@ onUnmounted(() => {
 
 	> .tabs {
 		position: relative;
-		margin-left: 16px;
-		font-size: 0.9em;
+		width: 100%;
+		font-size: 1em;
 		overflow: auto;
 		white-space: nowrap;
 

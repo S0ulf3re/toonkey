@@ -34,8 +34,8 @@
 import { defineComponent } from 'vue';
 import { length } from 'stringz';
 import Tesseract from 'tesseract.js';
-import MkModal from '@/components/ui/modal.vue';
-import MkButton from '@/components/ui/button.vue';
+import MkModal from '@/components/MkModal.vue';
+import MkButton from '@/components/MkButton.vue';
 import bytes from '@/filters/bytes';
 import number from '@/filters/number';
 
