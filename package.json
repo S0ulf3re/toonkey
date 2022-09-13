@@ -51,7 +51,8 @@
 		"gulp-terser": "2.1.0",
 		"js-yaml": "4.1.0",
 		"long": "^5.2.0",
-		"seedrandom": "^3.0.5"
+		"seedrandom": "^3.0.5",
+		"web-push": "^3.5.0"
 	},
 	"devDependencies": {
 		"@swc/core": "^1.2.248",
