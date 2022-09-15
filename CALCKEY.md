@@ -48,6 +48,7 @@
 - Star as default reaction
 - Rosé Pine by default (+ non-themable elements made Rosé Pine)
 - Better sidebar/navbar
+- Add back groups
 - MOTD (customizable by admins!)
 - Custom randomized splash icons
 - Self hosted, newly designed error images
@@ -73,6 +74,8 @@
 - Reply limit bug fixed
 - Make showing the update popup optional
 - Improve PWA manifest
+- Fix incoming chat scrolling globally
+- Update notifier
 - Obliteration of Ai-chan
 - [Make showing ads optional](https://github.com/misskey-dev/misskey/pull/8996)
 - [Tapping avatar in mobile opens account modal](https://github.com/misskey-dev/misskey/pull/9056)

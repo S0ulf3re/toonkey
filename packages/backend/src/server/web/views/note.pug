@@ -2,7 +2,7 @@ extends ./base
 
 block vars
 	- const user = note.user;
-	- const title = privateMode ? '非公開インスタンス' : (user.name ? `${user.name} (@${user.username})` : `@${user.username}`);
+	- const title = privateMode ? instanceName : (user.name ? `${user.name} (@${user.username})` : `@${user.username}`);
 	- const url = `${config.url}/notes/${note.id}`;
 	- const isRenote = note.renote && note.text == null && note.fileIds.length == 0 && note.poll == null;
 

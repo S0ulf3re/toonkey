@@ -12,8 +12,6 @@ export const meta = {
 	requireCredential: false,
 	requireCredentialPrivateMode: true,
 
-	description: 'Get a list of children of a notes. Children includes replies as well as quote renotes that quote the respective post. A post will not be duplicated if it is a reply and a quote of a note in this thread. For depths larger than 1 the threading has to be computed by the client.',
-
 	res: {
 		type: 'array',
 		optional: false, nullable: false,
@@ -29,20 +27,7 @@ export const paramDef = {
 	type: 'object',
 	properties: {
 		noteId: { type: 'string', format: 'misskey:id' },
-		limit: {
-			description: 'The maximum number of replies/quotes to show per parent note, i.e. the maximum number of children each note may have.',
-			type: 'integer',
-			minimum: 1,
-			maximum: 100,
-			default: 10,
-		},
-		depth: {
-			description: 'The number of layers of replies to fetch at once. Defaults to 1 for backward compatibility.',
-			type: 'integer',
-			minimum: 1,
-			maximum: 100,
-			default: 1,
-		},
+		limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
 		sinceId: { type: 'string', format: 'misskey:id' },
 		untilId: { type: 'string', format: 'misskey:id' },
 	},

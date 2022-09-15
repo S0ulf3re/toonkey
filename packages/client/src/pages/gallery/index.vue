@@ -1,11 +1,17 @@
 <template>
 <MkStickyContainer>
 	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
-	<MkSpacer :content-max="1400">
-		<div class="_root">
-			<div v-if="tab === 'explore'">
+	<MkSpacer :content-max="1200">
+		<swiper
+			:modules="[Virtual]"
+			:space-between="20"
+			:virtual="true"
+			@swiper="setSwiperRef"
+			@slide-change="onSlideChange"
+		>
+			<swiper-slide>
 				<MkFolder class="_gap">
-					<template #header><i class="fas fa-clock"></i>{{ i18n.ts.recentPosts }}</template>
+					<template #header><i class="fas fa-clock"></i> {{ i18n.ts.recentPosts }}</template>
 					<MkPagination v-slot="{items}" :pagination="recentPostsPagination" :disable-auto-load="true">
 						<div class="vfpdbgtk">
 							<MkGalleryPostPreview v-for="post in items" :key="post.id" :post="post" class="post"/>
@@ -13,48 +19,46 @@
 					</MkPagination>
 				</MkFolder>
 				<MkFolder class="_gap">
-					<template #header><i class="fas fa-fire-alt"></i>{{ i18n.ts.popularPosts }}</template>
+					<template #header><i class="fas fa-fire-alt"></i> {{ i18n.ts.popularPosts }}</template>
 					<MkPagination v-slot="{items}" :pagination="popularPostsPagination" :disable-auto-load="true">
 						<div class="vfpdbgtk">
 							<MkGalleryPostPreview v-for="post in items" :key="post.id" :post="post" class="post"/>
 						</div>
 					</MkPagination>
 				</MkFolder>
-			</div>
-			<div v-else-if="tab === 'liked'">
+			</swiper-slide>
+			<swiper-slide>
 				<MkPagination v-slot="{items}" :pagination="likedPostsPagination">
 					<div class="vfpdbgtk">
 						<MkGalleryPostPreview v-for="like in items" :key="like.id" :post="like.post" class="post"/>
 					</div>
 				</MkPagination>
-			</div>
-			<div v-else-if="tab === 'my'">
+			</swiper-slide>
+			<swiper-slide>
 				<MkA to="/gallery/new" class="_link" style="margin: 16px;"><i class="fas fa-plus"></i> {{ i18n.ts.postToGallery }}</MkA>
 				<MkPagination v-slot="{items}" :pagination="myPostsPagination">
 					<div class="vfpdbgtk">
 						<MkGalleryPostPreview v-for="post in items" :key="post.id" :post="post" class="post"/>
 					</div>
 				</MkPagination>
-			</div>
-		</div>
+			</swiper-slide>
+		</swiper>
 	</MkSpacer>
 </MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
 import { computed, defineComponent, watch } from 'vue';
-import XUserList from '@/components/MkUserList.vue';
+import { Virtual } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import MkFolder from '@/components/MkFolder.vue';
-import MkInput from '@/components/form/input.vue';
-import MkButton from '@/components/MkButton.vue';
-import MkTab from '@/components/MkTab.vue';
 import MkPagination from '@/components/MkPagination.vue';
 import MkGalleryPostPreview from '@/components/MkGalleryPostPreview.vue';
-import number from '@/filters/number';
-import * as os from '@/os';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { i18n } from '@/i18n';
 import { useRouter } from '@/router';
+import 'swiper/scss';
+import 'swiper/scss/virtual';
 
 const router = useRouter();
 
@@ -63,7 +67,7 @@ const props = defineProps<{
 }>();
 
 let tab = $ref('explore');
-let tags = $ref([]);
+const tabs = ['explore', 'liked', 'my'];
 let tagsRef = $ref();
 
 const recentPostsPagination = {
@@ -82,16 +86,6 @@ const likedPostsPagination = {
 	endpoint: 'i/gallery/likes' as const,
 	limit: 5,
 };
-
-const tagUsersPagination = $computed(() => ({
-	endpoint: 'hashtags/users' as const,
-	limit: 30,
-	params: {
-		tag: this.tag,
-		origin: 'combined',
-		sort: '+follower',
-	},
-}));
 
 watch(() => props.tag, () => {
 	if (tagsRef) tagsRef.tags.toggleContent(props.tag == null);
@@ -123,6 +117,21 @@ definePageMetadata({
 	title: i18n.ts.gallery,
 	icon: 'fas fa-icons',
 });
+
+let swiperRef = null;
+
+function setSwiperRef(swiper) {
+	swiperRef = swiper;
+	syncSlide(tabs.indexOf(tab));
+}
+
+function onSlideChange() {
+	tab = tabs[swiperRef.activeIndex];
+}
+
+function syncSlide(index) {
+	swiperRef.slideTo(index);
+}
 </script>
 
 <style lang="scss" scoped>

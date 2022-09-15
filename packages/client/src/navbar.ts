@@ -97,6 +97,11 @@ export const navbarItemDef = reactive({
 		icon: 'fas fa-satellite-dish',
 		to: '/channels',
 	},
+	groups: {
+		title: 'groups',
+		icon: 'fas fa-users',
+		to: '/my/groups',
+	},
 	ui: {
 		title: 'switchUi',
 		icon: 'fas fa-columns',

@@ -2,7 +2,7 @@ extends ./base
 
 block vars
 	- const user = clip.user;
-	- const title = privateMode ? '非公開インスタンス' : clip.name;
+	- const title = privateMode ? instanceName : clip.name;
 	- const url = `${config.url}/clips/${clip.id}`;
 
 block title

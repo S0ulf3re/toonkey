@@ -9,7 +9,7 @@
 			<div v-if="!message.isDeleted" class="content">
 				<Mfm v-if="message.text" ref="text" class="text" :text="message.text" :i="$i"/>
 				<div v-if="message.file" class="file">
-					<img v-if="message.file.type.split('/')[0] == 'image'" :src="message.file.url" :alt="message.file.name"/>
+					<img v-if="message.file.type.split('/')[0] == 'image'" :src="message.file.url" :alt="message.file.name" max-width="400"/>
 					<VuePlyr v-else-if="message.file.type.split('/')[0] == 'video'">
 						<video
 							:alt="message.file.name"
@@ -52,6 +52,7 @@
 import { } from 'vue';
 import * as mfm from 'mfm-js';
 import * as Misskey from 'misskey-js';
+import XImage from '@/components/MkMediaImage.vue';
 import VuePlyr from 'vue-plyr';
 import { extractUrlFromMfm } from '@/scripts/extract-url-from-mfm';
 import MkUrlPreview from '@/components/MkUrlPreview.vue';

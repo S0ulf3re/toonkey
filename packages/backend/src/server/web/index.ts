@@ -327,32 +327,24 @@ router.get('/notes/:note', async (ctx, next) => {
 	});
 
 	if (note) {
-		try {
-			// FIXME: packing with detail may throw an error if the reply or renote is not visible (#8774)
-			const _note = await Notes.pack(note);
-			const profile = await UserProfiles.findOneByOrFail({ userId: note.userId });
-			const meta = await fetchMeta();
-			await ctx.render('note', {
-				note: _note,
-				profile,
-				avatarUrl: await Users.getAvatarUrl(await Users.findOneByOrFail({ id: note.userId })),
-				// TODO: Let locale changeable by instance setting
-				summary: getNoteSummary(_note),
-				instanceName: meta.name || 'Calckey',
-				icon: meta.iconUrl,
-				themeColor: meta.themeColor,
-			});
+		const _note = await Notes.pack(note);
+		const profile = await UserProfiles.findOneByOrFail({ userId: note.userId });
+		const meta = await fetchMeta();
+		await ctx.render('note', {
+			note: _note,
+			profile,
+			avatarUrl: await Users.getAvatarUrl(await Users.findOneByOrFail({ id: note.userId })),
+			// TODO: Let locale changeable by instance setting
+			summary: getNoteSummary(_note),
+			instanceName: meta.name || 'Calckey',
+			icon: meta.iconUrl,
+			privateMode: meta.privateMode,
+			themeColor: meta.themeColor,
+		});
 
-			ctx.set('Cache-Control', 'public, max-age=15');
+		ctx.set('Cache-Control', 'public, max-age=15');
 
-			return;
-		} catch (err) {
-			if (err.id === '9725d0ce-ba28-4dde-95a7-2cbb2c15de24') {
-				// note not visible to user
-			} else {
-				throw err;
-			}
-		}
+		return;
 	}
 
 	await next();
@@ -542,8 +534,8 @@ router.get('(.*)', async ctx => {
 		icon: meta.iconUrl,
 		splashIcon: splashIconUrl,
 		themeColor: meta.themeColor,
-		privateMode: meta.privateMode,
 		randomMOTD: motd[Math.floor(Math.random() * motd.length)],
+		privateMode: meta.privateMode,
 	});
 	ctx.set('Cache-Control', 'public, max-age=3');
 });

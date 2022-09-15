@@ -27,7 +27,11 @@
 							<MkTime :time="message.createdAt" class="time"/>
 						</header>
 						<div class="body">
-							<p class="text"><span v-if="isMe(message)" class="me">{{ $ts.you }}:</span>{{ message.text }}</p>
+							<p class="text">
+								<span v-if="isMe(message)" class="me">{{ $ts.you }}: </span>
+								<span v-if="message.text != null && message.text.length > 0">{{ message.text }}</span>
+								<span v-else> 📎</span>
+							</p>
 						</div>
 					</div>
 				</MkA>

@@ -99,7 +99,7 @@ async function fetch() {
 		const acct = Acct.parse(props.userAcct);
 		user = await os.api('users/show', { username: acct.username, host: acct.host || undefined });
 		group = null;
-		
+
 		pagination = {
 			endpoint: 'messaging/messages',
 			limit: 20,
@@ -140,7 +140,7 @@ async function fetch() {
 	document.addEventListener('visibilitychange', onVisibilitychange);
 
 	nextTick(() => {
-		thisScrollToBottom();
+		// thisScrollToBottom();
 		window.setTimeout(() => {
 			fetching = false;
 		}, 300);
@@ -240,7 +240,9 @@ function onDeleted(id) {
 }
 
 function thisScrollToBottom() {
-	scrollToBottom($$(rootEl).value, { behavior: 'smooth' });
+	if (window.location.href.includes('my/messaging/')) {
+		scrollToBottom($$(rootEl).value, { behavior: 'smooth' });
+	}
 }
 
 function onIndicatorClick() {
@@ -290,6 +292,11 @@ definePageMetadata(computed(() => !fetching ? user ? {
 </script>
 
 <style lang="scss" scoped>
+
+XMessage:last-of-type {
+	margin-bottom: 4rem;
+}
+
 .mk-messaging-room {
 	position: relative;
 	overflow: auto;

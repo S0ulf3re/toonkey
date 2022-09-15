@@ -2,21 +2,21 @@
 <MkStickyContainer>
 	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<div class="lznhrdub">
-		<swiper
-			:modules="[Virtual]"
-			:space-between="20"
-			:virtual="true"
-			@swiper="setSwiperRef"
-			@slide-change="onSlideChange"
-		>
-			<swiper-slide>
-				<XFeatured/>
-			</swiper-slide>
-			<swiper-slide>
-				<XUsers/>
-			</swiper-slide>
-			<swiper-slide>
-				<MkSpacer :content-max="1200">
+		<MkSpacer :content-max="1200">
+			<swiper
+				:modules="[Virtual]"
+				:space-between="20"
+				:virtual="true"
+				@swiper="setSwiperRef"
+				@slide-change="onSlideChange"
+			>
+				<swiper-slide>
+					<XFeatured/>
+				</swiper-slide>
+				<swiper-slide>
+					<XUsers/>
+				</swiper-slide>
+				<swiper-slide>
 					<div>
 						<MkInput v-model="searchQuery" :debounce="true" type="search" class="_formBlock">
 							<template #prefix><i class="fas fa-search"></i></template>
@@ -29,9 +29,9 @@
 						</MkRadios>
 					</div>
 					<XUserList v-if="searchQuery" ref="searchEl" class="_gap" :pagination="searchPagination"/>
-				</MkSpacer>
-			</swiper-slide>
-		</swiper>
+				</swiper-slide>
+			</swiper>
+		</MkSpacer>
 	</div>
 </MkStickyContainer>
 </template>
@@ -42,7 +42,7 @@ import { Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import XFeatured from './explore.featured.vue';
 import XUsers from './explore.users.vue';
-import MkFolder from '@/components/MkFolder.vue';
+import type MkFolder from '@/components/MkFolder.vue';
 import MkInput from '@/components/form/input.vue';
 import MkRadios from '@/components/form/radios.vue';
 import number from '@/filters/number';

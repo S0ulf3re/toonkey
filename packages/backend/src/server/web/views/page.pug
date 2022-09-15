@@ -2,7 +2,7 @@ extends ./base
 
 block vars
 	- const user = page.user;
-	- const title = privateMode ? '非公開インスタンス' : page.title;
+	- const title = privateMode ? instanceName : page.title;
 	- const url = `${config.url}/@${user.username}/${page.name}`;
 
 block title

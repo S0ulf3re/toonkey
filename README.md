@@ -13,7 +13,9 @@
 - Toonkey is based off of Calckey, a powerful microblogging server based on [Misskey](https://github.com/misskey-dev/misskey) With a few alterations
 - Read **[this document](./CALCKEY.md)** all for current and future differences **in Calckey**.
 - Notable differences:
-    - None yet, but a few planned changes. See the project
+
+    - None yet, but a few planned changes. See the projects for more
+    - Everything in calckey
 </div>
 
 <div style="clear: both;"></div>
@@ -81,6 +83,6 @@ NODE_ENV=production yarn run build && yarn run migrate
 
 ```sh
 # git pull
-sudo docker-compose build
-sudo docker-compose stop && sudo docker-compose up -d
+sudo docker compose build
+sudo docker compose stop && sudo docker compose up -d
 ```

@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { id } from '../id.js';
 import { User } from './user.js';
-import { Clip } from './clip.js';
+import type { Clip } from './clip.js';
 
 @Entity()
 export class Meta {
@@ -98,17 +98,17 @@ export class Meta {
 	public blockedHosts: string[];
 
 	@Column('boolean', {
-		default: false
+		default: false,
 	})
 	public secureMode: boolean;
 
 	@Column('boolean', {
-		default: false
+		default: false,
 	})
 	public privateMode: boolean;
 
 	@Column('varchar', {
-		length: 256, array: true, default: '{}'
+		length: 256, array: true, default: '{}',
 	})
 	public allowedHosts: string[];
 

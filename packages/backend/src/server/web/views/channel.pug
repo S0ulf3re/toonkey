@@ -1,7 +1,7 @@
 extends ./base
 
 block vars
-	- const title = privateMode ? '非公開インスタンス' : channel.name;
+	- const title = privateMode ? instanceName : channel.name;
 	- const url = `${config.url}/channels/${channel.id}`;
 
 block title

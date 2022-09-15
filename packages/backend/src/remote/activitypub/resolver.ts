@@ -76,7 +76,7 @@ export default class Resolver {
 			throw new Error('Instance is not allowed');
 		}
 
-		if (!this.user) {
+		if (config.signToActivityPubGet && !this.user) {
 			this.user = await getInstanceActor();
 		}
 

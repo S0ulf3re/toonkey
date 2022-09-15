@@ -1,6 +1,6 @@
 <template>
 <div ref="el" class="hiyeyicy" :class="{ wide: !narrow }">
-	<div v-if="!narrow || currentPage?.route.name == null" class="nav">	
+	<div v-if="!narrow || currentPage?.route.name == null" class="nav">
 		<MkSpacer :content-max="700" :margin-min="16">
 			<div class="lxpfedzu">
 				<div class="banner">
@@ -11,6 +11,7 @@
 				<MkInfo v-if="noMaintainerInformation" warn class="info">{{ i18n.ts.noMaintainerInformationWarning }} <MkA to="/admin/settings" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
 				<MkInfo v-if="noBotProtection" warn class="info">{{ i18n.ts.noBotProtectionWarning }} <MkA to="/admin/security" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
 				<MkInfo v-if="noEmailServer" warn class="info">{{ i18n.ts.noEmailServerWarning }} <MkA to="/admin/email-settings" class="_link">{{ i18n.ts.configure }}</MkA></MkInfo>
+				<MkInfo v-if="updateAvailable" warn class="info">{{ i18n.ts.updateAvailable }} <MkA to="https://codeberg.org/thatonecalculator/calckey" class="_link">{{ i18n.ts.check }}</MkA></MkInfo>
 
 				<MkSuperMenu :def="menuDef" :grid="currentPage?.route.name == null"></MkSuperMenu>
 			</div>
@@ -29,6 +30,7 @@ import MkSuperMenu from '@/components/MkSuperMenu.vue';
 import MkInfo from '@/components/MkInfo.vue';
 import { scroll } from '@/scripts/scroll';
 import { instance } from '@/instance';
+import { version } from '@/config';
 import * as os from '@/os';
 import { lookupUser } from '@/scripts/lookup-user';
 import { useRouter } from '@/router';
@@ -56,6 +58,7 @@ let noMaintainerInformation = isEmpty(instance.maintainerName) || isEmpty(instan
 let noBotProtection = !instance.disableRegistration && !instance.enableHcaptcha && !instance.enableRecaptcha;
 let noEmailServer = !instance.enableEmail;
 let thereIsUnresolvedAbuseReport = $ref(false);
+let updateAvailable = $ref(false);
 let currentPage = $computed(() => router.currentRef.value.child);
 
 os.api('admin/abuse-user-reports', {
@@ -64,6 +67,14 @@ os.api('admin/abuse-user-reports', {
 }).then(reports => {
 	if (reports.length > 0) thereIsUnresolvedAbuseReport = true;
 });
+
+fetch('https://codeberg.org/api/v1/repos/thatonecalculator/calckey/releases?draft=false&pre-release=false&page=1&limit=1')
+	.then((response) => response.json())
+	.then((data) => {
+		if (data.length > 0 && data[0].tag_name !== version) {
+			updateAvailable = true;
+		}
+	});
 
 const NARROW_THRESHOLD = 600;
 const ro = new ResizeObserver((entries, observer) => {
