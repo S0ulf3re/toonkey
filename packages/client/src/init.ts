@@ -362,12 +362,13 @@ import { getAccountFromId } from '@/scripts/get-account-from-id';
 		}
 		localStorage.setItem('lastUsed', Date.now().toString());
 
-		if ('Notification' in window) {
+		//if ('Notification' in window) {
 			// 許可を得ていなかったらリクエスト
-			if (Notification.permission === 'default') {
-				Notification.requestPermission();
-			}
-		}
+			//if (Notification.permission === 'default') {
+				//console.log('why is this running qwq')
+				//Notification.requestPermission();
+			//}
+		//}
 
 		const main = markRaw(stream.useChannel('main', null, 'System'));
 

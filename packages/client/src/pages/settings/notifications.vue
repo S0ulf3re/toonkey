@@ -1,5 +1,7 @@
 <template>
 <div class="_formRoot">
+<p>{{ determineNotificationStatus() }} </p>
+<MkButton class="inline" @click="promptForNotifications">{{ "Enable notifications"}}</MkButton>
 	<FormLink class="_formBlock" @click="configure"><template #icon><i class="fas fa-cog"></i></template>{{ i18n.ts.notificationSetting }}</FormLink>
 	<FormSection>
 		<FormLink class="_formBlock" @click="readAllNotifications">{{ i18n.ts.markAsReadAllNotifications }}</FormLink>
@@ -12,6 +14,7 @@
 <script lang="ts" setup>
 import { defineAsyncComponent } from 'vue';
 import { notificationTypes } from 'misskey-js';
+import MkButtonVue from '@/components/MkButton.vue';
 import FormButton from '@/components/MkButton.vue';
 import FormLink from '@/components/form/link.vue';
 import FormSection from '@/components/form/section.vue';
@@ -19,6 +22,7 @@ import * as os from '@/os';
 import { $i } from '@/account';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import MkButton from '@/components/MkButton.vue';
 
 async function readAllUnreadNotes() {
 	await os.api('i/read-all-unread-notes');
@@ -30,6 +34,25 @@ async function readAllMessagingMessages() {
 
 async function readAllNotifications() {
 	await os.api('notifications/mark-all-as-read');
+}
+
+function determineNotificationStatus(): String {
+	if (Notification.permission === 'granted') {
+		return 'Notifications are currently enabled';
+	} else if (Notification.permission === 'denied') {
+		return 'You have chosen to not receive notifications';
+	} else {
+		return 'Please enable notifications';
+	}
+}
+
+async function promptForNotifications() {
+	const permission = await Notification.requestPermission();
+	if (permission === 'granted') {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function configure() {
