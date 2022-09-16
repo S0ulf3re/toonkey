@@ -165,8 +165,8 @@ import { getAccountFromId } from '@/scripts/get-account-from-id';
 	fetchInstanceMetaPromise.then(() => {
 		localStorage.setItem('v', instance.version);
 
-		// Init service worker
-		initializeSw();
+		 //Init service worker
+		//initializeSw();
 	});
 
 	const app = createApp(
