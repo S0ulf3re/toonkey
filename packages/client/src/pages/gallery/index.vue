@@ -6,6 +6,7 @@
 			:modules="[Virtual]"
 			:space-between="20"
 			:virtual="true"
+			:allow-touch-move="!(deviceKind === 'desktop' && !defaultStore.state.swipeOnDesktop)"
 			@swiper="setSwiperRef"
 			@slide-change="onSlideChange"
 		>
@@ -55,8 +56,10 @@ import MkFolder from '@/components/MkFolder.vue';
 import MkPagination from '@/components/MkPagination.vue';
 import MkGalleryPostPreview from '@/components/MkGalleryPostPreview.vue';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import { deviceKind } from '@/scripts/device-kind';
 import { i18n } from '@/i18n';
 import { useRouter } from '@/router';
+import { defaultStore } from '@/store';
 import 'swiper/scss';
 import 'swiper/scss/virtual';
 
@@ -66,8 +69,13 @@ const props = defineProps<{
 	tag?: string;
 }>();
 
-let tab = $ref('explore');
 const tabs = ['explore', 'liked', 'my'];
+let tab = $computed({
+	get: () => tabs[0],
+	set: (x) => {
+		syncSlide(tabs.indexOf(x));
+	},
+});
 let tagsRef = $ref();
 
 const recentPostsPagination = {

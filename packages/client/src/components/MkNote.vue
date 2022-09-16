@@ -9,7 +9,7 @@
 	:tabindex="!isDeleted ? '-1' : null"
 	:class="{ renote: isRenote }"
 >
-	<MkNoteSub v-if="appearNote.reply" :note="appearNote.reply" class="reply-to" @click="router.push(notePage(appearNote.reply))"/>
+	<MkNoteSub v-if="appearNote.reply" :note="appearNote.reply" class="reply-to"/>
 	<div v-if="pinned" class="info"><i class="fas fa-thumbtack"></i> {{ i18n.ts.pinnedNote }}</div>
 	<div v-if="appearNote._prId_" class="info"><i class="fas fa-bullhorn"></i> {{ i18n.ts.promotion }}<button class="_textButton hide" @click="readPromo()">{{ i18n.ts.hideThisNote }} <i class="fas fa-times"></i></button></div>
 	<div v-if="appearNote._featuredId_" class="info"><i class="fas fa-bolt"></i> {{ i18n.ts.featured }}</div>

@@ -6,6 +6,7 @@
 			:modules="[Virtual]"
 			:space-between="20"
 			:virtual="true"
+			:allow-touch-move="!(deviceKind === 'desktop' && !defaultStore.state.swipeOnDesktop)"
 			@swiper="setSwiperRef"
 			@slide-change="onSlideChange"
 		>
@@ -90,7 +91,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import XEmojis from './about.emojis.vue';
@@ -106,7 +107,9 @@ import * as os from '@/os';
 import number from '@/filters/number';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import { deviceKind } from '@/scripts/device-kind';
 import { iAmModerator } from '@/account';
+import { defaultStore } from '@/store';
 import 'swiper/scss';
 import 'swiper/scss/virtual';
 
@@ -117,8 +120,13 @@ const props = withDefaults(defineProps<{
 });
 
 let stats = $ref(null);
-let tab = $ref(props.initialTab);
 let tabs = ['overview', 'emojis','charts'];
+let tab = $computed({
+	get: () => props.initialTab,
+	set: (x) => {
+		syncSlide(tabs.indexOf(x));
+	},
+});
 if (iAmModerator) tabs.push('federation');
 
 const initStats = () => os.api('stats', {

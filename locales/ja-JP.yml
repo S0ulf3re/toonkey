@@ -914,6 +914,7 @@ recommendedInstancesDescription: "推奨タイムラインに表示するため�
 caption: "自動キャプション"
 splash: "スプラッシュスクリーン"
 updateAvailable: "アップデートがありますよ"
+swipeOnDesktop: "デスクトップでモバイルスタイルのスワイプを可能にする"
 
 _sensitiveMediaDetection:
   description: "機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。サーバーの負荷が少し増えます。"

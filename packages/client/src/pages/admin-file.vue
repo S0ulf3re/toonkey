@@ -6,6 +6,7 @@
 			:modules="[Virtual]"
 			:space-between="20"
 			:virtual="true"
+			:allow-touch-move="!(deviceKind === 'desktop' && !defaultStore.state.swipeOnDesktop)"
 			@swiper="setSwiperRef"
 			@slide-change="onSlideChange"
 		>
@@ -91,15 +92,22 @@ import bytes from '@/filters/bytes';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import { deviceKind } from '@/scripts/device-kind';
 import { acct } from '@/filters/user';
 import { iAmAdmin, iAmModerator } from '@/account';
+import { defaultStore } from '@/store';
 import 'swiper/scss';
 import 'swiper/scss/virtual';
 
-let tab = $ref('overview');
 let tabs = ['overview'];
 if (iAmModerator) tabs.push('ip');
 tabs.push('raw');
+let tab = $computed({
+	get: () => tabs[0],
+	set: (x) => {
+		syncSlide(tabs.indexOf(x));
+	},
+});
 let file: any = $ref(null);
 let info: any = $ref(null);
 let isSensitive: boolean = $ref(false);

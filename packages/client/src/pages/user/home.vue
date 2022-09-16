@@ -228,7 +228,7 @@ onUnmounted(() => {
 							background-position: center;
 							pointer-events: none;
 							opacity: .1;
-							filter: blur(10px);
+							filter: var(--blur, blur(10px));
 						}
 					}
 

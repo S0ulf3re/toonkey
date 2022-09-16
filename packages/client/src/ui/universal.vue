@@ -294,8 +294,8 @@ const wallpaper = localStorage.getItem('wallpaper') != null;
 	> .postButton, .widgetButton {
 		bottom: 6rem;
 		right: 1.5rem;
-		height: 4.5rem;
-		width: 4.5rem;
+		height: 4rem;
+		width: 4rem;
 		background-position: center;
 		background: var(--panelHighlight);
 		color: var(--fg);

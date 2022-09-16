@@ -7,6 +7,7 @@
 				:modules="[Virtual]"
 				:space-between="20"
 				:virtual="true"
+				:allow-touch-move="!(deviceKind === 'desktop' && !defaultStore.state.swipeOnDesktop)"
 				@swiper="setSwiperRef"
 				@slide-change="onSlideChange"
 			>
@@ -48,9 +49,11 @@ import MkRadios from '@/components/form/radios.vue';
 import number from '@/filters/number';
 import * as os from '@/os';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import { deviceKind } from '@/scripts/device-kind';
 import { i18n } from '@/i18n';
 import { instance } from '@/instance';
 import XUserList from '@/components/MkUserList.vue';
+import { defaultStore } from '@/store';
 import 'swiper/scss';
 import 'swiper/scss/virtual';
 
@@ -60,7 +63,12 @@ const props = defineProps<{
 
 const tabs = ['featured', 'users', 'search'];
 
-let tab = $ref('featured');
+let tab = $computed({
+	get: () => tabs[0],
+	set: (x) => {
+		syncSlide(tabs.indexOf(x));
+	},
+});
 let tagsEl = $ref<InstanceType<typeof MkFolder>>();
 let searchQuery = $ref(null);
 let searchOrigin = $ref('combined');

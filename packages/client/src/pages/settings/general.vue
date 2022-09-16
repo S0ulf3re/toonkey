@@ -27,6 +27,7 @@
 		<FormSwitch v-model="imageNewTab" class="_formBlock">{{ i18n.ts.openImageInNewTab }}</FormSwitch>
 		<FormSwitch v-model="enableInfiniteScroll" class="_formBlock">{{ i18n.ts.enableInfiniteScroll }}</FormSwitch>
 		<FormSwitch v-model="useReactionPickerForContextMenu" class="_formBlock">{{ i18n.ts.useReactionPickerForContextMenu }}</FormSwitch>
+		<FormSwitch v-model="swipeOnDesktop" class="_formBlock">{{ i18n.ts.swipeOnDesktop }}</FormSwitch>
 		<FormSwitch v-model="enterSendsMessage" class="_formBlock">{{ i18n.ts.enterSendsMessage }}</FormSwitch>
 		<FormSwitch v-model="disablePagesScript" class="_formBlock">{{ i18n.ts.disablePagesScript }}</FormSwitch>
 
@@ -145,6 +146,7 @@ const enterSendsMessage = computed(defaultStore.makeGetterSetter('enterSendsMess
 const useReactionPickerForContextMenu = computed(defaultStore.makeGetterSetter('useReactionPickerForContextMenu'));
 const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
 const showUpdates = computed(defaultStore.makeGetterSetter('showUpdates'));
+const swipeOnDesktop = computed(defaultStore.makeGetterSetter('swipeOnDesktop'));
 
 watch(lang, () => {
 	localStorage.setItem('lang', lang.value as string);
@@ -178,6 +180,7 @@ watch([
 	overridedDeviceKind,
 	showAds,
 	showUpdates,
+	swipeOnDesktop,
 ], async () => {
 	await reloadAsk();
 });

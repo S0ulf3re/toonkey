@@ -6,6 +6,7 @@
 			:modules="[Virtual]"
 			:space-between="20"
 			:virtual="true"
+			:allow-touch-move="!(deviceKind === 'desktop' && !defaultStore.state.swipeOnDesktop)"
 			@swiper="setSwiperRef"
 			@slide-change="onSlideChange"
 		>
@@ -45,14 +46,21 @@ import MkPagination from '@/components/MkPagination.vue';
 import MkButton from '@/components/MkButton.vue';
 import { useRouter } from '@/router';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import { deviceKind } from '@/scripts/device-kind';
 import { i18n } from '@/i18n';
+import { defaultStore } from '@/store';
 import 'swiper/scss';
 import 'swiper/scss/virtual';
 
 const router = useRouter();
 
-let tab = $ref('featured');
 const tabs = ['featured', 'following', 'owned'];
+let tab = $computed({
+	get: () => tabs[0],
+	set: (x) => {
+		syncSlide(tabs.indexOf(x));
+	},
+});
 
 const featuredPagination = {
 	endpoint: 'channels/featured' as const,

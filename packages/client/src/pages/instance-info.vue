@@ -6,6 +6,7 @@
 			:modules="[Virtual]"
 			:space-between="20"
 			:virtual="true"
+			:allow-touch-move="!(deviceKind === 'desktop' && !defaultStore.state.swipeOnDesktop)"
 			@swiper="setSwiperRef"
 			@slide-change="onSlideChange"
 		>
@@ -31,14 +32,14 @@
 						<template #key>{{ i18n.ts.description }}</template>
 						<template #value>{{ instance.description }}</template>
 					</MkKeyValue>
-	
+
 					<FormSection v-if="iAmModerator">
 						<template #label>Moderation</template>
 						<FormSwitch v-model="suspended" class="_formBlock" @update:modelValue="toggleSuspend">{{ i18n.ts.stopActivityDelivery }}</FormSwitch>
 						<FormSwitch v-model="isBlocked" class="_formBlock" @update:modelValue="toggleBlock">{{ i18n.ts.blockThisInstance }}</FormSwitch>
 						<MkButton @click="refreshMetadata"><i class="fas fa-refresh"></i> Refresh metadata</MkButton>
 					</FormSection>
-	
+
 					<FormSection>
 						<MkKeyValue oneline style="margin: 1em 0;">
 							<template #key>{{ i18n.ts.registeredAt }}</template>
@@ -61,7 +62,7 @@
 							<template #value><MkTime v-if="instance.latestRequestReceivedAt" :time="instance.latestRequestReceivedAt"/><span v-else>N/A</span></template>
 						</MkKeyValue>
 					</FormSection>
-	
+
 					<FormSection>
 						<MkKeyValue oneline style="margin: 1em 0;">
 							<template #key>Following (Pub)</template>
@@ -72,7 +73,7 @@
 							<template #value>{{ number(instance.followersCount) }}</template>
 						</MkKeyValue>
 					</FormSection>
-	
+
 					<FormSection>
 						<template #label>Well-known resources</template>
 						<FormLink :to="`https://${host}/.well-known/host-meta`" external style="margin-bottom: 8px;">host-meta</FormLink>
@@ -149,6 +150,8 @@ import number from '@/filters/number';
 import bytes from '@/filters/bytes';
 import { iAmModerator } from '@/account';
 import { definePageMetadata } from '@/scripts/page-metadata';
+import { deviceKind } from '@/scripts/device-kind';
+import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 import MkUserCardMini from '@/components/MkUserCardMini.vue';
 import MkPagination from '@/components/MkPagination.vue';
@@ -159,9 +162,14 @@ const props = defineProps<{
 	host: string;
 }>();
 
-let tab = $ref('overview');
 let tabs = ['overview'];
 if (iAmModerator) tabs.push('chart', 'users', 'raw');
+let tab = $computed({
+	get: () => tabs[0],
+	set: (x) => {
+		syncSlide(tabs.indexOf(x));
+	},
+});
 let chartSrc = $ref('instance-requests');
 let meta = $ref<misskey.entities.DetailedInstanceMetadata | null>(null);
 let instance = $ref<misskey.entities.Instance | null>(null);

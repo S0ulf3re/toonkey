@@ -1,6 +1,6 @@
 <template>
 <div v-size="{ max: [450] }" class="wrpstxzv" :class="{ children: depth > 1 }">
-	<div class="main">
+	<div class="main" @click="router.push(notePage(note.reply))">
 		<MkAvatar class="avatar" :user="note.user"/>
 		<div class="body">
 			<XNoteHeader class="header" :note="note" :mini="true"/>
@@ -33,8 +33,11 @@ import XNoteHeader from '@/components/MkNoteHeader.vue';
 import MkSubNoteContent from '@/components/MkSubNoteContent.vue';
 import XCwButton from '@/components/MkCwButton.vue';
 import { notePage } from '@/filters/note';
+import { useRouter } from '@/router';
 import * as os from '@/os';
 import { i18n } from '@/i18n';
+
+const router = useRouter();
 
 const props = withDefaults(defineProps<{
 	note: misskey.entities.Note;
