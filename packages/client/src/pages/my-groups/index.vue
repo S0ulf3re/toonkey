@@ -3,7 +3,7 @@
 	<template #header><MkPageHeader :actions="headerActions"/></template>
 	<MkSpacer :content-max="800" :margin-min="20">
 		<MkButton primary style="margin: 0 auto var(--margin) auto;" @click="create"><i class="fas fa-plus"></i> {{ i18n.ts.createGroup }}</MkButton>
-		<MkPagination v-slot="{items}" ref="owned" :pagination="ownedPagination">
+		<MkPagination v-slot="{items}" ref="owned" :pagination="ownedPagination" emptyTooltip="You haven't created any groups yet">
 			<div v-for="group in items" :key="group.id" class="_card">
 				<div class="_title"><MkA :to="`/my/groups/${ group.id }`" class="_link">{{ group.name }}</MkA></div>
 				<div class="_content">
@@ -11,7 +11,7 @@
 				</div>
 			</div>
 		</MkPagination>
-		<MkPagination v-slot="{items}" ref="joined" :pagination="joinedPagination">
+		<MkPagination v-slot="{items}" ref="joined" :pagination="joinedPagination" empty-tooltip="You aren't part of any groups yet">
 			<div v-for="group in items" :key="group.id" class="_card">
 				<div class="_title">{{ group.name }}</div>
 				<div class="_content">
