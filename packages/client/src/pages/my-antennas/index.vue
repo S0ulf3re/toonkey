@@ -5,7 +5,7 @@
 		<MkButton :link="true" to="/my/antennas/create" primary class="add"><i class="fas fa-plus"></i> {{ i18n.ts.add }}</MkButton>
 
 		<div class="">
-			<MkPagination v-slot="{items}" ref="list" :pagination="pagination">
+			<MkPagination v-slot="{items}" ref="list" :pagination="pagination" :emptyTooltip="noAntennas"	>
 				<MkA v-for="antenna in items" :key="antenna.id" class="ljoevbzj" :to="`/my/antennas/${antenna.id}`">
 					<div class="name">{{ antenna.name }}</div>
 				</MkA>
@@ -22,11 +22,12 @@ import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
 
+let noAntennas = i18n.ts.noAntennas;
+
 const pagination = {
 	endpoint: 'antennas/list' as const,
 	limit: 10,
 };
-
 const headerActions = $computed(() => []);
 
 const headerTabs = $computed(() => []);
