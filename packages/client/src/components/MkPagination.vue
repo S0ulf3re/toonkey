@@ -8,7 +8,7 @@
 		<slot name="empty">
 			<div class="_fullinfo">
 				<img src="/static-assets/badges/info.png" class="_ghost" alt="Error"/>
-				<div>{{ i18n.ts.nothing }}</div>
+				<div>{{ emptyTooltip }}</div>
 			</div>
 		</slot>
 	</div>
@@ -38,6 +38,7 @@ import * as os from '@/os';
 import { onScrollTop, isTopVisible, getScrollPosition, getScrollContainer } from '@/scripts/scroll';
 import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n';
+import tooltip from '@/directives/tooltip';
 
 export type Paging<E extends keyof misskey.Endpoints = keyof misskey.Endpoints> = {
 	endpoint: E;
@@ -62,10 +63,12 @@ const SECOND_FETCH_LIMIT = 30;
 
 const props = withDefaults(defineProps<{
 	pagination: Paging;
+	emptyTooltip?: string;
 	disableAutoLoad?: boolean;
 	displayLimit?: number;
 }>(), {
 	displayLimit: 30,
+	emptyTooltip: i18n.ts.nothing,
 });
 
 const emit = defineEmits<{
