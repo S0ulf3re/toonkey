@@ -12,14 +12,14 @@
 		>
 			<swiper-slide>
 				<div class="_content grwlizim featured">
-					<MkPagination v-slot="{items}" :pagination="featuredPagination">
+					<MkPagination v-slot="{items}" :pagination="featuredPagination" :empty-tooltip="i18n.ts.noTrendingChannels">
 						<MkChannelPreview v-for="channel in items" :key="channel.id" class="_gap" :channel="channel"/>
 					</MkPagination>
 				</div>
 			</swiper-slide>
 			<swiper-slide>
 				<div class="_content grwlizim following">
-					<MkPagination v-slot="{items}" :pagination="followingPagination">
+					<MkPagination v-slot="{items}" :pagination="followingPagination" :empty-tooltip="i18n.ts.noFollowedChannels">
 						<MkChannelPreview v-for="channel in items" :key="channel.id" class="_gap" :channel="channel"/>
 					</MkPagination>
 				</div>
@@ -27,7 +27,7 @@
 			<swiper-slide>
 				<div class="_content grwlizim owned">
 					<MkButton class="new" @click="create()"><i class="fas fa-plus"></i></MkButton>
-					<MkPagination v-slot="{items}" :pagination="ownedPagination">
+					<MkPagination v-slot="{items}" :pagination="ownedPagination" :emptyTooltip="i18n.ts.noOwnedChannels">
 						<MkChannelPreview v-for="channel in items" :key="channel.id" class="_gap" :channel="channel"/>
 					</MkPagination>
 				</div>
