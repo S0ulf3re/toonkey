@@ -39,7 +39,6 @@ import { onScrollTop, isTopVisible, getScrollPosition, getScrollContainer } from
 import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n';
 import tooltip from '@/directives/tooltip';
-import MkEmptyIcon from '@/components/MkEmptyIcon.vue';
 import {} from '@/emptyIcons';
 export type Paging<E extends keyof misskey.Endpoints = keyof misskey.Endpoints> = {
 	endpoint: E;
