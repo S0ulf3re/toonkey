@@ -49,7 +49,7 @@ export const emptyIcons = [
 	// A generic object, serves as the fallback for any empty icons that don't specify anything (basically legacy, in development, or placeholder).
 	// Uses the classic calckey icon. This should always be the last icon in this array.
 	{
-		path: '/path/to/file',
+		path: '/packages/backend/assets/badges/info.png',
 		name: 'genericFallback'
 	},]
 
