@@ -39,7 +39,8 @@ import { onScrollTop, isTopVisible, getScrollPosition, getScrollContainer } from
 import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n';
 import tooltip from '@/directives/tooltip';
-
+import MkEmptyIcon from '@/components/MkEmptyIcon.vue';
+import {} from '@/emptyIcons';
 export type Paging<E extends keyof misskey.Endpoints = keyof misskey.Endpoints> = {
 	endpoint: E;
 	limit: number;
@@ -66,9 +67,11 @@ const props = withDefaults(defineProps<{
 	emptyTooltip?: string;
 	disableAutoLoad?: boolean;
 	displayLimit?: number;
+	emptyIcon?: string;
 }>(), {
 	displayLimit: 30,
 	emptyTooltip: i18n.ts.nothing,
+	emptyIcon: 'genericFallback',
 });
 
 const emit = defineEmits<{
