@@ -49,7 +49,7 @@ export const emptyIcons = [
 	// A generic object, serves as the fallback for any empty icons that don't specify anything (basically legacy, in development, or placeholder).
 	// Uses the classic calckey icon. This should always be the last icon in this array.
 	{
-		path: '/packages/backend/assets/badges/info.png',
+		path: '/static-assets/badges/info.png',
 		name: 'genericFallback'
 	},]
 
@@ -62,7 +62,8 @@ function verifyIfIconExistsatPath(name: string) {
 }
 
 export function retrieveEmptyIcon(name: string) {
-	if (verifyIfIconExistsatPath(name)) {
+	console.log('Retrieving empty icon: ' + name);
+	if (verifyIfIconExistsatPath(name) === true) {
 		return retrieveEmptyIconPath(name);
 	} else {
 		return retrieveEmptyIconPath('genericFallback');
