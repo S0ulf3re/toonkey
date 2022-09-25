@@ -5,7 +5,7 @@
 		<div class="qtcaoidl">
 			<MkButton primary class="add" @click="create"><i class="fas fa-plus"></i> {{ i18n.ts.add }}</MkButton>
 
-			<MkPagination v-slot="{items}" ref="pagingComponent" :pagination="pagination" class="list" :emptyTooltip="i18n.ts.noClips">
+			<MkPagination v-slot="{items}" ref="pagingComponent" :pagination="pagination" class="list" :emptyTooltip="i18n.ts.noClips" empty-icon="clip">
 				<MkA v-for="item in items" :key="item.id" :to="`/clips/${item.id}`" class="item _panel _gap">
 					<b>{{ item.name }}</b>
 					<div v-if="item.description" class="description">{{ item.description }}</div>

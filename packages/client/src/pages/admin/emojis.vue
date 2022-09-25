@@ -20,7 +20,7 @@
 						<MkButton inline @click="setTagBulk">Set tag</MkButton>
 						<MkButton inline danger @click="delBulk">Delete</MkButton>
 					</div>
-					<MkPagination ref="emojisPaginationComponent" :pagination="pagination">
+					<MkPagination ref="emojisPaginationComponent" :pagination="pagination" empty-icon="emoji">
 						<template #empty><span>{{ i18n.ts.noCustomEmojis }}</span></template>
 						<template #default="{items}">
 							<div class="ldhfsamy">

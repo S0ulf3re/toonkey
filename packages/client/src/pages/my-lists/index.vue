@@ -5,7 +5,7 @@
 		<div class="qkcjvfiv">
 			<MkButton primary class="add" @click="create"><i class="fas fa-plus"></i> {{ i18n.ts.createList }}</MkButton>
 
-			<MkPagination v-slot="{items}" ref="pagingComponent" :pagination="pagination" class="lists _content" :empty-tooltip="i18n.ts.noListsCreated">
+			<MkPagination v-slot="{items}" ref="pagingComponent" :pagination="pagination" class="lists _content" :empty-tooltip="i18n.ts.noListsCreated" empty-icon="list">
 				<MkA v-for="list in items" :key="list.id" class="list _panel" :to="`/my/lists/${ list.id }`">
 					<div class="name">{{ list.name }}</div>
 					<MkAvatars :user-ids="list.userIds"/>

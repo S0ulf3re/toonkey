@@ -2,7 +2,7 @@
 <MkStickyContainer>
 	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :content-max="800">
-		<MkPagination v-slot="{items}" :pagination="pagination" class="ruryvtyk _content">
+		<MkPagination v-slot="{items}" :pagination="pagination" class="ruryvtyk _content" :empty-tooltip="i18n.ts.noAnnouncements" empty-icon="popular">
 			<section v-for="(announcement, i) in items" :key="announcement.id" class="_card announcement">
 				<div class="_title"><span v-if="$i && !announcement.isRead">🆕 </span>{{ announcement.title }}</div>
 				<div class="_content">

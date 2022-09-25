@@ -13,7 +13,7 @@
 			<swiper-slide>
 				<MkFolder class="_gap">
 					<template #header><i class="fas fa-clock"></i> {{ i18n.ts.recentPosts }}</template>
-					<MkPagination v-slot="{items}" :pagination="recentPostsPagination" :disable-auto-load="true" :emptyTooltip="i18n.ts.noRecentGalleryPosts">
+					<MkPagination v-slot="{items}" :pagination="recentPostsPagination" :disable-auto-load="true" :empty-tooltip="i18n.ts.noRecentGalleries" empty-icon="recent">
 						<div class="vfpdbgtk">
 							<MkGalleryPostPreview v-for="post in items" :key="post.id" :post="post" class="post"/>
 						</div>
@@ -21,7 +21,7 @@
 				</MkFolder>
 				<MkFolder class="_gap">
 					<template #header><i class="fas fa-fire-alt"></i> {{ i18n.ts.popularPosts }}</template>
-					<MkPagination v-slot="{items}" :pagination="popularPostsPagination" :disable-auto-load="true" :emptyTooltip="i18n.ts.noPopularGalleryPosts">
+					<MkPagination v-slot="{items}" :pagination="popularPostsPagination" :disable-auto-load="true" :empty-tooltip="i18n.ts.noPopularGalleries" empty-icon="popular">
 						<div class="vfpdbgtk">
 							<MkGalleryPostPreview v-for="post in items" :key="post.id" :post="post" class="post"/>
 						</div>
@@ -29,7 +29,7 @@
 				</MkFolder>
 			</swiper-slide>
 			<swiper-slide>
-				<MkPagination v-slot="{items}" :pagination="likedPostsPagination" :emptyTooltip="i18n.ts.noLikedGalleryPosts">
+				<MkPagination v-slot="{items}" :pagination="likedPostsPagination" :empty-tooltip="i18n.ts.noLikedGalleries" empty-icon="favorite">
 					<div class="vfpdbgtk">
 						<MkGalleryPostPreview v-for="like in items" :key="like.id" :post="like.post" class="post"/>
 					</div>
@@ -37,7 +37,7 @@
 			</swiper-slide>
 			<swiper-slide>
 				<MkA to="/gallery/new" class="_link" style="margin: 16px;"><i class="fas fa-plus"></i> {{ i18n.ts.postToGallery }}</MkA>
-				<MkPagination v-slot="{items}" :pagination="myPostsPagination" :empty-tooltip="i18n.ts.noGalleries">
+				<MkPagination v-slot="{items}" :pagination="myPostsPagination" :empty-tooltip="i18n.ts.noGalleriesCreated" empty-icon="gallery">
 					<div class="vfpdbgtk">
 						<MkGalleryPostPreview v-for="post in items" :key="post.id" :post="post" class="post"/>
 					</div>
