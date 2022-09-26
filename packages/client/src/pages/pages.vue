@@ -12,7 +12,7 @@
 		>
 			<swiper-slide>
 				<div class="rknalgpo">
-					<MkPagination v-slot="{items}" :pagination="featuredPagesPagination" :empty-tooltip="i18n.ts.noFeaturedPages" empty-icon="popular">
+					<MkPagination v-slot="{items}" :pagination="featuredPagesPagination" :empty-tooltip="i18n.ts.noFeaturedPages" icon="fas fa-newspaper">
 						<MkPagePreview v-for="page in items" :key="page.id" class="ckltabjg" :page="page"/>
 					</MkPagination>
 				</div>
@@ -20,7 +20,7 @@
 			<swiper-slide>
 				<div class="rknalgpo my">
 					<MkButton class="new" @click="create()"><i class="fas fa-plus"></i></MkButton>
-					<MkPagination v-slot="{items}" :pagination="myPagesPagination" :empty-tooltip="i18n.ts.noOwnedPages" empty-icon="page">
+					<MkPagination v-slot="{items}" :pagination="myPagesPagination" :empty-tooltip="i18n.ts.noOwnedPages" icon="fas fa-file">
 						<MkPagePreview v-for="page in items" :key="page.id" class="ckltabjg" :page="page"/>
 					</MkPagination>
 				</div>
@@ -28,7 +28,7 @@
 			<swiper-slide>
 				<div class="rknalgpo">
 					<MkPagination v-slot="{items}" :pagination="likedPagesPagination">
-						<MkPagePreview v-for="like in items" :key="like.page.id" class="ckltabjg" :page="like.page" :empty-tooltip="i18n.ts.noFavoritedPages" empty-icon="favorite" />
+						<MkPagePreview v-for="like in items" :key="like.page.id" class="ckltabjg" :page="like.page" :empty-tooltip="i18n.ts.noFavoritedPages" icon="fas fa-heart" />
 					</MkPagination>
 				</div>
 			</swiper-slide>

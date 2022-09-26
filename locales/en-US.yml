@@ -1113,6 +1113,7 @@ _channel:
   owned: "Owned"
   noOwnedPages: "You haven't made any pages yet"
   noFavoritedPages: "You haven't favorited any pages yet"
+  noFavorites: "You haven't added any notes to your favorites yet."
   following: "Followed"
   usersCount: "{n} Participants"
   notesCount: "{n} Notes"

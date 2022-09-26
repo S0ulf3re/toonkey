@@ -2,13 +2,8 @@
 <MkStickyContainer>
 	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="800">
-		<MkPagination ref="pagingComponent" :pagination="pagination">
-			<template #empty>
-				<div class="_fullinfo">
-					<img src="/static-assets/badges/info.png" class="_ghost" alt="Info"/>
-					<div>{{ i18n.ts.noNotes }}</div>
-				</div>
-			</template>
+		<MkPagination ref="pagingComponent" :pagination="pagination" :empty-tooltip="i18n.ts.noFavorites" icon="fas fa-star">
+
 
 			<template #default="{ items }">
 				<XList v-slot="{ item }" :items="items" :direction="'down'" :no-gap="false" :ad="false">
@@ -27,6 +22,7 @@ import XNote from '@/components/MkNote.vue';
 import XList from '@/components/MkDateSeparatedList.vue';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
+//import MkEmptyIcon from '@/components/MkEmptyIcon.vue';
 
 const pagination = {
 	endpoint: 'i/favorites' as const,

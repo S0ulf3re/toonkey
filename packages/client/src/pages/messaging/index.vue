@@ -37,7 +37,7 @@
 				</MkA>
 			</div>
 			<div v-if="!fetching && messages.length == 0" class="_fullinfo">
-				<img src="/static-assets/badges/info.png" class="_ghost" alt="Info"/>
+				<MkEmptyIcon icon="fas fa-message"></MkEmptyIcon>
 				<div>{{ $ts.noHistory }}</div>
 			</div>
 			<MkLoading v-if="fetching"/>
@@ -57,6 +57,7 @@ import { useRouter } from '@/router';
 import { i18n } from '@/i18n';
 import { definePageMetadata } from '@/scripts/page-metadata';
 import { $i } from '@/account';
+import MkEmptyIcon from '@/components/MkEmptyIcon.vue';
 
 const router = useRouter();
 

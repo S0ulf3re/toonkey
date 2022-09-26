@@ -5,7 +5,7 @@
 		<MkButton :link="true" to="/my/antennas/create" primary class="add"><i class="fas fa-plus"></i> {{ i18n.ts.add }}</MkButton>
 
 		<div class="">
-			<MkPagination v-slot="{items}" ref="list" :pagination="pagination" :empty-tooltip="i18n.ts.noAntennas"	empty-icon="antenna">
+			<MkPagination v-slot="{items}" ref="list" :pagination="pagination" :empty-tooltip="i18n.ts.noAntennas"	icon="fas fa-satellite">
 				<MkA v-for="antenna in items" :key="antenna.id" class="ljoevbzj" :to="`/my/antennas/${antenna.id}`">
 					<div class="name">{{ antenna.name }}</div>
 				</MkA>

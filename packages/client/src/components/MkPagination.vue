@@ -7,7 +7,7 @@
 	<div v-else-if="empty" key="_empty_" class="empty">
 		<slot name="empty">
 			<div class="_fullinfo">
-				<img :src="emptyIcon" class="_ghost" alt="Error"/>
+				<MkEmptyIcon :icon="icon" class="cxiknjgy"></MkEmptyIcon>
 				<div>{{ emptyTooltip }}</div>
 			</div>
 		</slot>
@@ -39,7 +39,8 @@ import { onScrollTop, isTopVisible, getScrollPosition, getScrollContainer } from
 import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n';
 import tooltip from '@/directives/tooltip';
-import { retrieveEmptyIcon } from '@/emptyIcons';
+import MkEmptyIcon from '@/components/MkEmptyIcon.vue';
+
 export type Paging<E extends keyof misskey.Endpoints = keyof misskey.Endpoints> = {
 	endpoint: E;
 	limit: number;
@@ -66,12 +67,11 @@ const props = withDefaults(defineProps<{
 	emptyTooltip?: string;
 	disableAutoLoad?: boolean;
 	displayLimit?: number;
-	emptyIcon?: string;
+	icon: string;
 }>(), {
 	displayLimit: 30,
 	emptyTooltip: i18n.ts.nothing,
 	// A blank emptyIcon parameter will return a 'genericFallback' icon
-	emptyIcon: '',
 });
 
 const emit = defineEmits<{
@@ -91,7 +91,6 @@ const backed = ref(false); // 遡り中か否か
 const isBackTop = ref(false);
 const empty = computed(() => items.value.length === 0);
 const error = ref(false);
-const emptyIcon = ref(retrieveEmptyIcon(props.emptyIcon));
 
 const init = async (): Promise<void> => {
 	queue.value = [];
