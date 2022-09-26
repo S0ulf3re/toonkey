@@ -6,12 +6,29 @@
 	</div>
 </div>
 <div v-else class="kkjnbbplepmiyuadieoenjgutgcmtsvu">
-	<VuePlyr>
+	<VuePlyr
+		:options="{
+			controls: [
+				'play-large',
+				'restart',
+				'play',
+				'progress',
+				'current-time',
+				'duration',
+				'mute',
+				'volume',
+				'settings',
+				'pip',
+				'download',
+				'fullscreen'
+			],
+			disableContextMenu: false,
+		}"
+	>
 		<video
 			:poster="video.thumbnailUrl"
 			:title="video.comment"
-			:alt="video.comment"
-			:download="video.url"
+			:aria-label="video.comment"
 			preload="none"
 			controls
 			@contextmenu.stop
@@ -28,8 +45,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import * as misskey from 'misskey-js';
 import VuePlyr from 'vue-plyr';
+import type * as misskey from 'misskey-js';
 import { defaultStore } from '@/store';
 import 'vue-plyr/dist/vue-plyr.css';
 

@@ -2,14 +2,14 @@
 <div v-size="{ max: [400, 500] }" class="thvuemwp" :class="{ isMe }">
 	<MkAvatar class="avatar" :user="message.user" :show-indicator="true"/>
 	<div class="content">
-		<div class="balloon" :class="{ noText: message.text == null }" >
+		<div class="balloon" :class="{ noText: message.text == null }">
 			<button v-if="isMe" class="delete-button" :title="$ts.delete" @click="del">
 				<img src="/client-assets/remove.png" alt="Delete"/>
 			</button>
 			<div v-if="!message.isDeleted" class="content">
 				<Mfm v-if="message.text" ref="text" class="text" :text="message.text" :i="$i"/>
 				<div v-if="message.file" class="file">
-					<img v-if="message.file.type.split('/')[0] == 'image'" :src="message.file.url" :alt="message.file.name" max-width="400"/>
+					<img v-if="message.file.type.split('/')[0] == 'image'" :src="message.file.url" :alt="message.file.name"/>
 					<VuePlyr v-else-if="message.file.type.split('/')[0] == 'video'">
 						<video
 							:alt="message.file.name"
@@ -51,9 +51,9 @@
 <script lang="ts" setup>
 import { } from 'vue';
 import * as mfm from 'mfm-js';
-import * as Misskey from 'misskey-js';
-import XImage from '@/components/MkMediaImage.vue';
 import VuePlyr from 'vue-plyr';
+import type * as Misskey from 'misskey-js';
+import XImage from '@/components/MkMediaImage.vue';
 import { extractUrlFromMfm } from '@/scripts/extract-url-from-mfm';
 import MkUrlPreview from '@/components/MkUrlPreview.vue';
 import * as os from '@/os';

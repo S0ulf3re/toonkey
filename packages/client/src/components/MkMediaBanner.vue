@@ -6,17 +6,36 @@
 		<span>{{ $ts.clickToShow }}</span>
 	</div>
 	<div v-else-if="media.type.startsWith('audio') && media.type !== 'audio/midi'" class="audio">
-		<VuePlyr>
-			<audio ref="audioEl"
+		<VuePlyr
+			:options="{
+				controls: [
+					'play-large',
+					'restart',
+					'play',
+					'progress',
+					'current-time',
+					'duration',
+					'mute',
+					'volume',
+					'settings',
+					'download',
+				],
+				disableContextMenu: false,
+			}"
+		>
+			<audio
+				ref="audioEl"
 				class="audio"
 				:src="media.url"
 				:title="media.name"
 				controls
 				preload="metadata"
-				@volumechange="volumechange" />
+				@volumechange="volumechange"
+			/>
 		</VuePlyr>
 	</div>
-	<a v-else class="download"
+	<a
+		v-else class="download"
 		:href="media.url"
 		:title="media.name"
 		:download="media.name"
@@ -29,8 +48,8 @@
 
 <script lang="ts" setup>
 import { onMounted } from 'vue';
-import * as misskey from 'misskey-js';
 import VuePlyr from 'vue-plyr';
+import type * as misskey from 'misskey-js';
 import { ColdDeviceStorage } from '@/store';
 import 'vue-plyr/dist/vue-plyr.css';
 

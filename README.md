@@ -87,5 +87,6 @@ NODE_ENV=production yarn run build && yarn run migrate
 ```sh
 # git pull
 sudo docker compose build
-sudo docker compose stop && sudo docker compose up -d
+# sudo docker compose stop misskey
+sudo docker compose up -d
 ```
