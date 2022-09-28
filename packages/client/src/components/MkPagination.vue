@@ -7,8 +7,7 @@
 	<div v-else-if="empty" key="_empty_" class="empty">
 		<slot name="empty">
 			<div class="_fullinfo">
-				<MkEmptyIcon :icon="icon" class="cxiknjgy"></MkEmptyIcon>
-				<div>{{ emptyTooltip }}</div>
+				<MkEmptyIcon :icon="icon" class="cxiknjgy" :tooltip="emptyTooltip"></MkEmptyIcon>
 			</div>
 		</slot>
 	</div>
