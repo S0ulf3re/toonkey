@@ -2,9 +2,8 @@
 <MkStickyContainer>
 	<template #header><MkPageHeader/></template>
 	<MkSpacer :content-max="800">
-		<MkPagination ref="pagingComponent" :pagination="pagination" :empty-tooltip="i18n.ts.noFavorites" icon="fas fa-star">
-
-
+		<!--ISSUE: No matter what, the 'tooltip' prop won't pass it's value to MkPagination, instead using the default prop value of i18n.ts.nothing . This seems to work normally on my-lists/index.vue and my-clips/index.vue . Trying to change the default in MkPagination.vue to the one here results in no text displaying at all-->
+		<MkPagination ref="pagingComponent" :pagination="pagination" :tooltip="i18n.ts.noFavorites" icon="fas fa-star">
 			<template #default="{ items }">
 				<XList v-slot="{ item }" :items="items" :direction="'down'" :no-gap="false" :ad="false">
 					<XNote :key="item.id" :note="item.note" :class="$style.note"/>
