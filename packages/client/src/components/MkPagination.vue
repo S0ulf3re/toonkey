@@ -70,7 +70,6 @@ const props = withDefaults(defineProps<{
 }>(), {
 	displayLimit: 30,
 	emptyTooltip: i18n.ts.nothing,
-	// A blank emptyIcon parameter will return a 'genericFallback' icon
 });
 
 const emit = defineEmits<{
