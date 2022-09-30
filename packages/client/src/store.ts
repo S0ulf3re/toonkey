@@ -123,6 +123,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: 'quiet' as 'nothing' | 'quiet' | 'reload' | 'dialog',
 	},
+	seperateRenoteQuote: {
+		where: 'device',
+		default: true,
+	},
 	nsfw: {
 		where: 'device',
 		default: 'respect' as 'respect' | 'force' | 'ignore',

@@ -51,6 +51,7 @@
 		<FormSwitch v-model="loadRawImages" class="_formBlock">{{ i18n.ts.loadRawImages }}</FormSwitch>
 		<FormSwitch v-model="disableShowingAnimatedImages" class="_formBlock">{{ i18n.ts.disableShowingAnimatedImages }}</FormSwitch>
 		<FormSwitch v-model="squareAvatars" class="_formBlock">{{ i18n.ts.squareAvatars }}</FormSwitch>
+		<FormSwitch v-model="seperateRenoteQuote" class="_formBlock">{{ i18n.ts.seperateRenoteQuote }}</FormSwitch>
 		<FormSwitch v-model="useSystemFont" class="_formBlock">{{ i18n.ts.useSystemFont }}</FormSwitch>
 		<FormSwitch v-model="useOsNativeEmojis" class="_formBlock">
 			{{ i18n.ts.useOsNativeEmojis }}
@@ -144,6 +145,7 @@ const instanceTicker = computed(defaultStore.makeGetterSetter('instanceTicker'))
 const enableInfiniteScroll = computed(defaultStore.makeGetterSetter('enableInfiniteScroll'));
 const enterSendsMessage = computed(defaultStore.makeGetterSetter('enterSendsMessage'));
 const useReactionPickerForContextMenu = computed(defaultStore.makeGetterSetter('useReactionPickerForContextMenu'));
+const seperateRenoteQuote = computed(defaultStore.makeGetterSetter('seperateRenoteQuote'));
 const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
 const showUpdates = computed(defaultStore.makeGetterSetter('showUpdates'));
 const swipeOnDesktop = computed(defaultStore.makeGetterSetter('swipeOnDesktop'));
@@ -181,6 +183,7 @@ watch([
 	showAds,
 	showUpdates,
 	swipeOnDesktop,
+	seperateRenoteQuote,
 ], async () => {
 	await reloadAsk();
 });

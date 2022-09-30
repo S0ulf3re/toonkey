@@ -818,6 +818,7 @@ customCssWarn: "This setting should only be used if you know what it does. Enter
 global: "Global"
 recommended: "Recommended"
 squareAvatars: "Display squared avatars"
+seperateRenoteQuote: "Seperate renote and quote buttons"
 sent: "Sent"
 received: "Received"
 searchResult: "Search results"

@@ -22,6 +22,7 @@ import * as os from '@/os';
 import { $i } from '@/account';
 import { useTooltip } from '@/scripts/use-tooltip';
 import { i18n } from '@/i18n';
+import { defaultStore } from "@/store";
 
 const props = defineProps<{
 		note: misskey.entities.Note;
@@ -52,25 +53,33 @@ useTooltip(buttonRef, async (showing) => {
 
 const renote = (viaKeyboard = false) => {
 	pleaseLogin();
-	os.popupMenu([{
-		text: i18n.ts.renote,
-		icon: 'fas fa-retweet',
-		action: () => {
-			os.api('notes/create', {
-				renoteId: props.note.id,
-			});
-		},
-	}, {
-		text: i18n.ts.quote,
-		icon: 'fas fa-quote-right',
-		action: () => {
-			os.post({
-				renote: props.note,
-			});
-		},
-	}], buttonRef.value, {
-		viaKeyboard,
-	});
+	if (defaultStore.state.seperateRenoteQuote) {
+		os.api('notes/create', {
+			renoteId: props.note.id,
+			visibility: props.note.visibility,
+		});
+	} else {
+		os.popupMenu([{
+			text: i18n.ts.renote,
+			icon: 'fas fa-retweet',
+			action: () => {
+				os.api('notes/create', {
+					renoteId: props.note.id,
+					visibility: props.note.visibility,
+				});
+			},
+		}, {
+			text: i18n.ts.quote,
+			icon: 'fas fa-quote-right',
+			action: () => {
+				os.post({
+					renote: props.note,
+				});
+			},
+		}], buttonRef.value, {
+			viaKeyboard,
+		});
+	}
 };
 </script>
 
