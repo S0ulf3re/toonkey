@@ -3428,7 +3428,7 @@ __metadata:
 "browser-image-resizer@https://github.com/misskey-dev/browser-image-resizer":
   version: 2.2.1-misskey.3
   resolution: "browser-image-resizer@https://github.com/misskey-dev/browser-image-resizer.git#commit=0227e860621e55cbed0aabe6dc601096a7748c4a"
-  checksum: 9c2466fab32624b1f24fe52279f5437d2254431cab9f8a68f82807bdd2dcb5e6fa75fe61704b2e9751a8bd1ca4b99db3c9fafd2d791dfbc7bd3bc7702f222ca1
+  checksum: 2c5b3bbea6c7b30153c8aa339eaff14c4c17f7a3992525e7c103d5b6674ad5015ba6d822cd8e9a1835d642743bcd1ff7fb47f9322065971db9e5da5f43d3bd72
   languageName: node
   linkType: hard
 
@@ -11959,7 +11959,7 @@ __metadata:
     loadjs: ^4.2.0
     rangetouch: ^2.0.1
     url-polyfill: ^1.1.12
-  checksum: ee85815c1c992141af030d71f70e79532814b142b0057c1bedbf7c74000a79f647147bb1f03f3a9f725341afa43e848e7b54168361d95285dfed30d53be63607
+  checksum: 895be53d40ea66c38fe97e8a88c28b075d1979339b2e2e66fc859b6b1f1533a98e5313b4cf0994a94a2ce41056a5c9639a03ebe54af97e2d725630dac4231b81
   languageName: node
   linkType: hard
 
