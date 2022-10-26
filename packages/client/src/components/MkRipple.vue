@@ -74,7 +74,7 @@ const emit = defineEmits<{
 
 const particles = [];
 const origin = 64;
-const colors = ['#FF1493', '#00FFFF', '#FFE202'];
+const colors = ['#eb6f92', '#9ccfd8', '#f6c177'];
 const zIndex = os.claimZIndex('high');
 
 if (props.particle) {

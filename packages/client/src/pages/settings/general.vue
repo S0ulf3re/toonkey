@@ -59,6 +59,7 @@
 		</FormSwitch>
 		<FormSwitch v-model="disableDrawer" class="_formBlock">{{ i18n.ts.disableDrawer }}</FormSwitch>
 		<FormSwitch v-model="showUpdates" class="_formBlock">{{ i18n.ts.showUpdates }}</FormSwitch>
+		<FormSwitch v-if="$i?.isAdmin" v-model="showAdminUpdates" class="_formBlock">{{ i18n.ts.showAdminUpdates }}</FormSwitch>
 
 		<FormRadios v-model="fontSize" class="_formBlock">
 			<template #label>{{ i18n.ts.fontSize }}</template>
@@ -96,6 +97,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
+import { $i } from '@/account';
 import FormSwitch from '@/components/form/switch.vue';
 import FormSelect from '@/components/form/select.vue';
 import FormRadios from '@/components/form/radios.vue';
@@ -149,6 +151,7 @@ const seperateRenoteQuote = computed(defaultStore.makeGetterSetter('seperateReno
 const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
 const showUpdates = computed(defaultStore.makeGetterSetter('showUpdates'));
 const swipeOnDesktop = computed(defaultStore.makeGetterSetter('swipeOnDesktop'));
+const showAdminUpdates = computed(defaultStore.makeGetterSetter('showAdminUpdates'));
 
 watch(lang, () => {
 	localStorage.setItem('lang', lang.value as string);
@@ -184,6 +187,7 @@ watch([
 	showUpdates,
 	swipeOnDesktop,
 	seperateRenoteQuote,
+	showAdminUpdates,
 ], async () => {
 	await reloadAsk();
 });

@@ -4,7 +4,6 @@
 
 - MFM button
 - Classic mode make instance icon bring up new context menu
-- Like/star button
 - Backfill remote users
 - User "choices" (recommended users) like Mastodon and Soapbox
 - Option to publicize instance blocks
@@ -46,6 +45,7 @@
   - Redesigned mobile bottom nav bar
   - Post button on TL
 - Star as default reaction
+- Like/star button
 - Rosé Pine by default (+ non-themable elements made Rosé Pine)
 - Better sidebar/navbar
 - Add back groups
@@ -113,3 +113,4 @@
 	- 298febeb9c9501e3e3df16982c08657d1da474e0: enhance: add re-collapsing to quoted notes
 	- b0fdedb264db87575063abed45e52ad71ce4a6af: fix lints in folder.vue
 	- 6fed87f85d132304eb84b0a59b84dce299a1822f: fix pagination.vue lints
+	- Tosti's security fixes

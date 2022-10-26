@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import XEmojis from './about.emojis.vue';
@@ -120,13 +120,10 @@ const props = withDefaults(defineProps<{
 });
 
 let stats = $ref(null);
-let tabs = ['overview', 'emojis','charts'];
-let tab = $computed({
-	get: () => props.initialTab,
-	set: (x) => {
-		syncSlide(tabs.indexOf(x));
-	},
-});
+let tabs = ['overview', 'emojis', 'charts'];
+let tab = $ref(tabs[0]);
+watch($$(tab), () => (syncSlide(tabs.indexOf(tab))));
+
 if (iAmModerator) tabs.push('federation');
 
 const initStats = () => os.api('stats', {

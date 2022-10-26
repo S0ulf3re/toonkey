@@ -87,13 +87,14 @@
 					<p v-if="appearNote.repliesCount > 0" class="count">{{ appearNote.repliesCount }}</p>
 				</button>
 				<XRenoteButton ref="renoteButton" class="button" :note="appearNote" :count="appearNote.renoteCount"/>
-				<XQuoteButton class="button" :note="appearNote"/>
+				<XStarButton v-if="appearNote.myReaction == null" ref="starButton" class="button" :note="appearNote"/>
 				<button v-if="appearNote.myReaction == null" ref="reactButton" class="button _button" @click="react()">
-					<i class="fas fa-plus"></i>
+					<i class="fas fa-face-laugh"></i>
 				</button>
 				<button v-if="appearNote.myReaction != null" ref="reactButton" class="button _button reacted" @click="undoReact(appearNote)">
 					<i class="fas fa-minus"></i>
 				</button>
+				<XQuoteButton class="button" :note="appearNote"/>
 				<button ref="menuButton" class="button _button" @click="menu()">
 					<i class="fas fa-ellipsis-h"></i>
 				</button>
@@ -123,6 +124,7 @@ import XReactionsViewer from '@/components/MkReactionsViewer.vue';
 import XMediaList from '@/components/MkMediaList.vue';
 import XCwButton from '@/components/MkCwButton.vue';
 import XPoll from '@/components/MkPoll.vue';
+import XStarButton from '@/components/MkStarButton.vue';
 import XRenoteButton from '@/components/MkRenoteButton.vue';
 import XQuoteButton from '@/components/MkQuoteButton.vue';
 import MkUrlPreview from '@/components/MkUrlPreview.vue';
@@ -173,6 +175,7 @@ const isRenote = (
 
 const el = ref<HTMLElement>();
 const menuButton = ref<HTMLElement>();
+const starButton = ref<InstanceType<typeof XStarButton>>();
 const renoteButton = ref<InstanceType<typeof XRenoteButton>>();
 const renoteTime = ref<HTMLElement>();
 const reactButton = ref<HTMLElement>();
@@ -516,7 +519,7 @@ if (appearNote.replyId) {
 					opacity: 0.7;
 
 					&:not(:last-child) {
-						margin-right: 28px;
+						margin-right: 16px;
 					}
 
 					&:hover {

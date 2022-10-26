@@ -4,7 +4,7 @@ import { } from '@/services/chart/index.js';
 import { IsNull } from 'typeorm';
 
 export const meta = {
-	requireCredential: false,
+	requireCredential: true,
 	requireCredentialPrivateMode: true,
 
 	tags: ['meta'],

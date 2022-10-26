@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { notificationTypes } from 'misskey-js';
@@ -50,12 +50,9 @@ import 'swiper/scss';
 import 'swiper/scss/virtual';
 
 const tabs = ['all', 'unread', 'mentions', 'directNotes'];
-let tab = $computed({
-	get: () => tabs[0],
-	set: (x) => {
-		syncSlide(tabs.indexOf(x));
-	},
-});
+let tab = $ref(tabs[0]);
+watch($$(tab), () => (syncSlide(tabs.indexOf(tab))));
+
 let includeTypes = $ref<string[] | null>(null);
 let unreadOnly = $computed(() => tab === 'unread');
 os.api('notifications/mark-all-as-read');

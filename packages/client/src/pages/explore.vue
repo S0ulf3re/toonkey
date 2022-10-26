@@ -62,13 +62,9 @@ const props = defineProps<{
 }>();
 
 const tabs = ['featured', 'users', 'search'];
+let tab = $ref(tabs[0]);
+watch($$(tab), () => (syncSlide(tabs.indexOf(tab))));
 
-let tab = $computed({
-	get: () => tabs[0],
-	set: (x) => {
-		syncSlide(tabs.indexOf(x));
-	},
-});
 let tagsEl = $ref<InstanceType<typeof MkFolder>>();
 let searchQuery = $ref(null);
 let searchOrigin = $ref('combined');

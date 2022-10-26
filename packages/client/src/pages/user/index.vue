@@ -75,12 +75,9 @@ if (($i && ($i.id === user?.id)) || user?.publicReactions) {
 if ((user?.instance != null)) {
 	tabs.push('clips', 'pages', 'gallery');
 }
-let tab = $computed({
-	get: () => tabs[0],
-	set: (x) => {
-		syncSlide(tabs.indexOf(x));
-	},
-});
+let tab = $ref(tabs[0]);
+watch($$(tab), () => (syncSlide(tabs.indexOf(tab))));
+
 let error = $ref(null);
 
 function fetchUser(): void {

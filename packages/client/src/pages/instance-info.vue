@@ -132,7 +132,7 @@
 </template>
 
 <script lang="ts" setup>
-import { } from 'vue';
+import { watch } from 'vue';
 import { Virtual } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import * as misskey from 'misskey-js';
@@ -164,12 +164,9 @@ const props = defineProps<{
 
 let tabs = ['overview'];
 if (iAmModerator) tabs.push('chart', 'users', 'raw');
-let tab = $computed({
-	get: () => tabs[0],
-	set: (x) => {
-		syncSlide(tabs.indexOf(x));
-	},
-});
+let tab = $ref(tabs[0]);
+watch($$(tab), () => (syncSlide(tabs.indexOf(tab))));
+
 let chartSrc = $ref('instance-requests');
 let meta = $ref<misskey.entities.DetailedInstanceMetadata | null>(null);
 let instance = $ref<misskey.entities.Instance | null>(null);

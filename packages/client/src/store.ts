@@ -263,6 +263,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
+	showAdminUpdates: {
+		where: 'account',
+		default: true,
+	}
 }));
 
 // TODO: 他のタブと永続化されたstateを同期

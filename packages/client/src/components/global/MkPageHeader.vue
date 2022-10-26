@@ -281,6 +281,7 @@ onUnmounted(() => {
 		font-weight: bold;
 		flex-shrink: 0;
 		margin-left: 24px;
+		margin-right: 1rem;
 
 		> .avatar {
 			$size: 32px;

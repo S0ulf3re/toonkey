@@ -30,7 +30,7 @@
 			</template>
 			<div class="divider"></div>
 			<MkA v-if="$i.isAdmin || $i.isModerator" v-click-anime v-tooltip.noDelay.right="i18n.ts.controlPanel" class="item" active-class="active" to="/admin">
-				<i class="icon fas fa-door-open fa-fw"></i><span class="text">{{ i18n.ts.controlPanel }}</span>
+				<span v-if="thereIsUnresolvedAbuseReport || noMaintainerInformation || noBotProtection || noEmailServer || updateAvailable" class="indicator"></span><i class="icon fas fa-door-open fa-fw"></i><span class="text">{{ i18n.ts.controlPanel }}</span>
 			</MkA>
 			<button v-click-anime class="item _button" @click="more">
 				<i class="icon fa fa-ellipsis-h fa-fw"></i><span class="text">{{ i18n.ts.more }}</span>
@@ -63,7 +63,9 @@ import { $i, openAccountMenu as openAccountMenu_ } from '@/account';
 import { defaultStore } from '@/store';
 import { i18n } from '@/i18n';
 import { instance } from '@/instance';
-import { host } from '@/config';
+import { host, version } from '@/config';
+
+const isEmpty = (x: string | null) => x == null || x === '';
 
 const iconOnly = ref(false);
 
@@ -87,6 +89,31 @@ window.addEventListener('resize', calcViewState);
 watch(defaultStore.reactiveState.menuDisplay, () => {
 	calcViewState();
 });
+
+let noMaintainerInformation = isEmpty(instance.maintainerName) || isEmpty(instance.maintainerEmail);
+let noBotProtection = !instance.disableRegistration && !instance.enableHcaptcha && !instance.enableRecaptcha;
+let noEmailServer = !instance.enableEmail;
+let thereIsUnresolvedAbuseReport = $ref(false);
+let updateAvailable = $ref(false);
+
+if ($i?.isAdmin) {
+	os.api('admin/abuse-user-reports', {
+		state: 'unresolved',
+		limit: 1,
+	}).then(reports => {
+		if (reports?.length > 0) thereIsUnresolvedAbuseReport = true;
+	});
+}
+
+if (defaultStore.state.showAdminUpdates) {
+	os.api('latest-version').then(res => {
+		const cleanRes = res?.tag_name.replace(/[^0-9]/g, '');
+		const cleanVersion = version.replace(/[^0-9]/g, '');
+		if (cleanRes !== cleanVersion) {
+			updateAvailable = true;
+		}
+	});
+}
 
 function openAccountMenu(ev: MouseEvent) {
 	openAccountMenu_({

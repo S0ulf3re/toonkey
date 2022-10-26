@@ -238,6 +238,24 @@ export function confirm(props: {
 	});
 }
 
+export function yesno(props: {
+	type: 'error' | 'info' | 'success' | 'warning' | 'waiting' | 'question';
+	title?: string | null;
+	text?: string | null;
+}): Promise<{ canceled: boolean }> {
+	return new Promise((resolve, reject) => {
+		popup(defineAsyncComponent(() => import('@/components/MkDialog.vue')), {
+			...props,
+			showCancelButton: true,
+			isYesNo: true,
+		}, {
+			done: result => {
+				resolve(result ? result : { canceled: true });
+			},
+		}, 'closed');
+	});
+}
+
 export function inputText(props: {
 	type?: 'text' | 'email' | 'password' | 'url';
 	title?: string | null;

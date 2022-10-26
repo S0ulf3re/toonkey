@@ -10,14 +10,11 @@
 			:options="{
 				controls: [
 					'play-large',
-					'restart',
 					'play',
 					'progress',
 					'current-time',
-					'duration',
 					'mute',
 					'volume',
-					'settings',
 					'download',
 				],
 				disableContextMenu: false,

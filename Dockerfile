@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:18-alpine
 ENV YARN_CHECKSUM_BEHAVIOR=update
 ARG NODE_ENV=production
 WORKDIR /calckey

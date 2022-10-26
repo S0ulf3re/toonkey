@@ -85,6 +85,7 @@ const defaultStoreSaveKeys: (keyof typeof defaultStore['state'])[] = [
 	'numberOfPageCache',
 	'showUpdates',
 	'swipeOnDesktop',
+	'showAdminUpdates',
 ];
 const coldDeviceStorageSaveKeys: (keyof typeof ColdDeviceStorage.default)[] = [
 	'lightTheme',

@@ -130,7 +130,7 @@ function changeAvatar(ev) {
 	selectFile(ev.currentTarget ?? ev.target, i18n.ts.avatar).then(async (file) => {
 		let originalOrCropped = file;
 
-		const { canceled } = await os.confirm({
+		const { canceled } = await os.yesno({
 			type: 'question',
 			text: i18n.t('cropImageAsk'),
 		});
@@ -153,7 +153,7 @@ function changeBanner(ev) {
 	selectFile(ev.currentTarget ?? ev.target, i18n.ts.banner).then(async (file) => {
 		let originalOrCropped = file;
 
-		const { canceled } = await os.confirm({
+		const { canceled } = await os.yesno({
 			type: 'question',
 			text: i18n.t('cropImageAsk'),
 		});

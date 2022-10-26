@@ -33,6 +33,7 @@ import { instance } from '@/instance';
 import { version } from '@/config';
 import * as os from '@/os';
 import { lookupUser } from '@/scripts/lookup-user';
+import { defaultStore } from '@/store';
 import { useRouter } from '@/router';
 import { definePageMetadata, provideMetadataReceiver, setPageMetadata } from '@/scripts/page-metadata';
 
@@ -68,11 +69,15 @@ os.api('admin/abuse-user-reports', {
 	if (reports?.length > 0) thereIsUnresolvedAbuseReport = true;
 });
 
-os.api('latest-version').then(res => {
-	if (res?.tag_name !== version) {
-		updateAvailable = true;
-	}
-});
+if (defaultStore.state.showAdminUpdates) {
+	os.api('latest-version').then(res => {
+		const cleanRes = res?.tag_name.replace(/[^0-9]/g, '');
+		const cleanVersion = version.replace(/[^0-9]/g, '');
+		if (cleanRes !== cleanVersion) {
+			updateAvailable = true;
+		}
+	});
+}
 
 const NARROW_THRESHOLD = 600;
 const ro = new ResizeObserver((entries, observer) => {

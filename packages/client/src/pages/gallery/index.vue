@@ -70,12 +70,9 @@ const props = defineProps<{
 }>();
 
 const tabs = ['explore', 'liked', 'my'];
-let tab = $computed({
-	get: () => tabs[0],
-	set: (x) => {
-		syncSlide(tabs.indexOf(x));
-	},
-});
+let tab = $ref(tabs[0]);
+watch($$(tab), () => (syncSlide(tabs.indexOf(tab))));
+
 let tagsRef = $ref();
 
 const recentPostsPagination = {
