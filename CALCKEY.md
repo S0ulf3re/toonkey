@@ -114,3 +114,6 @@
 	- b0fdedb264db87575063abed45e52ad71ce4a6af: fix lints in folder.vue
 	- 6fed87f85d132304eb84b0a59b84dce299a1822f: fix pagination.vue lints
 	- Tosti's security fixes
+	- 384e8c49b738f576ba8843296de6cebf01c1b247: server: allow to like own gallery posts 
+	- 4c5aa9e53887cca5561fcec6ab0754e018f589a5: server: allow to like own pages 
+	- 923c93da1228458dd65be47483c198a1a9191bcf: use await for notes.countBy 

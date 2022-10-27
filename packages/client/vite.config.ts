@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import pluginVue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
-import swc from 'unplugin-swc';
 
 import locales from '../../locales';
 import meta from '../../package.json';
@@ -21,7 +20,6 @@ export default defineConfig(({ command, mode }) => {
 				reactivityTransform: true,
 			}),
 			pluginJson5(),
-			swc.vite(),
 		],
 
 		resolve: {

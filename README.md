@@ -48,14 +48,6 @@ You need at least 🐢 NodeJS v16.15.0 (v18.4.0 recommended!) and *exactly* 🧶
 
 > ⚠️ Please don't use NodeJS v18.6.0, as it's known to cause problems.
 
-## 📩 Install dependencies
-
-```sh
-# nvm install 18.4.0 && nvm alias default 18.4.0 && nvm use 18.4.0
-corepack enable
-yarn set version berry
-```
-
 ## 👀 Get folder ready
 
 ```sh
@@ -64,6 +56,14 @@ cd calckey/
 # git checkout main # if you want only stable versions
 cp ../misskey/.config/default.yml ./.config/default.yml # replace `../misskey/` with misskey path, replace `default.yml` with `docker.yml` if you use docker
 # cp -r ../misskey/files . # if you don't use object storage
+```
+
+## 📩 Install dependencies
+
+```sh
+# nvm install 18.4.0 && nvm alias default 18.4.0 && nvm use 18.4.0
+corepack enable
+yarn set version berry
 ```
 
 ## 💅 Customize
